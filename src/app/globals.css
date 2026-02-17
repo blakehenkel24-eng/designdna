@@ -1,33 +1,34 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg: #f8f7f4;
+  --panel: #ffffff;
+  --ink: #15171a;
+  --muted: #5b626d;
+  --line: #dbe0e7;
+  --brand: #1459d7;
+  --brand-strong: #0e43a8;
+  --success: #0e7a39;
+  --danger: #b62b2b;
+  --queued: #6a6f79;
+  --running: #1459d7;
+  --completed: #0e7a39;
+  --failed: #b62b2b;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
+}
+
+html,
+body {
   margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-manrope), "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
 }
 
 a {
@@ -35,8 +36,218 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.page-shell {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 2.5rem auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.page-shell.centered {
+  min-height: 100vh;
+  place-content: center;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 12px 24px rgba(20, 30, 55, 0.06);
+}
+
+.hero {
+  padding: 1.5rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 0.5rem;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+input,
+button,
+textarea {
+  font: inherit;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+input:focus {
+  border-color: var(--brand);
+}
+
+button,
+.primary-button,
+.secondary-button {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+button:hover:not(:disabled),
+.primary-button:hover,
+.secondary-button:hover {
+  transform: translateY(-1px);
+}
+
+button,
+.primary-button {
+  background: linear-gradient(160deg, var(--brand), var(--brand-strong));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(20, 89, 215, 0.24);
+}
+
+.secondary-button {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.hero-actions,
+.section-header,
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.inline-form {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.login-card {
+  width: min(560px, 100%);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.success {
+  color: var(--success);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.extractions-list {
+  list-style: none;
+  padding: 0;
+}
+
+.extractions-list li {
+  border-top: 1px solid var(--line);
+}
+
+.extractions-list li:first-child {
+  border-top: 0;
+}
+
+.extractions-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0;
+}
+
+.status {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  font-family: var(--font-space-mono), monospace;
+}
+
+.status-queued {
+  color: var(--queued);
+}
+
+.status-running {
+  color: var(--running);
+}
+
+.status-completed {
+  color: var(--completed);
+}
+
+.status-failed {
+  color: var(--failed);
+}
+
+.output-block {
+  margin-top: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.9rem;
+  max-height: 380px;
+  overflow: auto;
+  background: #f3f6fb;
+  font-size: 0.8rem;
+  font-family: var(--font-space-mono), monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (max-width: 780px) {
+  .page-shell {
+    width: calc(100% - 1rem);
+    margin: 1rem auto;
+  }
+
+  .inline-form {
+    grid-template-columns: 1fr;
   }
 }

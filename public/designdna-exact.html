@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DESIGN.DNA - Specification Generator</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1a1a1a", // Deep black ink
+                        "background-light": "#f4f1ea", // Newsprint off-white
+                        "background-dark": "#f4f1ea", // Force light mode background even in dark settings for consistency
+                        "paper": "#f4f1ea",
+                        "ink": "#1a1a1a",
+                        "ink-light": "#f4f1ea"
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        mono: ['Space Mono', 'monospace'],
+                        typewriter: ['Courier Prime', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                        'noise': "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                    },
+                    boxShadow: {
+                        'brutal': '4px 4px 0px 0px rgba(0,0,0,1)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        .border-ink {
+            border-color: #1a1a1a
+        }
+        .dark .border-ink {
+            border-color: #1a1a1a}
+        .border-dashed-custom {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='0' ry='0' stroke='%231A1A1A' stroke-width='2' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")
+        }.texture-overlay {
+            display: none;
+        }
+        .tracking-newspaper {
+            letter-spacing: -0.02em
+        }
+        ::-webkit-scrollbar {
+            width: 10px
+        }
+        ::-webkit-scrollbar-track {
+            background: #f4f1ea;
+            border-left: 1px solid #1a1a1a
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a1a1a
+        }.syntax-tag { color: #1a1a1a; font-weight: bold; }
+        .syntax-attr { color: #1a1a1a; font-style: italic; }
+        .syntax-string { color: #1a1a1a; text-decoration: underline; }
+        .syntax-comment { color: #555555; }
+    </style>
+</head>
+<body class="bg-background-light text-ink font-mono min-h-screen flex flex-col items-center p-4 sm:p-8">
+<div class="w-full max-w-[1200px] border-2 border-ink bg-background-light relative z-10 shadow-2xl">
+<header class="border-b-2 border-ink">
+<div class="flex justify-between items-center px-4 py-2 border-b border-ink text-xs uppercase tracking-widest">
+<div class="flex items-center gap-2">
+<span class="material-icons text-sm">qr_code_2</span>
+<span>System V.2.0</span>
+</div>
+<div class="font-bold">Tuesday, October 24, 2023</div>
+<div class="text-right">
+<div>Specification Data</div>
+<div>AI Ready</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-between px-6 py-8 md:py-12 gap-6">
+<div class="w-24 h-24 border border-ink flex items-center justify-center rounded-full relative group hover:rotate-12 transition-transform duration-500">
+<span class="material-icons text-6xl">token</span>
+</div>
+<div class="text-center">
+<h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none">Design.DNA</h1>
+<p class="font-mono text-sm uppercase tracking-[0.3em] mt-2">The Digital Architect's Daily</p>
+</div>
+<div class="w-24 h-24 border border-ink flex items-center justify-center relative transform rotate-45 group hover:rotate-90 transition-transform duration-500">
+<div class="w-16 h-16 border border-ink absolute top-3 left-3"></div>
+<span class="material-icons text-4xl -rotate-45">architecture</span>
+</div>
+</div>
+<nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">About</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">Documentation</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">Pricing</a>
+</nav>
+</header>
+<main class="grid grid-cols-1">
+<section class="border-b-2 border-ink">
+<div class="p-6 md:p-10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
+<h2 class="font-display font-bold text-5xl md:text-6xl leading-[0.9]">
+                        TRANSFORM WEBSITE URL<br/>
+<span class="italic font-normal">INTO LLM-READY PROMPT</span>
+</h2>
+<div class="hidden md:block text-right font-typewriter text-xs max-w-xs">
+                        Volume 14, Issue 3<br/>
+                        Authorized by: System Admin<br/>
+                        Clearance: Level 5
+                    </div>
+</div>
+<p class="font-typewriter text-sm md:text-base mb-8 max-w-4xl leading-relaxed">
+                    FROM WEB TO WIREFRAME. The latest algorithm has yielded deliciously structured JSON data perfect for devouring by LLMs or rendering in Figma. Simply input your source below.
+                </p>
+<form class="flex flex-col md:flex-row gap-4 items-stretch mb-4">
+<div class="flex-grow relative">
+<label class="absolute -top-3 left-4 bg-background-light px-2 text-xs font-bold uppercase tracking-wider border border-ink">Target URL</label>
+<input class="w-full h-14 bg-transparent border-2 border-ink p-4 font-mono focus:ring-0 focus:border-ink focus:bg-[#e8e4db] transition-all placeholder:text-gray-500 text-ink" placeholder="https://example.com" type="url"/>
+</div>
+<button class="h-14 bg-primary text-white px-8 font-bold uppercase tracking-widest hover:bg-gray-800 shadow-brutal active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all whitespace-nowrap" type="button">
+                        Analyze
+                    </button>
+</form>
+<div class="flex justify-between text-xs font-mono uppercase opacity-70 border-t border-ink pt-2 mt-4">
+<span>Status: Awaiting Input</span>
+<span>Queue: Empty</span>
+<span>Latency: 24ms</span>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-ink divide-y-2 md:divide-y-0 md:divide-x-2 divide-ink">
+<div class="bg-background-light relative">
+<div class="p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
+<h3 class="font-display font-bold text-2xl uppercase">LLM Prompt</h3>
+<span class="material-icons text-xl">psychology</span>
+</div>
+<div class="flex-grow relative bg-white border border-ink p-4 shadow-sm mb-4">
+<div class="absolute -top-2 -right-2 w-4 h-4 bg-ink"></div>
+<textarea class="w-full h-64 bg-transparent border-0 p-0 font-typewriter text-xs leading-relaxed text-ink focus:ring-0 resize-none" id="llm-prompt-box" spellcheck="false"># INSTRUCTION SET 001
+
+You are an expert UI designer. Use the following JSON data to reconstruct the component library. Analyze the spacing tokens, color variables, and font weights meticulously.
+
+# CONTEXT
+
+The target site uses a 12-column grid system with 24px gutters. Primary typography is serif-based for headings and sans-serif for body copy.
+
+# OUTPUT FORMAT
+
+Generate a Tailwind CSS configuration file that matches this aesthetic exactly.</textarea>
+</div>
+<button class="w-full py-3 border-2 border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]" id="copy-prompt-button" type="button">
+<span class="material-icons text-sm">content_copy</span> Copy Prompt
+                    </button>
+</div>
+</div>
+<div class="bg-background-light">
+<div class="p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
+<h3 class="font-display font-bold text-2xl uppercase">Typography</h3>
+<span class="material-icons text-xl">text_fields</span>
+</div>
+<div class="space-y-6 flex-grow">
+<div class="group border-b border-dashed border-ink pb-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-mono text-xs uppercase text-gray-600">Display</span>
+<span class="font-mono text-xs">700 / 900</span>
+</div>
+<div class="font-display text-5xl leading-none">Aa Bb</div>
+<div class="mt-2 text-xs font-mono">Playfair Display</div>
+</div>
+<div class="group border-b border-dashed border-ink pb-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-mono text-xs uppercase text-gray-600">Body</span>
+<span class="font-mono text-xs">400 / Italic</span>
+</div>
+<div class="font-mono text-4xl leading-none">Aa Bb</div>
+<div class="mt-2 text-xs font-mono">Space Mono</div>
+</div>
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-mono text-xs uppercase text-gray-600">Code</span>
+<span class="font-mono text-xs">400</span>
+</div>
+<div class="font-typewriter text-3xl leading-none">Aa Bb</div>
+<div class="mt-2 text-xs font-mono">Courier Prime</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-background-light">
+<div class="p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
+<h3 class="font-display font-bold text-2xl uppercase">Effects</h3>
+<span class="material-icons text-xl">auto_fix_high</span>
+</div>
+<div class="space-y-6 flex-grow">
+<div>
+<h4 class="font-bold text-xs uppercase mb-3 font-mono tracking-wider">Shadow Depth</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-16 border border-ink bg-white flex items-center justify-center shadow-sm">
+<span class="text-[10px] font-mono">sm</span>
+</div>
+<div class="h-16 border border-ink bg-white flex items-center justify-center shadow-brutal">
+<span class="text-[10px] font-mono">brutal</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-xs uppercase mb-3 font-mono tracking-wider">Border Styles</h4>
+<div class="space-y-2">
+<div class="h-8 border-2 border-ink bg-transparent"></div>
+<div class="h-8 border-2 border-dashed border-ink bg-transparent"></div>
+<div class="h-8 border-b-4 border-ink bg-transparent"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Radius</h4>
+<div class="h-12 border border-ink rounded-full flex items-center justify-center">
+<span class="text-[10px] font-mono">full</span>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Blur</h4>
+<div class="h-12 border border-ink backdrop-blur-sm bg-white/50 flex items-center justify-center">
+<span class="text-[10px] font-mono">sm</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-background-light p-6 md:p-10">
+<div class="flex justify-between items-baseline mb-6 border-b-2 border-ink pb-2">
+<h3 class="font-display font-bold text-4xl uppercase">&lt;&gt; Structure</h3>
+<div class="flex gap-4 text-xs font-mono uppercase">
+<span class="flex items-center gap-1"><div class="w-2 h-2 bg-ink rounded-full"></div> DOM Tree</span>
+<span class="flex items-center gap-1"><div class="w-2 h-2 border border-ink rounded-full"></div> Computed</span>
+</div>
+</div>
+<div class="border border-ink p-1 bg-white shadow-brutal">
+<div class="border border-dashed border-gray-400 p-6 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto text-ink">
+<textarea class="w-full h-[360px] bg-transparent border-0 p-0 font-mono text-xs md:text-sm leading-relaxed text-ink focus:ring-0 resize-none" id="structure-json-box" spellcheck="false">{
+  "layout_map": {
+    "sections": [
+      {
+        "id": "header",
+        "selector": "header",
+        "role": "site-header",
+        "children": ["logo", "navigation"]
+      },
+      {
+        "id": "hero",
+        "selector": "section.hero-grid",
+        "role": "hero",
+        "children": ["headline", "cta", "media"]
+      },
+      {
+        "id": "features",
+        "selector": "section.features-list",
+        "role": "feature-grid",
+        "children": ["feature-cards"]
+      }
+    ]
+  },
+  "tokens": {
+    "colors": ["#1a1a1a", "#f4f1ea"],
+    "typography": ["Playfair Display", "Space Mono", "Courier Prime"],
+    "effects": ["shadow-brutal", "border-dashed"]
+  }
+}</textarea>
+</div>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<div class="text-xs font-mono uppercase opacity-70">
+                    Line count: 342 | Depth: 12 Nodes
+                </div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors">Expand All</button>
+<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="download-json-button" type="button">Download JSON</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t-2 border-ink p-4 md:p-6 flex flex-col md:flex-row justify-between items-center text-xs font-mono uppercase tracking-wider gap-4">
+<div class="flex items-center gap-2">
+<span class="material-icons text-sm">copyright</span>
+<span>2024 Design.DNA Analysis Corp.</span>
+</div>
+<div class="flex gap-6">
+<a class="hover:underline" href="#">Terms of Service</a>
+<a class="hover:underline" href="#">Privacy Policy</a>
+<a class="hover:underline" href="#">Contact Editor</a>
+</div>
+</footer>
+</div>
+
+<script>
+        const promptBox = document.getElementById("llm-prompt-box");
+        const copyPromptButton = document.getElementById("copy-prompt-button");
+        const structureJsonBox = document.getElementById("structure-json-box");
+        const downloadJsonButton = document.getElementById("download-json-button");
+
+        if (copyPromptButton && promptBox) {
+            copyPromptButton.addEventListener("click", async () => {
+                try {
+                    await navigator.clipboard.writeText(promptBox.value);
+                    copyPromptButton.innerHTML = '<span class="material-icons text-sm">check</span> Copied';
+                    setTimeout(() => {
+                        copyPromptButton.innerHTML = '<span class="material-icons text-sm">content_copy</span> Copy Prompt';
+                    }, 1400);
+                } catch {
+                    promptBox.focus();
+                    promptBox.select();
+                }
+            });
+        }
+
+        if (downloadJsonButton && structureJsonBox) {
+            downloadJsonButton.addEventListener("click", () => {
+                const blob = new Blob([structureJsonBox.value], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const anchor = document.createElement("a");
+                anchor.href = url;
+                anchor.download = "design-dna-structure.json";
+                document.body.appendChild(anchor);
+                anchor.click();
+                anchor.remove();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body></html>

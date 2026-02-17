@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DesignDNA
 
-## Getting Started
+DesignDNA is a Next.js web app that extracts a public page's structure and visual language into:
 
-First, run the development server:
+- A deterministic LLM-ready prompt for semantic HTML + CSS recreation
+- A structured `design_dna_pack_v1` JSON artifact
+
+It uses:
+
+- Next.js App Router (web app + API routes)
+- Supabase (Auth, Postgres, Storage)
+- Upstash Redis (job queue)
+- Playwright worker (capture pipeline)
+
+## MVP capabilities
+
+- Email magic-link sign-in
+- Single-page URL extraction
+- Async job queue with status polling
+- Compliance checks: protocol allowlist, SSRF guard, robots policy
+- Login-wall detection for unsupported protected pages
+- DOM/CSS extraction + screenshot color analysis
+- Artifact TTL cleanup (default 24h)
+- Free-tier daily cap (default 10)
+
+## Quick start
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy env file:
+
+```bash
+cp .env.example .env.local
+```
+
+3. Create a Supabase project and configure:
+
+- Auth email provider enabled
+- Run migration in `supabase/migrations/20260216233000_init_designdna.sql`
+- Create storage bucket `captures` (private)
+
+4. Configure Upstash Redis and set env vars.
+
+5. Start app + worker in two terminals:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run worker
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `POST /api/extractions` body `{ "url": "https://example.com" }`
+- `GET /api/extractions`
+- `GET /api/extractions/:id`
+- `GET /api/extractions/:id/prompt`
+- `GET /api/extractions/:id/pack`
+- `POST /api/cron/cleanup` header `x-cron-secret: <CRON_CLEANUP_SECRET>`
 
-## Learn More
+## Worker
 
-To learn more about Next.js, take a look at the following resources:
+Worker entrypoint:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/worker/index.ts`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Pipeline orchestration:
 
-## Deploy on Vercel
+- `src/lib/worker.ts`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Playwright extraction:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/lib/extractor/playwright-extractor.ts`
+
+## Cleanup
+
+Artifacts are deleted by TTL while extraction metadata remains. You can run manual cleanup:
+
+```bash
+npm run cleanup:expired
+```
+
+For production, configure a scheduled job to call:
+
+- `POST /api/cron/cleanup`
+
+## Tests
+
+```bash
+npm run test
+npm run lint
+npm run typecheck
+```
