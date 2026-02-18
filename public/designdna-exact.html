@@ -3,6 +3,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>DESIGN.DNA - Specification Generator</title>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -75,29 +76,28 @@
 <span class="material-icons text-sm">qr_code_2</span>
 <span>System V.2.0</span>
 </div>
-<div class="font-bold">Tuesday, October 24, 2023</div>
+<div class="font-bold" id="system-date">Tuesday, October 24, 2023</div>
 <div class="text-right">
 <div>Specification Data</div>
 <div>AI Ready</div>
 </div>
 </div>
-<div class="flex flex-col md:flex-row items-center justify-between px-6 py-8 md:py-12 gap-6">
-<div class="w-24 h-24 border border-ink flex items-center justify-center rounded-full relative group hover:rotate-12 transition-transform duration-500">
-<span class="material-icons text-6xl">token</span>
+<div class="flex flex-col md:flex-row items-center justify-center px-6 py-8 md:py-12 gap-6 md:gap-10">
+<div class="w-24 h-24 flex items-center justify-center">
+<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
 </div>
 <div class="text-center">
-<h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none">Design.DNA</h1>
+<h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none"><a class="hover:opacity-80 transition-opacity duration-200" href="/">Design.DNA</a></h1>
 <p class="font-mono text-sm uppercase tracking-[0.3em] mt-2">The Digital Architect's Daily</p>
 </div>
-<div class="w-24 h-24 border border-ink flex items-center justify-center relative transform rotate-45 group hover:rotate-90 transition-transform duration-500">
-<div class="w-16 h-16 border border-ink absolute top-3 left-3"></div>
-<span class="material-icons text-4xl -rotate-45">architecture</span>
+<div class="w-24 h-24 flex items-center justify-center">
+<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
 </div>
 </div>
 <nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">About</a>
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">Documentation</a>
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#">Pricing</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="/about.html" id="about-link">About</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#" id="history-link">How It Works</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#" id="pricing-link">Pricing</a>
 </nav>
 </header>
 <main class="grid grid-cols-1">
@@ -112,25 +112,28 @@
                         Volume 14, Issue 3<br/>
                         Authorized by: System Admin<br/>
                         Clearance: Level 5
-                    </div>
+</div>
 </div>
 <p class="font-typewriter text-sm md:text-base mb-8 max-w-4xl leading-relaxed">
-                    FROM WEB TO WIREFRAME. The latest algorithm has yielded deliciously structured JSON data perfect for devouring by LLMs or rendering in Figma. Simply input your source below.
+                    FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools. Simply input your source below.
                 </p>
-<form class="flex flex-col md:flex-row gap-4 items-stretch mb-4">
+<form class="flex flex-col md:flex-row gap-4 items-stretch mb-4" id="analyze-form">
 <div class="flex-grow relative">
 <label class="absolute -top-3 left-4 bg-background-light px-2 text-xs font-bold uppercase tracking-wider border border-ink">Target URL</label>
-<input class="w-full h-14 bg-transparent border-2 border-ink p-4 font-mono focus:ring-0 focus:border-ink focus:bg-[#e8e4db] transition-all placeholder:text-gray-500 text-ink" placeholder="https://example.com" type="url"/>
+<input class="w-full h-14 bg-transparent border-2 border-ink p-4 font-mono focus:ring-0 focus:border-ink focus:bg-[#e8e4db] transition-all placeholder:text-gray-500 text-ink" id="target-url-input" placeholder="https://example.com" type="url"/>
 </div>
-<button class="h-14 bg-primary text-white px-8 font-bold uppercase tracking-widest hover:bg-gray-800 shadow-brutal active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all whitespace-nowrap" type="button">
+<button class="h-14 bg-primary text-white px-8 font-bold uppercase tracking-widest hover:bg-gray-800 shadow-brutal active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all whitespace-nowrap" id="analyze-button" type="submit">
                         Analyze
                     </button>
 </form>
 <div class="flex justify-between text-xs font-mono uppercase opacity-70 border-t border-ink pt-2 mt-4">
-<span>Status: Awaiting Input</span>
-<span>Queue: Empty</span>
-<span>Latency: 24ms</span>
+<span id="status-label">Status: Awaiting Input</span>
+<span id="usage-label">Usage: --</span>
+<span id="latency-label">Latency: --</span>
 </div>
+<p class="mt-2 text-xs font-mono uppercase opacity-70 hidden" id="upsell-banner">
+                    Great result. Upgrade to Pro for JSON export + full history.
+                </p>
 </div>
 </section>
 <section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-ink divide-y-2 md:divide-y-0 md:divide-x-2 divide-ink">
@@ -172,7 +175,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <span class="font-mono text-xs">700 / 900</span>
 </div>
 <div class="font-display text-5xl leading-none">Aa Bb</div>
-<div class="mt-2 text-xs font-mono">Playfair Display</div>
+<div class="mt-2 text-xs font-mono" id="type-display-family">Playfair Display</div>
 </div>
 <div class="group border-b border-dashed border-ink pb-4">
 <div class="flex justify-between items-end mb-1">
@@ -180,7 +183,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <span class="font-mono text-xs">400 / Italic</span>
 </div>
 <div class="font-mono text-4xl leading-none">Aa Bb</div>
-<div class="mt-2 text-xs font-mono">Space Mono</div>
+<div class="mt-2 text-xs font-mono" id="type-body-family">Space Mono</div>
 </div>
 <div class="group">
 <div class="flex justify-between items-end mb-1">
@@ -188,7 +191,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <span class="font-mono text-xs">400</span>
 </div>
 <div class="font-typewriter text-3xl leading-none">Aa Bb</div>
-<div class="mt-2 text-xs font-mono">Courier Prime</div>
+<div class="mt-2 text-xs font-mono" id="type-code-family">Courier Prime</div>
 </div>
 </div>
 </div>
@@ -207,7 +210,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <span class="text-[10px] font-mono">sm</span>
 </div>
 <div class="h-16 border border-ink bg-white flex items-center justify-center shadow-brutal">
-<span class="text-[10px] font-mono">brutal</span>
+<span class="text-[10px] font-mono" id="effect-shadow-main">brutal</span>
 </div>
 </div>
 </div>
@@ -223,13 +226,13 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <div>
 <h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Radius</h4>
 <div class="h-12 border border-ink rounded-full flex items-center justify-center">
-<span class="text-[10px] font-mono">full</span>
+<span class="text-[10px] font-mono" id="effect-radius-main">full</span>
 </div>
 </div>
 <div>
 <h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Blur</h4>
 <div class="h-12 border border-ink backdrop-blur-sm bg-white/50 flex items-center justify-center">
-<span class="text-[10px] font-mono">sm</span>
+<span class="text-[10px] font-mono" id="effect-blur-main">sm</span>
 </div>
 </div>
 </div>
@@ -295,18 +298,312 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <span>2024 Design.DNA Analysis Corp.</span>
 </div>
 <div class="flex gap-6">
-<a class="hover:underline" href="#">Terms of Service</a>
-<a class="hover:underline" href="#">Privacy Policy</a>
-<a class="hover:underline" href="#">Contact Editor</a>
+<a class="hover:underline" href="/about.html#terms">Terms of Service</a>
+<a class="hover:underline" href="/about.html#privacy">Privacy Policy</a>
+<a class="hover:underline" href="/about.html#contact">Contact Editor</a>
 </div>
 </footer>
 </div>
+<div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="paywall-modal">
+<div class="w-full max-w-[520px] border-2 border-ink bg-background-light p-6 shadow-brutal">
+<h3 class="font-display font-bold text-3xl uppercase mb-2">Unlock Pro</h3>
+<p class="font-typewriter text-sm leading-relaxed mb-4" id="paywall-message">
+                Free includes 3 analyses/month with preview only. Pro unlocks JSON export + history.
+            </p>
+<div class="border border-ink p-3 text-xs font-mono uppercase space-y-1 mb-4">
+<div>Free: 3 analyses/month. Preview only.</div>
+<div>Pro $9/mo: 60 analyses/month. JSON downloads + history.</div>
+<div>Top-up $5: +40 analyses.</div>
+</div>
+<div class="flex flex-wrap gap-2 justify-end">
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="close-paywall-button" type="button">Close</button>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="topup-paywall-button" type="button">Top-up +40</button>
+<a class="px-3 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider" href="/login" id="upgrade-paywall-button">Log In / Upgrade</a>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="history-modal">
+<div class="w-full max-w-[900px] border-2 border-ink bg-background-light p-6 shadow-brutal max-h-[85vh] overflow-auto">
+<div class="flex justify-between items-center gap-3 mb-3">
+<h3 class="font-display font-bold text-3xl uppercase">Analysis History</h3>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="close-history-button" type="button">Close</button>
+</div>
+<div class="flex gap-2 mb-3">
+<input class="w-full border-2 border-ink p-2 font-mono text-sm" id="history-search-input" placeholder="Search URL (Pro)" type="text"/>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="history-search-button" type="button">Search</button>
+</div>
+<p class="text-xs font-mono uppercase mb-3 opacity-70" id="history-meta">History unavailable for current plan.</p>
+<ul class="border border-ink divide-y divide-ink" id="history-list"></ul>
+</div>
+</div>
 
 <script>
+        const analyzeForm = document.getElementById("analyze-form");
+        const targetUrlInput = document.getElementById("target-url-input");
+        const analyzeButton = document.getElementById("analyze-button");
+        const statusLabel = document.getElementById("status-label");
+        const usageLabel = document.getElementById("usage-label");
+        const latencyLabel = document.getElementById("latency-label");
+        const upsellBanner = document.getElementById("upsell-banner");
+
         const promptBox = document.getElementById("llm-prompt-box");
         const copyPromptButton = document.getElementById("copy-prompt-button");
         const structureJsonBox = document.getElementById("structure-json-box");
         const downloadJsonButton = document.getElementById("download-json-button");
+        const systemDate = document.getElementById("system-date");
+
+        const typeDisplayFamily = document.getElementById("type-display-family");
+        const typeBodyFamily = document.getElementById("type-body-family");
+        const typeCodeFamily = document.getElementById("type-code-family");
+        const effectShadowMain = document.getElementById("effect-shadow-main");
+        const effectRadiusMain = document.getElementById("effect-radius-main");
+        const effectBlurMain = document.getElementById("effect-blur-main");
+
+        const paywallModal = document.getElementById("paywall-modal");
+        const paywallMessage = document.getElementById("paywall-message");
+        const closePaywallButton = document.getElementById("close-paywall-button");
+        const topupPaywallButton = document.getElementById("topup-paywall-button");
+        const upgradePaywallButton = document.getElementById("upgrade-paywall-button");
+        const historyModal = document.getElementById("history-modal");
+        const historyLink = document.getElementById("history-link");
+        const pricingLink = document.getElementById("pricing-link");
+        const closeHistoryButton = document.getElementById("close-history-button");
+        const historySearchInput = document.getElementById("history-search-input");
+        const historySearchButton = document.getElementById("history-search-button");
+        const historyMeta = document.getElementById("history-meta");
+        const historyList = document.getElementById("history-list");
+
+        let latestResult = null;
+        let latestEntitlement = null;
+
+        function updateSystemDate() {
+            if (!systemDate) return;
+            const now = new Date();
+            systemDate.textContent = now.toLocaleDateString(undefined, {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
+        }
+
+        function showPaywall(message) {
+            if (paywallMessage && message) paywallMessage.textContent = message;
+            if (!paywallModal) return;
+            paywallModal.classList.remove("hidden");
+            paywallModal.classList.add("flex");
+        }
+
+        function hidePaywall() {
+            if (!paywallModal) return;
+            paywallModal.classList.add("hidden");
+            paywallModal.classList.remove("flex");
+        }
+
+        function showHistory() {
+            if (!historyModal) return;
+            historyModal.classList.remove("hidden");
+            historyModal.classList.add("flex");
+            void loadHistory();
+        }
+
+        function hideHistory() {
+            if (!historyModal) return;
+            historyModal.classList.add("hidden");
+            historyModal.classList.remove("flex");
+        }
+
+        function updateUsage(entitlement) {
+            latestEntitlement = entitlement || null;
+            if (!usageLabel || !entitlement) return;
+            usageLabel.textContent = `Usage: ${entitlement.used}/${entitlement.limit}`;
+            if (downloadJsonButton) {
+                downloadJsonButton.textContent = entitlement.can_export_json
+                    ? "Download JSON"
+                    : "Download JSON (Pro)";
+            }
+        }
+
+        async function refreshEntitlements() {
+            try {
+                const response = await fetch("/api/me/entitlements");
+                const payload = await response.json();
+                if (payload.entitlement) updateUsage(payload.entitlement);
+            } catch {}
+        }
+
+        async function runExtraction(url) {
+            const startedAt = performance.now();
+            statusLabel.textContent = "Status: Processing";
+            latencyLabel.textContent = "Latency: Running";
+            analyzeButton.disabled = true;
+            analyzeButton.textContent = "Analyzing...";
+            if (upsellBanner) upsellBanner.classList.add("hidden");
+
+            try {
+                const response = await fetch("/api/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url }),
+                });
+
+                const payload = await response.json();
+                if (payload.entitlement) updateUsage(payload.entitlement);
+
+                if (
+                    (response.status === 401 && payload.code === "AUTH_REQUIRED_LIMIT") ||
+                    (response.status === 402 && payload.code === "LIMIT_HIT")
+                ) {
+                    statusLabel.textContent = "Status: Limit Hit";
+                    showPaywall(payload.error || "Limit reached. Upgrade to Pro or buy a top-up.");
+                    return;
+                }
+
+                if (!response.ok || payload.status !== "completed") {
+                    throw new Error(payload.error || "Extraction failed");
+                }
+
+                latestResult = payload;
+                const elapsed = Math.round(performance.now() - startedAt);
+                statusLabel.textContent = "Status: Completed";
+                latencyLabel.textContent = `Latency: ${elapsed}ms`;
+
+                if (promptBox) {
+                    promptBox.value = payload.prompt || payload.preview?.prompt || "";
+                }
+
+                const blueprint = payload.design_blueprint || {};
+                const exportJson = payload.export_json || {};
+
+                if (structureJsonBox) {
+                    structureJsonBox.value = JSON.stringify({
+                        schema_version: exportJson.schema_version || "1.0",
+                        source_url: payload.source_url || exportJson.source_url || url,
+                        themeReference:
+                            blueprint.themeReference ||
+                            payload.preview?.theme_reference ||
+                            "Based on source theme",
+                        colors: blueprint.colors || exportJson.tokens?.colors || payload.preview?.colors || [],
+                        typography:
+                            blueprint.typography ||
+                            exportJson.tokens?.typography?.families ||
+                            payload.preview?.typography ||
+                            [],
+                        effects: blueprint.effects || exportJson.tokens?.effects || payload.preview?.effects || [],
+                        structure:
+                            blueprint.htmlStructure ||
+                            payload.preview?.html_structure ||
+                            exportJson.structure?.sections ||
+                            [],
+                    }, null, 2);
+                }
+
+                const typography = Array.isArray(blueprint.typography)
+                    ? blueprint.typography
+                    : payload.preview?.typography || [];
+                if (typeDisplayFamily && typography[0]) typeDisplayFamily.textContent = typography[0];
+                if (typeBodyFamily && typography[1]) typeBodyFamily.textContent = typography[1];
+                if (typeCodeFamily && typography[2]) typeCodeFamily.textContent = typography[2];
+
+                const effects = Array.isArray(blueprint.effects)
+                    ? blueprint.effects
+                    : payload.preview?.effects || [];
+                if (effectShadowMain && effects[0]) effectShadowMain.textContent = effects[0];
+                if (effectRadiusMain && effects[1]) effectRadiusMain.textContent = effects[1];
+                if (effectBlurMain && effects[2]) effectBlurMain.textContent = effects[2];
+
+                if (upsellBanner && payload.entitlement && !payload.entitlement.can_export_json) {
+                    upsellBanner.classList.remove("hidden");
+                }
+            } catch (error) {
+                statusLabel.textContent = "Status: Failed";
+                latencyLabel.textContent = "Latency: --";
+                const message = error instanceof Error ? error.message : "Extraction failed";
+                if (promptBox) promptBox.value = `Error: ${message}`;
+            } finally {
+                analyzeButton.disabled = false;
+                analyzeButton.textContent = "Analyze";
+            }
+        }
+
+        async function loadHistory(search = "") {
+            if (!historyList || !historyMeta) return;
+            historyList.innerHTML = "";
+            try {
+                const response = await fetch(`/api/history${search ? `?q=${encodeURIComponent(search)}` : ""}`);
+                if (response.status === 401) {
+                    historyMeta.textContent = "Log in to access history.";
+                    return;
+                }
+
+                const payload = await response.json();
+                const canView = Boolean(payload.entitlement?.can_view_history);
+                historyMeta.textContent = canView
+                    ? "Pro history enabled. Search and reopen past outputs."
+                    : "Free plan: showing recent items only.";
+                if (historySearchInput) historySearchInput.disabled = !canView;
+                if (historySearchButton) historySearchButton.disabled = !canView;
+
+                const items = payload.items || [];
+                if (items.length === 0) {
+                    const empty = document.createElement("li");
+                    empty.className = "p-3 text-xs font-mono uppercase";
+                    empty.textContent = "No history yet.";
+                    historyList.appendChild(empty);
+                    return;
+                }
+
+                items.forEach((item) => {
+                    const row = document.createElement("li");
+                    row.className = "p-3 flex items-center justify-between gap-2";
+
+                    const left = document.createElement("div");
+                    left.className = "text-xs font-mono";
+                    left.innerHTML = `<div>${item.source_url}</div><div class=\"opacity-70\">${new Date(item.created_at).toLocaleString()}</div>`;
+
+                    const actions = document.createElement("div");
+                    actions.className = "flex gap-2";
+
+                    const openButton = document.createElement("button");
+                    openButton.type = "button";
+                    openButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:bg-ink hover:text-white transition-colors";
+                    openButton.textContent = "Open";
+                    openButton.addEventListener("click", () => {
+                        const preview = item.preview_payload || {};
+                        if (promptBox) promptBox.value = preview.prompt || "";
+                        if (structureJsonBox) structureJsonBox.value = JSON.stringify(preview, null, 2);
+                        hideHistory();
+                    });
+
+                    const rerunButton = document.createElement("button");
+                    rerunButton.type = "button";
+                    rerunButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:bg-ink hover:text-white transition-colors";
+                    rerunButton.textContent = "Re-run";
+                    rerunButton.addEventListener("click", () => {
+                        if (targetUrlInput) targetUrlInput.value = item.source_url;
+                        hideHistory();
+                        void runExtraction(item.source_url);
+                    });
+
+                    actions.appendChild(openButton);
+                    actions.appendChild(rerunButton);
+                    row.appendChild(left);
+                    row.appendChild(actions);
+                    historyList.appendChild(row);
+                });
+            } catch {
+                historyMeta.textContent = "Failed to load history.";
+            }
+        }
+
+        if (analyzeForm && targetUrlInput) {
+            analyzeForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const url = targetUrlInput.value.trim();
+                if (!url) return;
+                void runExtraction(url);
+            });
+        }
 
         if (copyPromptButton && promptBox) {
             copyPromptButton.addEventListener("click", async () => {
@@ -323,18 +620,102 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             });
         }
 
-        if (downloadJsonButton && structureJsonBox) {
-            downloadJsonButton.addEventListener("click", () => {
-                const blob = new Blob([structureJsonBox.value], { type: "application/json" });
-                const url = URL.createObjectURL(blob);
-                const anchor = document.createElement("a");
-                anchor.href = url;
-                anchor.download = "design-dna-structure.json";
-                document.body.appendChild(anchor);
-                anchor.click();
-                anchor.remove();
-                URL.revokeObjectURL(url);
+        if (downloadJsonButton) {
+            downloadJsonButton.addEventListener("click", async () => {
+                if (!latestResult?.history_id || !latestEntitlement?.can_export_json) {
+                    showPaywall("JSON export is Pro. Upgrade to download structured files.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("/api/export/json", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ analysis_id: latestResult.history_id }),
+                    });
+                    const payload = await response.json();
+                    if (!response.ok) {
+                        throw new Error(payload.error || "Export failed");
+                    }
+                    const blob = new Blob([JSON.stringify(payload.export_json, null, 2)], { type: "application/json" });
+                    const downloadUrl = URL.createObjectURL(blob);
+                    const anchor = document.createElement("a");
+                    anchor.href = downloadUrl;
+                    anchor.download = "design-dna-structure.json";
+                    document.body.appendChild(anchor);
+                    anchor.click();
+                    anchor.remove();
+                    URL.revokeObjectURL(downloadUrl);
+                } catch (error) {
+                    showPaywall(error instanceof Error ? error.message : "JSON export is Pro.");
+                }
             });
         }
+
+        if (closePaywallButton) closePaywallButton.addEventListener("click", hidePaywall);
+        if (topupPaywallButton) {
+            topupPaywallButton.addEventListener("click", async () => {
+                try {
+                    const response = await fetch("/api/topup", { method: "POST" });
+                    const payload = await response.json();
+                    if (response.status === 401) {
+                        window.location.href = "/login";
+                        return;
+                    }
+                    if (!response.ok) {
+                        throw new Error(payload.error || "Top-up unavailable right now.");
+                    }
+                    updateUsage(payload.entitlement);
+                    hidePaywall();
+                    statusLabel.textContent = "Status: Top-up Applied";
+                } catch (error) {
+                    showPaywall(error instanceof Error ? error.message : "Top-up unavailable.");
+                }
+            });
+        }
+        if (upgradePaywallButton) {
+            upgradePaywallButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+                try {
+                    const response = await fetch("/api/upgrade/pro", { method: "POST" });
+                    if (response.status === 401) {
+                        window.location.href = "/login";
+                        return;
+                    }
+                    const payload = await response.json();
+                    if (!response.ok) {
+                        throw new Error(payload.error || "Upgrade failed");
+                    }
+                    hidePaywall();
+                    updateUsage(payload.entitlement);
+                    statusLabel.textContent = "Status: Pro Active";
+                } catch {
+                    window.location.href = "/pricing.html";
+                }
+            });
+        }
+        if (historyLink) {
+            historyLink.addEventListener("click", (event) => {
+                event.preventDefault();
+                showHistory();
+            });
+        }
+        if (pricingLink) {
+            pricingLink.addEventListener("click", (event) => {
+                event.preventDefault();
+                showPaywall("Free: 3 analyses/month. Pro $9/mo unlocks JSON export + history. Top-up $5 adds +40 analyses.");
+            });
+        }
+        if (closeHistoryButton) closeHistoryButton.addEventListener("click", hideHistory);
+        if (historySearchButton) {
+            historySearchButton.addEventListener("click", () => {
+                const value = historySearchInput ? historySearchInput.value.trim() : "";
+                void loadHistory(value);
+            });
+        }
+
+        updateSystemDate();
+        setInterval(updateSystemDate, 60000);
+        void refreshEntitlements();
     </script>
 </body></html>

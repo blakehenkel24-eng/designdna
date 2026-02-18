@@ -1,0 +1,67 @@
+Goal:
+Create a single-page web interface based on the source site's theme from https://www.vineyardvines.com/, with semantic HTML and clean CSS output suitable for Stitch generation.
+
+Vibe:
+grounded, airy, modern
+
+Page structure (preserve order and hierarchy):
+1. Header / Nav (nav#list-menu) 823x72
+2. Section (section#popover-content-:R56l8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+3. Section (section#popover-content-:R5al8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+4. Section (section#popover-content-:R5el8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+5. Section (section#popover-content-:R5il8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+6. Section (section#popover-content-:R5ml8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+7. Section (section#popover-content-:R5ql8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+8. Section (section#popover-content-:R5ul8tad4mqt8lbpH1:.chakra-popover__content.css-52ksgm) 1368x1
+9. Hero (main#app-main.css-b95f0i) 1440x4688
+10. Footer (footer.css-1qq2key) 1440x505
+
+Layout rules:
+- Container width: 1440px
+- Section vertical spacing scale: 17px, 71px
+- Grid and alignment patterns: flex:column, flex:row, grid:203.656px 203.656px 203.656px 203.656px, grid:1440px 1440px, grid:160.688px 160.688px
+- Preserve relative whitespace and major block proportions from top to bottom.
+
+Design constraints:
+- Palette roles: primary #001b44, secondary #00b0b8, background #ffffff, surface #e2e8f0, text-primary #00000000, text-secondary #001b44, border #d8d8d8ce, accent #002b5c.
+- Palette shortlist: #e2e8f0, #00000000, #001b44, #ffffff, #333333, #002b5c, #9b9b9b, #00b0b8, #6d6e70, #4a4a4a, #808080, #d8d8d8ce
+- Typography families: primary avenir, secondary nunito sans
+- Typography scale: h1:48px, h2:44px, h3:36px, body-large:20px, body:18px, caption:16px, caption:14px, caption:12px, caption:10px
+- Typography weights: 400, 600, 700, 800, 900
+- Spacing scale: -8px, 0px, 4px, 8px, 10px, 12px, 14px, 16px
+- Radius scale: 0px, 4px, 6px
+- Shadows/effects: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px
+
+Component recipes (follow these values where available):
+- Primary button: selector button.chakra-button.css-1ajz7ce
+  - colors: bg #00000000, text #001b44, border #e2e8f0
+  - shape: radius 0px, border 0px solid
+  - spacing: padding-y 0px, padding-x 0px
+  - type: Avenir 16px / weight 400
+  - shadow: none
+- Secondary button: not confidently detected.
+- Card: not confidently detected.
+- Input: selector input#ltkpopup-email
+  - colors: bg #ffffff, text #6d6e70, border #333333
+  - shape: radius 0px, border 1px solid
+  - spacing: padding-y 0px, padding-x 15px
+  - type: Nunito Sans 16px / weight 400
+  - shadow: none
+- Link: selector a.chakra-link.css-1x8fbib
+  - colors: bg #00000000, text #001b44, border #e2e8f0
+  - shape: radius 0px, border 0px solid
+  - spacing: padding-y 0px, padding-x 0px
+  - type: Avenir 16px / weight 400
+  - shadow: none
+
+Responsive rules:
+- At mobile widths, stack multi-column groups into single-column flow while preserving spacing hierarchy.
+- Keep tap targets >= 40px height and maintain button/input visual style.
+- Keep nav readable on small screens (stack or collapse layout, but keep hierarchy).
+
+Output requirements:
+- Return one HTML file with semantic structure and one CSS block.
+- Keep behavior static (no JavaScript interactions required).
+
+Compliance:
+Based on the source site's theme; do not copy proprietary branding verbatim.

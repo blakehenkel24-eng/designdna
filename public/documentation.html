@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DESIGN.DNA - Documentation</title>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#1a1a1a",
+          "background-light": "#f4f1ea",
+          "background-dark": "#f4f1ea",
+          "paper": "#f4f1ea",
+          "ink": "#1a1a1a",
+          "ink-light": "#f4f1ea"
+        },
+        fontFamily: {
+          display: ['Playfair Display', 'serif'],
+          mono: ['Space Mono', 'monospace'],
+          typewriter: ['Courier Prime', 'monospace'],
+        },
+        boxShadow: {
+          'brutal': '4px 4px 0px 0px rgba(0,0,0,1)',
+        }
+      },
+    },
+  };
+</script>
+<style>
+  .border-ink { border-color: #1a1a1a }
+  .dark .border-ink { border-color: #1a1a1a }
+</style>
+</head>
+<body class="bg-background-light text-ink font-mono min-h-screen flex flex-col items-center p-4 sm:p-8">
+<div class="w-full max-w-[1200px] border-2 border-ink bg-background-light relative z-10 shadow-2xl">
+<header class="border-b-2 border-ink">
+<div class="flex justify-between items-center px-4 py-2 border-b border-ink text-xs uppercase tracking-widest">
+<div class="flex items-center gap-2">
+<span class="material-icons text-sm">qr_code_2</span>
+<span>System V.2.0</span>
+</div>
+<div class="font-bold" id="system-date">Tuesday, October 24, 2023</div>
+<div class="text-right">
+<div>Specification Data</div>
+<div>AI Ready</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-center px-6 py-8 md:py-12 gap-6 md:gap-10">
+<div class="w-24 h-24 flex items-center justify-center">
+<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
+</div>
+<div class="text-center">
+<h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none"><a class="hover:opacity-80 transition-opacity duration-200" href="/">Design.DNA</a></h1>
+<p class="font-mono text-sm uppercase tracking-[0.3em] mt-2">The Digital Architect's Daily</p>
+</div>
+<div class="w-24 h-24 flex items-center justify-center">
+<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
+</div>
+</div>
+<nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="/about.html">About</a>
+<a class="py-3 bg-ink text-ink-light" href="/documentation.html">How It Works</a>
+<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="/pricing.html">Pricing</a>
+</nav>
+</header>
+
+<main class="grid grid-cols-1">
+<section class="border-b-2 border-ink p-6 md:p-10">
+  <div class="flex items-end justify-between border-b-2 border-ink pb-3 mb-6">
+    <h2 class="font-display font-bold text-5xl md:text-6xl leading-[0.9]">HOW IT WORKS<br/><span class="italic font-normal">DOCUMENTATION</span></h2>
+    <span class="font-typewriter text-xs uppercase">Revision: 1.0</span>
+  </div>
+  <p class="font-typewriter text-sm md:text-base leading-relaxed max-w-4xl">
+    This page explains the Design.DNA capture flow and how to use generated outputs inside LLM and design tooling.
+  </p>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-ink divide-y-2 md:divide-y-0 md:divide-x-2 divide-ink">
+  <article class="p-6 md:p-8">
+    <h3 class="font-display font-bold text-3xl uppercase mb-3">1. Capture</h3>
+    <p class="font-typewriter text-sm leading-relaxed">Enter a public URL and run analysis from the homepage form.</p>
+  </article>
+  <article class="p-6 md:p-8">
+    <h3 class="font-display font-bold text-3xl uppercase mb-3">2. Generate</h3>
+    <p class="font-typewriter text-sm leading-relaxed">System returns an LLM-ready prompt and structured design artifacts.</p>
+  </article>
+  <article class="p-6 md:p-8">
+    <h3 class="font-display font-bold text-3xl uppercase mb-3">3. Recreate</h3>
+    <p class="font-typewriter text-sm leading-relaxed">Paste the prompt into your model and iterate using tokens + structure outputs.</p>
+  </article>
+</section>
+
+<section class="border-b-2 border-ink p-6 md:p-10">
+  <h3 class="font-display font-bold text-4xl uppercase mb-4">Output Guide</h3>
+  <div class="border border-ink bg-white p-5 font-typewriter text-xs md:text-sm leading-relaxed">
+    <p class="mb-3"><strong>LLM Prompt:</strong> Primary generation payload for recreating the target page.</p>
+    <p class="mb-3"><strong>Structure JSON:</strong> Section map, hierarchy, and selectors for implementation-level guidance.</p>
+    <p><strong>Design Tokens:</strong> Color, typography, spacing, and effects extracted from computed style signatures.</p>
+  </div>
+</section>
+
+<section class="p-6 md:p-10">
+  <h3 class="font-display font-bold text-4xl uppercase mb-4">Best Practices</h3>
+  <ul class="list-disc pl-6 font-typewriter text-xs md:text-sm leading-relaxed space-y-2">
+    <li>Capture only public pages you have permission to analyze.</li>
+    <li>Start with the generated prompt, then refine output with JSON details.</li>
+    <li>Keep your own content/brand constraints explicit when prompting.</li>
+  </ul>
+</section>
+</main>
+
+<footer class="border-t-2 border-ink p-4 md:p-6 flex flex-col md:flex-row justify-between items-center text-xs font-mono uppercase tracking-wider gap-4">
+<div class="flex items-center gap-2">
+<span class="material-icons text-sm">copyright</span>
+<span>2024 Design.DNA Analysis Corp.</span>
+</div>
+<div class="flex gap-6">
+<a class="hover:underline" href="/about.html#terms">Terms of Service</a>
+<a class="hover:underline" href="/about.html#privacy">Privacy Policy</a>
+<a class="hover:underline" href="/about.html#contact">Contact Editor</a>
+</div>
+</footer>
+</div>
+
+<script>
+  const systemDate = document.getElementById("system-date");
+  function updateSystemDate() {
+    if (!systemDate) return;
+    const now = new Date();
+    systemDate.textContent = now.toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+  updateSystemDate();
+  setInterval(updateSystemDate, 60000);
+</script>
+</body></html>

@@ -6,6 +6,35 @@ import type { ExtractionJobPayload } from "@/lib/types";
 const QUEUE_KEY = "designdna:extraction_jobs";
 
 let redis: Redis | null = null;
+function isExtractionJobPayload(value: unknown): value is ExtractionJobPayload {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const job = value as Partial<ExtractionJobPayload>;
+  return (
+    typeof job.extractionId === "string" &&
+    typeof job.userId === "string" &&
+    typeof job.url === "string"
+  );
+}
+
+function parseQueuePayload(payload: unknown): ExtractionJobPayload | null {
+  if (isExtractionJobPayload(payload)) {
+    return payload;
+  }
+
+  if (typeof payload === "string") {
+    try {
+      const parsed = JSON.parse(payload) as unknown;
+      return isExtractionJobPayload(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  return null;
+}
 
 function getRedis() {
   if (redis) {
@@ -28,10 +57,16 @@ export async function enqueueExtractionJob(job: ExtractionJobPayload) {
 
 export async function dequeueExtractionJob() {
   const client = getRedis();
-  const payload = await client.lpop<string>(QUEUE_KEY);
+  const payload = await client.lpop<unknown>(QUEUE_KEY);
   if (!payload) {
     return null;
   }
 
-  return JSON.parse(payload) as ExtractionJobPayload;
+  const parsed = parseQueuePayload(payload);
+  if (!parsed) {
+    console.warn("Skipping malformed queue payload");
+    return null;
+  }
+
+  return parsed;
 }

@@ -82,6 +82,6 @@ describe("buildRecreationPrompt", () => {
 
     expect(first).toEqual(second);
     expect(first).toContain("Target URL: https://example.com");
-    expect(first).toContain("Now produce the recreated HTML and CSS.");
+    expect(first).toContain("Compliance: Based on the source site's theme;");
   });
 });

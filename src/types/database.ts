@@ -103,6 +103,91 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["rate_limit_config"]["Insert"]>;
         Relationships: [];
       };
+      user_entitlements: {
+        Row: {
+          user_id: string;
+          plan: "FREE" | "PRO_ACTIVE" | "PRO_CANCELED_GRACE";
+          analyses_used_this_period: number;
+          analyses_limit_this_period: number;
+          topup_balance: number;
+          period_start: string;
+          period_end: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          user_id: string;
+          plan?: "FREE" | "PRO_ACTIVE" | "PRO_CANCELED_GRACE";
+          analyses_used_this_period?: number;
+          analyses_limit_this_period?: number;
+          topup_balance?: number;
+          period_start: string;
+          period_end: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["user_entitlements"]["Insert"]>;
+        Relationships: [
+          {
+            foreignKeyName: "user_entitlements_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      analysis_history: {
+        Row: {
+          id: string;
+          user_id: string;
+          source_url: string;
+          preview_payload: Json;
+          export_payload: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          source_url: string;
+          preview_payload: Json;
+          export_payload: Json;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["analysis_history"]["Insert"]>;
+        Relationships: [
+          {
+            foreignKeyName: "analysis_history_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      analytics_events: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          event_name: string;
+          event_payload: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          event_name: string;
+          event_payload?: Json;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["analytics_events"]["Insert"]>;
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           id: string;

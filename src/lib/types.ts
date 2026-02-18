@@ -16,6 +16,86 @@ export type DesignTokenFrequency = {
   count: number;
 };
 
+export type ShadowToken = {
+  x: number;
+  y: number;
+  blur: number;
+  spread?: number;
+  color: string;
+  alpha?: number;
+  inset?: boolean;
+};
+
+export type ComponentRecipe = {
+  selector: string;
+  type: string;
+  text_preview?: string;
+  background_color?: string;
+  text_color?: string;
+  border_color?: string;
+  border_width_px?: number;
+  border_style?: string;
+  radius_px?: number;
+  padding_x_px?: number;
+  padding_y_px?: number;
+  font_family?: string;
+  font_size_px?: number;
+  font_weight?: number;
+  shadow?: ShadowToken;
+  notes?: string[];
+};
+
+export type StyleSpec = {
+  url: string;
+  viewport: { width: number; height: number };
+  palette: {
+    colors: Array<{ hex: string; usageHint: string; weight: number }>;
+    roles: {
+      primary?: string;
+      secondary?: string;
+      background?: string;
+      surface?: string;
+      textPrimary?: string;
+      textSecondary?: string;
+      border?: string;
+      accent?: string;
+    };
+  };
+  typography: {
+    primaryFamily?: string;
+    secondaryFamily?: string;
+    scale: Array<{ px: number; roleHint: string; weight: number }>;
+    weights: number[];
+    lineHeights: Array<{ value: number; unit: "px" | "number" }>;
+    letterSpacing?: Array<{ px: number; weight: number }>;
+  };
+  tokens: {
+    spacingPx: Array<{ value: number; weight: number }>;
+    radiusPx: Array<{ value: number; weight: number }>;
+    shadows: Array<{ value: string; weight: number }>;
+    effects: Array<{ value: string; weight: number }>;
+  };
+  layout: {
+    containerWidth?: number;
+    sectionVerticalSpacing?: number[];
+    gridPatterns?: string[];
+  };
+  components: {
+    primaryButton?: ComponentRecipe;
+    secondaryButton?: ComponentRecipe;
+    card?: ComponentRecipe;
+    input?: ComponentRecipe;
+    link?: ComponentRecipe;
+  };
+  sections: Array<{
+    label: string;
+    selector: string;
+    bounds: { x: number; y: number; width: number; height: number };
+  }>;
+  cssVars?: Record<string, string>;
+  vision?: { dominantColors: string[]; notes: string[] };
+};
+
 export type DesignDnaPack = {
   meta: {
     url: string;
@@ -83,6 +163,7 @@ export type DesignDnaPack = {
     dominant_colors: string[];
     notes: string[];
   };
+  style_spec?: StyleSpec;
 };
 
 export type ExtractionJobPayload = {

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "source_url": "https://www.vineyardvines.com/",
+  "themeReference": "Based on the source site's theme and structural patterns.",
+  "colors": [
+    "#e2e8f0",
+    "#00000000",
+    "#001b44",
+    "#ffffff",
+    "#333333",
+    "#002b5c",
+    "#9b9b9b",
+    "#00b0b8",
+    "#6d6e70",
+    "#4a4a4a",
+    "#808080",
+    "#d8d8d8ce"
+  ],
+  "typography": [
+    "avenir",
+    "nunito sans"
+  ],
+  "effects": [
+    "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px"
+  ],
+  "structure": [
+    "Header / Nav",
+    "Section",
+    "Section",
+    "Section",
+    "Section",
+    "Section",
+    "Section",
+    "Section",
+    "Hero",
+    "Footer"
+  ]
+}
