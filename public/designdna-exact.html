@@ -391,11 +391,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 <div class="border border-ink bg-white p-4 space-y-3">
 <div>
-<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Name</p>
-<p class="text-sm font-typewriter leading-relaxed" id="profile-name">--</p>
-</div>
-<div>
-<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Contact</p>
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Email</p>
 <p class="text-sm font-typewriter leading-relaxed break-all" id="profile-contact">--</p>
 </div>
 <div>
@@ -483,7 +479,6 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const historyList = document.getElementById("history-list");
         const profileModal = document.getElementById("profile-modal");
         const closeProfileButton = document.getElementById("close-profile-button");
-        const profileName = document.getElementById("profile-name");
         const profileContact = document.getElementById("profile-contact");
         const profileMembership = document.getElementById("profile-membership");
         const profileHistoryButton = document.getElementById("profile-history-button");
@@ -875,9 +870,6 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         }
 
         function updateProfileSummary() {
-            if (profileName) {
-                profileName.textContent = currentUserProfile?.name || "Member";
-            }
             if (profileContact) {
                 profileContact.textContent = currentUserProfile?.contact || "No contact available";
             }
