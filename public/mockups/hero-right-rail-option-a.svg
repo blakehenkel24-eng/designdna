@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 154" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Right Rail Mockup A</title>
+  <desc id="desc">Monochrome logo grid for trusted output platforms.</desc>
+
+  <defs>
+    <symbol id="ico-figma" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/>
+    </symbol>
+    <symbol id="ico-framer" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/>
+    </symbol>
+    <symbol id="ico-webflow" viewBox="0 0 24 24">
+      <path fill="currentColor" d="m24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z"/>
+    </symbol>
+    <symbol id="mono-b" viewBox="0 0 16 16">
+      <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M6 4.2h2.6c1.2 0 2 .7 2 1.7 0 .7-.4 1.2-1 1.4.8.2 1.3.8 1.3 1.7 0 1.3-1 2-2.5 2H6V4.2Zm1.6 2.5h1c.4 0 .7-.2.7-.6s-.3-.6-.7-.6h-1v1.2Zm0 2.8h1.2c.5 0 .9-.2.9-.7 0-.4-.3-.7-.9-.7H7.6v1.4Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="mono-s" viewBox="0 0 16 16">
+      <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M11.2 5.3c-.4-.5-1.1-.8-2-.8-1 0-1.6.4-1.6.9 0 .6.6.8 1.9 1.1 1.8.4 2.7 1 2.7 2.3 0 1.5-1.2 2.5-3.1 2.5-1.4 0-2.5-.4-3.3-1.4l1.1-1c.5.7 1.3 1 2.2 1 .9 0 1.5-.4 1.5-.9 0-.5-.4-.8-1.9-1.1-1.7-.4-2.7-.9-2.7-2.3 0-1.5 1.3-2.4 3.1-2.4 1.2 0 2.2.3 2.9 1.1l-.8 1Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="mono-a" viewBox="0 0 16 16">
+      <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M8 4.2 11.2 11h-1.7l-.6-1.5H7.1L6.5 11H4.8L8 4.2Zm.3 4.1L8 7.5l-.3.8h.6Z" fill="currentColor"/>
+    </symbol>
+  </defs>
+
+  <rect x="1" y="1" width="258" height="152" fill="#f4f1ea" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="130" y="17" text-anchor="middle" font-family="'Space Mono', monospace" font-size="9" letter-spacing="1.3" fill="#1a1a1a">TRUSTED OUTPUT TARGETS</text>
+
+  <g stroke="#1a1a1a" stroke-width="1.4" fill="#f8f6f0">
+    <rect x="12" y="24" width="114" height="26"/>
+    <rect x="134" y="24" width="114" height="26"/>
+    <rect x="12" y="57" width="114" height="26"/>
+    <rect x="134" y="57" width="114" height="26"/>
+    <rect x="12" y="90" width="114" height="26"/>
+    <rect x="134" y="90" width="114" height="26"/>
+  </g>
+
+  <g fill="#1a1a1a" font-family="'Space Mono', monospace" font-size="8.4" letter-spacing="0.4">
+    <text x="43" y="40">Figma</text>
+    <text x="165" y="40">Builder.io</text>
+    <text x="43" y="73">Framer</text>
+    <text x="165" y="73">Stitch</text>
+    <text x="43" y="106">Webflow</text>
+    <text x="165" y="106">Antigravity</text>
+  </g>
+
+  <g color="#1a1a1a">
+    <use href="#ico-figma" transform="translate(19 31) scale(0.58)"/>
+    <use href="#mono-b" transform="translate(141 29)"/>
+    <use href="#ico-framer" transform="translate(19 64) scale(0.58)"/>
+    <use href="#mono-s" transform="translate(141 62)"/>
+    <use href="#ico-webflow" transform="translate(19 97) scale(0.58)"/>
+    <use href="#mono-a" transform="translate(141 95)"/>
+  </g>
+
+  <line x1="12" y1="124" x2="248" y2="124" stroke="#1a1a1a" stroke-width="1.3"/>
+  <text x="130" y="140" text-anchor="middle" font-family="'Courier Prime', monospace" font-size="8" letter-spacing="1" fill="#1a1a1a">Drop-in size: 260 x 154 (right hero rail)</text>
+</svg>

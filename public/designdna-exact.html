@@ -99,6 +99,11 @@
         .analysis-step.is-active .analysis-step-dot {
             background: #1a1a1a;
         }
+        .platform-inline {
+            font-weight: 700;
+            border-bottom: 1px dashed #1a1a1a;
+            padding-bottom: 1px;
+        }
         #analyze-button {
             position: relative;
             overflow: hidden;
@@ -160,8 +165,8 @@
 </div>
 <nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
 <a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/about.html" id="about-link">About</a>
-<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/documentation.html">How It Works</a>
-<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/pricing.html">Pricing</a>
+<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/documentation.html" id="history-link">How It Works</a>
+<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/pricing.html" id="pricing-link">Pricing</a>
 </nav>
 </header>
 <main class="grid grid-cols-1">
@@ -179,7 +184,7 @@
 </div>
 </div>
 <p class="font-typewriter text-sm md:text-base mb-8 max-w-4xl leading-relaxed">
-                    FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools. Simply input your source below.
+                    FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including tools like <span class="platform-inline">Figma</span>, <span class="platform-inline">Antigravity</span>, <span class="platform-inline">Stitch</span>, and more. Simply input your source below.
                 </p>
 <form class="flex flex-col md:flex-row gap-4 items-stretch mb-4" id="analyze-form">
 <div class="flex-grow relative">
@@ -205,7 +210,7 @@
 <span id="latency-label">Latency: --</span>
 </div>
 <p class="mt-2 text-xs font-mono uppercase opacity-70 hidden" id="upsell-banner">
-                    Great result. Upgrade to Pro for JSON export + full history.
+                    Great result. Upgrade to Paid for JSON export + higher limits.
                 </p>
 </div>
 </section>
@@ -326,7 +331,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <p class="text-xs font-typewriter leading-relaxed mb-4">
                             Upgrade to export complete structure, selectors, and token maps.
                         </p>
-<button class="w-full py-2 border-2 border-ink bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="unlock-json-button" type="button">Upgrade To Unlock Full JSON</button>
+<button class="w-full py-2 border-2 border-ink bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="unlock-json-button" type="button">Upgrade To Paid For Full JSON</button>
 </div>
 </div>
 </div>
@@ -335,7 +340,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                     Preview is obfuscated. Upgrade to export full JSON.
                 </div>
 <div class="flex gap-2">
-<button class="px-3 py-1 border-2 border-ink bg-primary text-white text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="download-json-button" type="button">Upgrade To Download Full JSON</button>
+<button class="px-3 py-1 border-2 border-ink bg-primary text-white text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="download-json-button" type="button">Upgrade To Paid For JSON</button>
 <button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="save-benchmark-button" type="button">Save Benchmark Snapshot</button>
 </div>
 </div>
@@ -355,17 +360,18 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 <div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="paywall-modal">
 <div class="w-full max-w-[520px] border-2 border-ink bg-background-light p-6 shadow-brutal">
-<h3 class="font-display font-bold text-3xl uppercase mb-2">Unlock Pro</h3>
+<h3 class="font-display font-bold text-3xl uppercase mb-2">Unlock Paid</h3>
 <p class="font-typewriter text-sm leading-relaxed mb-4" id="paywall-message">
-                Free includes 3 analyses/month with preview only. Pro unlocks JSON export + history.
+                Guest includes 1 lifetime analysis. Free logged-in includes 10 analyses/month + history. Paid unlocks JSON export + 100 analyses/month.
             </p>
 <div class="border border-ink p-3 text-xs font-mono uppercase space-y-1 mb-4">
-<div>Free: 3 analyses/month. Preview only.</div>
-<div>Pro $9/mo: 60 analyses/month. JSON downloads + history.</div>
+<div>Guest (No login): 1 lifetime analysis + prompt copy.</div>
+<div>Free (Logged in): 10 analyses/month + prompt copy + history.</div>
+<div>Paid ($19/mo): 100 analyses/month + JSON export.</div>
 </div>
 <div class="flex flex-wrap gap-2 justify-end">
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-paywall-button" type="button">Close</button>
-<a class="px-3 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" href="/login?next=/designdna-exact.html" id="upgrade-paywall-button">Download JSON</a>
+<a class="px-3 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" href="/login?next=/designdna-exact.html" id="upgrade-paywall-button">Continue</a>
 </div>
 </div>
 </div>
@@ -376,10 +382,10 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-history-button" type="button">Close</button>
 </div>
 <div class="flex gap-2 mb-3">
-<input class="w-full border-2 border-ink p-2 font-mono text-sm" id="history-search-input" placeholder="Search URL (Pro)" type="text"/>
+<input class="w-full border-2 border-ink p-2 font-mono text-sm" id="history-search-input" placeholder="Search URL" type="text"/>
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="history-search-button" type="button">Search</button>
 </div>
-<p class="text-xs font-mono uppercase mb-3 opacity-70" id="history-meta">History unavailable for current plan.</p>
+<p class="text-xs font-mono uppercase mb-3 opacity-70" id="history-meta">Log in to save and search history.</p>
 <ul class="border border-ink divide-y divide-ink" id="history-list"></ul>
 </div>
 </div>
@@ -400,6 +406,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 </div>
 <div class="mt-4 flex justify-end gap-2">
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="profile-signout-button" type="button">Sign Out</button>
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="profile-history-button" type="button">View History</button>
 </div>
 </div>
@@ -481,6 +488,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const closeProfileButton = document.getElementById("close-profile-button");
         const profileContact = document.getElementById("profile-contact");
         const profileMembership = document.getElementById("profile-membership");
+        const profileSignoutButton = document.getElementById("profile-signout-button");
         const profileHistoryButton = document.getElementById("profile-history-button");
         const authModal = document.getElementById("auth-modal");
         const closeAuthButton = document.getElementById("close-auth-button");
@@ -520,8 +528,32 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const urlSchemePattern = /^[a-z][a-z0-9+.-]*:/i;
         const pendingAuthActionKey = "designdna_pending_auth_action";
         const pendingActionMaxAgeMs = 30 * 60 * 1000;
+        const sessionLastActivityKey = "designdna_session_last_activity";
+        const sessionLogoutBroadcastKey = "designdna_session_logout_at";
+        const sessionIdleTimeoutMs = 30 * 60 * 1000;
+        const sessionActivityThrottleMs = 15 * 1000;
+        const sessionCheckIntervalMs = 60 * 1000;
         let authMode = "login";
         let authResendLoading = false;
+        let isSigningOut = false;
+        let lastSessionActivityWriteAt = 0;
+        let sessionCheckTimerId = null;
+        const initialPromptValue = promptBox ? promptBox.value : "";
+        const initialStructurePreviewValue = structureJsonPreview
+            ? structureJsonPreview.textContent
+            : "";
+        const initialTypeLabels = {
+            display: typeDisplayFamily ? typeDisplayFamily.textContent : "",
+            body: typeBodyFamily ? typeBodyFamily.textContent : "",
+            code: typeCodeFamily ? typeCodeFamily.textContent : "",
+        };
+        const initialVibeSummary = {
+            tone: vibeTone ? vibeTone.textContent : "",
+            typography: vibeTypography ? vibeTypography.textContent : "",
+            color: vibeColor ? vibeColor.textContent : "",
+            interaction: vibeInteraction ? vibeInteraction.textContent : "",
+            note: vibeNote ? vibeNote.textContent : "",
+        };
 
         function trackClientEvent(eventName, payload = {}) {
             return fetch("/api/auth/events", {
@@ -588,6 +620,65 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             } catch {
                 return null;
             }
+        }
+
+        function readSessionTimestamp(key) {
+            try {
+                const raw = window.localStorage.getItem(key);
+                if (!raw) return 0;
+                const parsed = Number.parseInt(raw, 10);
+                return Number.isFinite(parsed) ? parsed : 0;
+            } catch {
+                return 0;
+            }
+        }
+
+        function markSessionActivity(force = false) {
+            if (!isLoggedIn) return;
+            const now = Date.now();
+            if (!force && now - lastSessionActivityWriteAt < sessionActivityThrottleMs) return;
+            lastSessionActivityWriteAt = now;
+            try {
+                window.localStorage.setItem(sessionLastActivityKey, String(now));
+            } catch {}
+        }
+
+        function syncSessionActivityForLoginState(loggedIn) {
+            if (!loggedIn) {
+                lastSessionActivityWriteAt = 0;
+                try {
+                    window.localStorage.removeItem(sessionLastActivityKey);
+                } catch {}
+                return;
+            }
+
+            const existing = readSessionTimestamp(sessionLastActivityKey);
+            if (existing <= 0) {
+                markSessionActivity(true);
+            }
+        }
+
+        function broadcastSessionLogout() {
+            try {
+                window.localStorage.setItem(sessionLogoutBroadcastKey, String(Date.now()));
+            } catch {}
+        }
+
+        function clearAnalysisUiState() {
+            latestResult = null;
+            if (promptBox) promptBox.value = initialPromptValue;
+            if (structureJsonPreview) structureJsonPreview.textContent = initialStructurePreviewValue;
+            if (typeDisplayFamily) typeDisplayFamily.textContent = initialTypeLabels.display || "";
+            if (typeBodyFamily) typeBodyFamily.textContent = initialTypeLabels.body || "";
+            if (typeCodeFamily) typeCodeFamily.textContent = initialTypeLabels.code || "";
+            if (vibeTone) vibeTone.textContent = initialVibeSummary.tone || "";
+            if (vibeTypography) vibeTypography.textContent = initialVibeSummary.typography || "";
+            if (vibeColor) vibeColor.textContent = initialVibeSummary.color || "";
+            if (vibeInteraction) vibeInteraction.textContent = initialVibeSummary.interaction || "";
+            if (vibeNote) vibeNote.textContent = initialVibeSummary.note || "";
+            if (upsellBanner) upsellBanner.classList.add("hidden");
+            if (latencyLabel) latencyLabel.textContent = "Latency: --";
+            resetAnalysisPhaseFlow();
         }
 
         function updateSystemDate() {
@@ -701,6 +792,72 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             profileModal.classList.remove("flex");
         }
 
+        async function signOutCurrentSession(
+            reason = "manual",
+            options = { broadcast: true, request: true, refreshEntitlements: true },
+        ) {
+            if (isSigningOut) return;
+            isSigningOut = true;
+            try {
+                try {
+                    if (options.request !== false) {
+                        await fetch("/api/auth/signout", {
+                            method: "POST",
+                        });
+                    }
+                } catch {}
+
+                isLoggedIn = false;
+                currentUserProfile = null;
+                latestEntitlement = null;
+                clearPendingAuthAction();
+                clearAnalysisUiState();
+                hideProfile();
+                hideHistory();
+                hidePaywall();
+                updateHeaderAuthButton(false);
+                updateStructureAccess(false);
+                updateProfileSummary();
+
+                if (statusLabel) {
+                    statusLabel.textContent = reason === "idle_timeout"
+                        ? "Status: Session Timed Out"
+                        : "Status: Signed Out";
+                }
+
+                try {
+                    window.localStorage.removeItem(sessionLastActivityKey);
+                } catch {}
+                if (options.broadcast !== false) {
+                    broadcastSessionLogout();
+                }
+
+                if (options.refreshEntitlements !== false) {
+                    await refreshEntitlements();
+                }
+            } finally {
+                isSigningOut = false;
+            }
+        }
+
+        async function enforceSessionTimeout() {
+            if (!isLoggedIn || isSigningOut) return;
+            const lastActivity = readSessionTimestamp(sessionLastActivityKey);
+            if (lastActivity <= 0) {
+                markSessionActivity(true);
+                return;
+            }
+            if (Date.now() - lastActivity < sessionIdleTimeoutMs) return;
+            await signOutCurrentSession("idle_timeout");
+        }
+
+        function startSessionTimeoutMonitor() {
+            if (sessionCheckTimerId !== null) return;
+            sessionCheckTimerId = window.setInterval(() => {
+                void enforceSessionTimeout();
+            }, sessionCheckIntervalMs);
+        }
+
         function setAnalysisPhase(phase) {
             if (!analysisStepNodes.length) return;
             const currentIndex = analysisStepOrder.indexOf(phase);
@@ -770,12 +927,13 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             if (usageLabel && entitlement) {
                 usageLabel.textContent = `Usage: ${entitlement.used}/${entitlement.limit}`;
             }
+            const canExport = Boolean(entitlement?.can_export_json ?? entitlement?.canExportJson);
             if (downloadJsonButton && entitlement) {
-                downloadJsonButton.textContent = entitlement.can_export_json
+                downloadJsonButton.textContent = canExport
                     ? "Download Full JSON"
-                    : "Upgrade To Download Full JSON";
+                    : "Upgrade To Paid For JSON";
             }
-            updateStructureAccess(Boolean(entitlement.can_export_json));
+            updateStructureAccess(canExport);
             updateProfileSummary();
         }
 
@@ -846,7 +1004,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             }
             if (structureAccessNote) {
                 structureAccessNote.textContent = canExport
-                    ? "Pro active. Download full JSON export below."
+                    ? "Paid active. Download full JSON export below."
                     : "Preview is obfuscated. Upgrade to export full JSON.";
             }
         }
@@ -859,13 +1017,15 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         function formatMembershipStatus(plan) {
             switch (plan) {
                 case "PRO_ACTIVE":
-                    return "Pro Active";
+                    return "Paid";
                 case "PRO_CANCELED_GRACE":
-                    return "Pro Grace";
+                    return "Paid (Grace)";
                 case "FREE":
                     return "Free";
+                case "ANONYMOUS":
+                    return "Guest";
                 default:
-                    return "Free";
+                    return "Guest";
             }
         }
 
@@ -935,6 +1095,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 const payload = await response.json();
                 isLoggedIn = Boolean(payload.logged_in);
                 currentUserProfile = payload.logged_in ? payload.user || null : null;
+                syncSessionActivityForLoginState(isLoggedIn);
                 updateHeaderAuthButton(isLoggedIn);
                 if (payload.entitlement) {
                     updateUsage(payload.entitlement);
@@ -946,6 +1107,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             } catch {
                 isLoggedIn = false;
                 currentUserProfile = null;
+                syncSessionActivityForLoginState(false);
                 updateHeaderAuthButton(false);
                 updateStructureAccess(false);
                 updateProfileSummary();
@@ -1025,7 +1187,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                     });
                     resetAnalysisPhaseFlow();
                     statusLabel.textContent = "Status: Limit Hit";
-                    showPaywall(payload.error || "Limit reached. Upgrade to Pro or buy a top-up.");
+                    showPaywall(payload.error || "Limit reached. Upgrade to Paid for 100 analyses/month.");
                     return;
                 }
 
@@ -1204,6 +1366,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 isLoggedIn = true;
                 updateHeaderAuthButton(true);
                 await refreshEntitlements();
+                markSessionActivity(true);
                 hideAuthModal();
                 statusLabel.textContent = "Status: Logged In";
                 await resumePendingAuthAction(true);
@@ -1282,8 +1445,8 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 const payload = await response.json();
                 const canView = Boolean(payload.entitlement?.can_view_history);
                 historyMeta.textContent = canView
-                    ? "Pro history enabled. Search and reopen past outputs."
-                    : "Free plan: showing recent items only.";
+                    ? "History enabled. Search and reopen past outputs."
+                    : "Log in to access history.";
                 if (historySearchInput) historySearchInput.disabled = !canView;
                 if (historySearchButton) historySearchButton.disabled = !canView;
 
@@ -1381,14 +1544,14 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                             url: latestResult.source_url || latestResult.url,
                         });
                     }
-                    showPaywall("Upgrade to Pro to unlock full JSON export, selectors, and complete token maps.");
+                    showPaywall("Upgrade to Paid to unlock full JSON export, selectors, and complete token maps.");
                     return;
                 }
 
                 try {
                     await downloadExportJsonByAnalysisId(latestResult.history_id);
                 } catch (error) {
-                    showPaywall(error instanceof Error ? error.message : "JSON export is Pro.");
+                    showPaywall(error instanceof Error ? error.message : "JSON export is a paid feature.");
                 }
             });
         }
@@ -1406,7 +1569,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                         url: latestResult.source_url || latestResult.url,
                     });
                 }
-                showPaywall("Upgrade to Pro to unlock full JSON export, selectors, and complete token maps.");
+                showPaywall("Upgrade to Paid to unlock full JSON export, selectors, and complete token maps.");
             });
         }
 
@@ -1487,6 +1650,12 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             });
         }
 
+        if (profileSignoutButton) {
+            profileSignoutButton.addEventListener("click", () => {
+                void signOutCurrentSession("manual");
+            });
+        }
+
         if (closeAuthButton) {
             closeAuthButton.addEventListener("click", () => {
                 hideAuthModal();
@@ -1547,11 +1716,35 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             });
         }
 
+        ["click", "keydown", "pointerdown", "scroll", "touchstart"].forEach((eventName) => {
+            window.addEventListener(eventName, () => {
+                markSessionActivity();
+            }, { passive: true });
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState !== "visible") return;
+            markSessionActivity(true);
+            void enforceSessionTimeout();
+        });
+
+        window.addEventListener("storage", (event) => {
+            if (event.key === sessionLogoutBroadcastKey && event.newValue && isLoggedIn) {
+                void signOutCurrentSession("remote", {
+                    broadcast: false,
+                    request: false,
+                    refreshEntitlements: true,
+                });
+            }
+        });
+
         updateSystemDate();
         updateStructureAccess(false);
+        startSessionTimeoutMonitor();
         setInterval(updateSystemDate, 60000);
         void (async () => {
             await refreshEntitlements();
+            await enforceSessionTimeout();
             await resumePendingAuthAction();
         })();
     </script>

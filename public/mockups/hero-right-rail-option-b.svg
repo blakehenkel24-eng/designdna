@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 154" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Right Rail Mockup B</title>
+  <desc id="desc">Pipeline strip concept with known platform logos and trust stamps.</desc>
+
+  <defs>
+    <symbol id="ico-figma" viewBox="0 0 24 24"><path fill="currentColor" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></symbol>
+    <symbol id="ico-framer" viewBox="0 0 24 24"><path fill="currentColor" d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></symbol>
+    <symbol id="ico-webflow" viewBox="0 0 24 24"><path fill="currentColor" d="m24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z"/></symbol>
+    <symbol id="ico-sketch" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.25l6.75 6.637V2L12 1.25zm0 0l-6.05 7h12.1l-6.05-7zm0 0L5.25 2v5.887L12 1.25zM5.25 2L0 9l4.416-.68L5.25 2zM0 9l11.959 13.703.008-.014L4.443 9H0zm18.75-7l.834 6.32L24 9l-5.25-7zM24 9h-4.506l-7.523 13.69.029.06L24 9zM12 22.75l-.031-.057-.008.012.039.045zM5.436 9l6.533 13.686L18.564 9H5.436Z"/></symbol>
+    <symbol id="ico-miro" viewBox="0 0 24 24"><path fill="currentColor" d="M17.392 0H13.9L17 4.808 10.444 0H6.949l3.102 6.3L3.494 0H0l3.05 8.131L0 24h3.494L10.05 6.985 6.949 24h3.494L17 5.494 13.899 24h3.493L24 3.672 17.392 0z"/></symbol>
+  </defs>
+
+  <rect x="1" y="1" width="258" height="152" fill="#f4f1ea" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="130" y="17" text-anchor="middle" font-family="'Space Mono', monospace" font-size="9" letter-spacing="1.3" fill="#1a1a1a">PIPELINE TRUST RAIL</text>
+
+  <rect x="14" y="24" width="232" height="20" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.3"/>
+  <text x="24" y="37" font-family="'Space Mono', monospace" font-size="8.2" letter-spacing="0.8" fill="#1a1a1a">DESIGN.DNA PROMPT</text>
+  <path d="M126 34h16" stroke="#1a1a1a" stroke-width="1.3"/>
+  <path d="m141 31 4 3-4 3" stroke="#1a1a1a" stroke-width="1.3" fill="none"/>
+  <text x="152" y="37" font-family="'Space Mono', monospace" font-size="8.2" letter-spacing="0.8" fill="#1a1a1a">EXPORT READY</text>
+
+  <g fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2">
+    <rect x="14" y="52" width="72" height="24"/>
+    <rect x="94" y="52" width="72" height="24"/>
+    <rect x="174" y="52" width="72" height="24"/>
+    <rect x="14" y="82" width="72" height="24"/>
+    <rect x="94" y="82" width="72" height="24"/>
+    <rect x="174" y="82" width="72" height="24"/>
+  </g>
+
+  <g color="#1a1a1a">
+    <use href="#ico-figma" transform="translate(20 57) scale(0.5)"/>
+    <use href="#ico-framer" transform="translate(100 57) scale(0.5)"/>
+    <use href="#ico-webflow" transform="translate(180 57) scale(0.5)"/>
+    <use href="#ico-sketch" transform="translate(20 87) scale(0.5)"/>
+    <use href="#ico-miro" transform="translate(100 87) scale(0.5)"/>
+  </g>
+
+  <g fill="#1a1a1a" font-family="'Space Mono', monospace" font-size="7.8" letter-spacing="0.3">
+    <text x="42" y="67">Figma</text>
+    <text x="122" y="67">Framer</text>
+    <text x="202" y="67">Webflow</text>
+    <text x="42" y="97">Sketch</text>
+    <text x="122" y="97">Miro</text>
+    <text x="186" y="97">Builder.io</text>
+  </g>
+
+  <g fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2">
+    <rect x="14" y="112" width="72" height="24"/>
+    <rect x="94" y="112" width="72" height="24"/>
+    <rect x="174" y="112" width="72" height="24"/>
+  </g>
+  <g fill="#1a1a1a" font-family="'Space Mono', monospace" font-size="7.6" letter-spacing="0.2">
+    <text x="22" y="127">Stitch</text>
+    <text x="102" y="127">Antigravity</text>
+    <text x="190" y="127">+ More</text>
+  </g>
+</svg>

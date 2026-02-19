@@ -15,7 +15,7 @@ export async function POST() {
 
   await trackEvent("upgrade_started", {
     userId: user.id,
-    payload: { target_plan: "PRO_ACTIVE" },
+    payload: { target_plan: "PAID" },
   });
 
   try {
@@ -23,11 +23,11 @@ export async function POST() {
 
     await trackEvent("upgrade_completed", {
       userId: user.id,
-      payload: { plan: entitlement.plan },
+      payload: { plan: entitlement.plan, tier: "PAID" },
     });
 
     return NextResponse.json({
-      message: "Pro activated (test mode).",
+      message: "Paid plan activated (test mode).",
       entitlement: {
         plan: entitlement.plan,
         used: entitlement.analyses_used_this_period,

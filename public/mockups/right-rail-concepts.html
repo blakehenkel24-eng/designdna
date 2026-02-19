@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DesignDNA Right Rail Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #1a1a1a;
+      --line: #1a1a1a;
+      --accent: #365dff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+    }
+
+    .wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      border: 2px solid var(--line);
+      background: var(--paper);
+    }
+
+    .title {
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--line);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 24px;
+      padding: 18px;
+      align-items: start;
+    }
+
+    .left h2 {
+      margin: 0 0 10px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(30px, 3vw, 56px);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+    }
+
+    .left h2 span {
+      font-style: italic;
+      font-weight: 400;
+      display: block;
+    }
+
+    .left p {
+      margin: 0;
+      font-family: "Courier Prime", monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      max-width: 760px;
+    }
+
+    .rail img {
+      width: 260px;
+      height: 154px;
+      display: block;
+      border: 0;
+    }
+
+    .foot {
+      padding: 8px 14px 12px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .rail img {
+        width: min(100%, 340px);
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <div class="title">
+        <span>Option A</span>
+        <span>Logo Grid</span>
+      </div>
+      <div class="hero">
+        <div class="left">
+          <h2>TRANSFORM WEBSITE URL <span>INTO LLM-READY PROMPT</span></h2>
+          <p>FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools.</p>
+        </div>
+        <div class="rail">
+          <img src="hero-right-rail-option-a.svg" alt="Option A right rail" />
+        </div>
+      </div>
+      <div class="foot">Balanced 2x3 badges. Highest readability at a glance.</div>
+    </section>
+
+    <section class="card">
+      <div class="title">
+        <span>Option B</span>
+        <span>Pipeline Strip</span>
+      </div>
+      <div class="hero">
+        <div class="left">
+          <h2>TRANSFORM WEBSITE URL <span>INTO LLM-READY PROMPT</span></h2>
+          <p>FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools.</p>
+        </div>
+        <div class="rail">
+          <img src="hero-right-rail-option-b.svg" alt="Option B right rail" />
+        </div>
+      </div>
+      <div class="foot">Shows flow from prompt output to downstream tools.</div>
+    </section>
+
+    <section class="card">
+      <div class="title">
+        <span>Option C</span>
+        <span>Compatibility Stamp</span>
+      </div>
+      <div class="hero">
+        <div class="left">
+          <h2>TRANSFORM WEBSITE URL <span>INTO LLM-READY PROMPT</span></h2>
+          <p>FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools.</p>
+        </div>
+        <div class="rail">
+          <img src="hero-right-rail-option-c.svg" alt="Option C right rail" />
+        </div>
+      </div>
+      <div class="foot">Most editorial and brand-forward. Strong "trust badge" feel.</div>
+    </section>
+  </main>
+</body>
+</html>

@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json(
         {
-          error: "JSON export is a Pro feature.",
-          code: "PRO_REQUIRED_JSON_EXPORT",
+          error: "JSON export is a paid feature.",
+          code: "PAID_REQUIRED_JSON_EXPORT",
         },
         { status: 402 },
       );

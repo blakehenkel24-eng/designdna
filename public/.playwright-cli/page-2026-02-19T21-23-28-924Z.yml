@@ -1,0 +1,118 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Preview Set
+      - generic [ref=e6]: Conveyor + Right Rail Variations
+    - generic "platform conveyor sample" [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]:
+            - img [ref=e11]
+            - text: Antigravity
+          - generic [ref=e12]:
+            - img [ref=e13]
+            - text: Builder.io
+          - generic [ref=e14]:
+            - img [ref=e15]
+            - text: Framer
+          - generic [ref=e16]:
+            - img [ref=e17]
+            - text: Stitch
+          - generic [ref=e18]:
+            - img [ref=e19]
+            - text: Figma
+          - generic [ref=e20]:
+            - img [ref=e21]
+            - text: Webflow
+          - generic [ref=e22]:
+            - img [ref=e23]
+            - text: Axure RP
+          - generic [ref=e24]:
+            - img [ref=e25]
+            - text: Miro
+          - generic [ref=e26]:
+            - img [ref=e27]
+            - text: Adobe
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - img [ref=e30]
+            - text: Antigravity
+          - generic [ref=e31]:
+            - img [ref=e32]
+            - text: Builder.io
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - text: Framer
+          - generic [ref=e35]:
+            - img [ref=e36]
+            - text: Stitch
+          - generic [ref=e37]:
+            - img [ref=e38]
+            - text: Figma
+          - generic [ref=e39]:
+            - img [ref=e40]
+            - text: Webflow
+          - generic [ref=e41]:
+            - img [ref=e42]
+            - text: Axure RP
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - text: Miro
+          - generic [ref=e45]:
+            - img [ref=e46]
+            - text: Adobe
+  - generic [ref=e47]:
+    - generic [ref=e48]:
+      - generic [ref=e49]: Option 1
+      - generic [ref=e50]: Large Equal Blocks
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e53]:
+          - text: TRANSFORM WEBSITE URL
+          - generic [ref=e54]: INTO LLM-READY PROMPT
+        - paragraph [ref=e55]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs.
+      - img "Option 1" [ref=e57]
+  - generic [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]: Option 2
+      - generic [ref=e61]: Indexed Rows
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e64]:
+          - text: TRANSFORM WEBSITE URL
+          - generic [ref=e65]: INTO LLM-READY PROMPT
+        - paragraph [ref=e66]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs.
+      - img "Option 2" [ref=e68]
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]: Option 3
+      - generic [ref=e72]: Bold Utility Cards
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e75]:
+          - text: TRANSFORM WEBSITE URL
+          - generic [ref=e76]: INTO LLM-READY PROMPT
+        - paragraph [ref=e77]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs.
+      - img "Option 3" [ref=e79]
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - generic [ref=e82]: Option 4
+      - generic [ref=e83]: Single Framed Stack
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e86]:
+          - text: TRANSFORM WEBSITE URL
+          - generic [ref=e87]: INTO LLM-READY PROMPT
+        - paragraph [ref=e88]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs.
+      - img "Option 4" [ref=e90]
+  - generic [ref=e91]:
+    - generic [ref=e92]:
+      - generic [ref=e93]: Option 5
+      - generic [ref=e94]: Inset Modern Cards
+    - generic [ref=e95]:
+      - generic [ref=e96]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e97]:
+          - text: TRANSFORM WEBSITE URL
+          - generic [ref=e98]: INTO LLM-READY PROMPT
+        - paragraph [ref=e99]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs.
+      - img "Option 5" [ref=e101]

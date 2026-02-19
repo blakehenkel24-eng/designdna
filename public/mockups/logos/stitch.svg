@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Stitch</title>
+  <circle cx="12" cy="12" r="10.5" fill="none" stroke="#1A1A1A" stroke-width="1.5"/>
+  <path d="M9.2 6.3h5.6v1.2h-.9v3.2l3.1 4.7c.3.4.3.8.1 1.2-.2.3-.6.5-1 .5H7.9c-.4 0-.8-.2-1-.5-.2-.4-.2-.8.1-1.2l3.1-4.7V7.5h-.9V6.3Zm2.4 4.3-3 4.6h6.9l-3-4.6z" fill="#111111"/>
+</svg>

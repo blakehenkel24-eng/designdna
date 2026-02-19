@@ -1,0 +1,22 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e4]:
+      - text: TRANSFORM WEBSITE URL
+      - generic [ref=e5]: INTO LLM-READY PROMPT
+    - generic [ref=e6]:
+      - article [ref=e7]:
+        - paragraph [ref=e8]: "Option A: Bold Names"
+        - paragraph [ref=e9]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools like Figma, Framer, Antigravity, and Stitch. Simply input your source below.
+      - article [ref=e10]:
+        - paragraph [ref=e11]: "Option B: Subtle Chips"
+        - paragraph [ref=e12]:
+          - text: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including
+          - generic [ref=e13]: Figma
+          - generic [ref=e14]: Framer
+          - generic [ref=e15]: Antigravity
+          - generic [ref=e16]: Stitch
+          - text: . Simply input your source below.
+      - article [ref=e17]:
+        - paragraph [ref=e18]: "Option C: Underlined Emphasis"
+        - paragraph [ref=e19]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including Figma, Framer, Antigravity, and Stitch. Simply input your source below.
+  - generic [ref=e20]: Mockup only. No live changes applied.

@@ -11,8 +11,8 @@ import type {
 } from "@/lib/pricing-types";
 import type { SemanticTokensJson } from "@/lib/schema/styleSpec.schema";
 
-const FREE_LIMIT = 3;
-const PRO_LIMIT = 60;
+const FREE_LIMIT = 10;
+const PRO_LIMIT = 100;
 export const TOPUP_ANALYSES = 40;
 
 function monthBounds(now = new Date()) {
@@ -53,7 +53,7 @@ function toEntitlementState(row: {
     ...row,
     remaining_analyses: remaining,
     can_export_json: canExport,
-    can_view_history: canExport,
+    can_view_history: true,
   };
 }
 
@@ -77,7 +77,7 @@ export async function getOrCreateEntitlementForUser(user: User) {
         user_id: user.id,
         plan: "FREE",
         analyses_used_this_period: 0,
-        analyses_limit_this_period: FREE_LIMIT,
+        analyses_limit_this_period: planBaseLimit("FREE"),
         topup_balance: 0,
         period_start: bounds.start,
         period_end: bounds.end,
@@ -215,7 +215,7 @@ export async function listHistoryForUser(user: User, query?: string) {
   const entitlement = await getOrCreateEntitlementForUser(user);
   const supabase = createSupabaseAdminClient();
 
-  const limit = entitlement.can_view_history ? 100 : 3;
+  const limit = entitlement.can_view_history ? 100 : 10;
   let request = supabase
     .from("analysis_history")
     .select("id, source_url, preview_payload, export_payload, created_at")

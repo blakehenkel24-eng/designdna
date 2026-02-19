@@ -1,0 +1,136 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: qr_code_2
+        - generic [ref=e7]: System V.2.0
+      - generic [ref=e8]: Thursday, February 19, 2026
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Specification Data
+          - generic [ref=e12]: AI Ready
+        - button "Log In / Sign Up" [ref=e13] [cursor=pointer]
+    - generic [ref=e14]:
+      - img "Design DNA logo" [ref=e16]
+      - heading "Design.DNA" [level=1] [ref=e18]:
+        - link "Design.DNA" [ref=e19] [cursor=pointer]:
+          - /url: /
+      - img "Design DNA logo" [ref=e21]
+    - navigation [ref=e22]:
+      - link "About" [ref=e23] [cursor=pointer]:
+        - /url: /about.html
+      - link "How It Works" [ref=e24] [cursor=pointer]:
+        - /url: /documentation.html
+      - link "Pricing" [ref=e25] [cursor=pointer]:
+        - /url: /pricing.html
+  - main [ref=e26]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - heading "TRANSFORM WEBSITE URL INTO LLM-READY PROMPT" [level=2] [ref=e30]:
+          - text: TRANSFORM WEBSITE URL
+          - text: INTO LLM-READY PROMPT
+        - generic [ref=e31]:
+          - text: Volume 14, Issue 3
+          - text: "Authorized by: System Admin"
+          - text: "Clearance: Level 5"
+      - paragraph [ref=e32]: FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including tools like Figma, Antigravity, Stitch, and more. Simply input your source below.
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: Target URL
+          - textbox "example.com or https://example.com" [ref=e36]
+        - button "Analyze" [ref=e37] [cursor=pointer]
+      - list [ref=e39]:
+        - listitem [ref=e40]:
+          - generic [ref=e42]: Queued
+        - listitem [ref=e43]:
+          - generic [ref=e45]: Fetching Page
+        - listitem [ref=e46]:
+          - generic [ref=e48]: Extracting Styles
+        - listitem [ref=e49]:
+          - generic [ref=e51]: Building Prompt
+        - listitem [ref=e52]:
+          - generic [ref=e54]: Complete
+      - generic [ref=e55]:
+        - generic [ref=e56]: "Status: Awaiting Input"
+        - generic [ref=e57]: "Usage: --"
+        - generic [ref=e58]: "Latency: --"
+    - generic [ref=e59]:
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - heading "LLM Prompt" [level=3] [ref=e63]
+          - generic [ref=e64]: psychology
+        - textbox [ref=e67]: "# INSTRUCTION SET 001 You are an expert UI designer. Use the following JSON data to reconstruct the component library. Analyze the spacing tokens, color variables, and font weights meticulously. # CONTEXT The target site uses a 12-column grid system with 24px gutters. Primary typography is serif-based for headings and sans-serif for body copy. # OUTPUT FORMAT Generate a Tailwind CSS configuration file that matches this aesthetic exactly."
+        - button "content_copy Copy Prompt" [ref=e68] [cursor=pointer]:
+          - generic [ref=e69]: content_copy
+          - text: Copy Prompt
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Typography" [level=3] [ref=e73]
+          - generic [ref=e74]: text_fields
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]: Display
+              - generic [ref=e79]: 700 / 900
+            - generic [ref=e80]: Aa Bb
+            - generic [ref=e81]: Playfair Display
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - generic [ref=e84]: Body
+              - generic [ref=e85]: 400 / Italic
+            - generic [ref=e86]: Aa Bb
+            - generic [ref=e87]: Space Mono
+          - generic [ref=e88]:
+            - generic [ref=e89]:
+              - generic [ref=e90]: Code
+              - generic [ref=e91]: "400"
+            - generic [ref=e92]: Aa Bb
+            - generic [ref=e93]: Courier Prime
+      - generic [ref=e95]:
+        - generic [ref=e96]:
+          - heading "Vibe" [level=3] [ref=e97]
+          - generic [ref=e98]: auto_awesome
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - paragraph [ref=e101]: Tone
+            - paragraph [ref=e102]: Structured editorial with a clean technical edge.
+          - generic [ref=e103]:
+            - paragraph [ref=e104]: Typography Feel
+            - paragraph [ref=e105]: High-contrast display headline paired with monospaced utility text.
+          - generic [ref=e106]:
+            - paragraph [ref=e107]: Color Energy
+            - paragraph [ref=e108]: Monochrome newspaper palette with strong inked borders and high legibility.
+          - generic [ref=e109]:
+            - paragraph [ref=e110]: Interaction Mood
+            - paragraph [ref=e111]: Tactile and intentional; actions feel mechanical, direct, and confident.
+          - paragraph [ref=e112]: Vibe summary updates after each extraction.
+    - generic [ref=e113]:
+      - generic [ref=e114]:
+        - heading "<> Structure" [level=3] [ref=e115]
+        - generic [ref=e116]:
+          - generic [ref=e117]: DOM Tree
+          - generic [ref=e119]: Computed
+      - generic [ref=e121]:
+        - generic [ref=e122]:
+          - generic: "{ \"schema_version\": \"1.0\", \"source_url\": \"https://example.com\", \"sections_preview\": [\"header\", \"hero\", \"features\"], \"tokens_preview\": { \"colors\": [\"#1a1a1a\", \"#f4f1ea\"], \"typography\": [\"Playfair Display\", \"Space Mono\"] }, \"upgrade_required\": true }"
+          - generic [ref=e124]:
+            - paragraph [ref=e125]: Premium Export
+            - heading "Unlock Full JSON" [level=4] [ref=e126]
+            - paragraph [ref=e127]: Upgrade to export complete structure, selectors, and token maps.
+            - button "Upgrade To Paid For Full JSON" [ref=e128] [cursor=pointer]
+        - generic [ref=e129]:
+          - generic [ref=e130]: Preview is obfuscated. Upgrade to export full JSON.
+          - generic [ref=e131]:
+            - button "Upgrade To Paid For JSON" [ref=e132] [cursor=pointer]
+            - button "Save Benchmark Snapshot" [ref=e133] [cursor=pointer]
+  - contentinfo [ref=e134]:
+    - generic [ref=e135]:
+      - generic [ref=e136]: copyright
+      - generic [ref=e137]: 2024 Design.DNA Analysis Corp.
+    - generic [ref=e138]:
+      - link "Terms of Service" [ref=e139] [cursor=pointer]:
+        - /url: /about.html#terms
+      - link "Privacy Policy" [ref=e140] [cursor=pointer]:
+        - /url: /about.html#privacy
+      - link "Contact Editor" [ref=e141] [cursor=pointer]:
+        - /url: /about.html#contact

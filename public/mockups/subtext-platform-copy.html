@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DesignDNA Subtext Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --paper:#f4f1ea; --ink:#1a1a1a; --line:#1a1a1a; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+      padding: 24px;
+    }
+    .frame {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      border: 2px solid var(--line);
+      background: var(--paper);
+    }
+    .hero {
+      padding: 42px 56px 36px;
+      border-bottom: 2px solid var(--line);
+    }
+    .hero h2 {
+      margin: 0 0 18px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(54px, 6vw, 96px);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+    .hero h2 span {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .copy-grid {
+      display: grid;
+      gap: 14px;
+      max-width: 1040px;
+    }
+    .copy-card {
+      border: 1px solid var(--line);
+      padding: 10px 12px 12px;
+      background: rgba(255,255,255,0.45);
+    }
+    .copy-label {
+      margin: 0 0 8px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      opacity: 0.7;
+    }
+    .copy-text {
+      margin: 0;
+      font-family: "Courier Prime", monospace;
+      font-size: clamp(17px, 1.4vw, 29px);
+      line-height: 1.42;
+      max-width: 1000px;
+    }
+    .strong-platform {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .lined-platform {
+      font-weight: 700;
+      border-bottom: 1px dashed var(--ink);
+      padding-bottom: 1px;
+    }
+    .chip-platform {
+      display: inline-block;
+      border: 1px solid var(--line);
+      background: #f8f6f0;
+      padding: 0 5px;
+      margin: 0 2px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+    }
+    .notes {
+      padding: 16px 56px 20px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-top: 1px solid var(--line);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <section class="hero">
+      <h2>TRANSFORM WEBSITE URL <span>INTO LLM-READY PROMPT</span></h2>
+      <div class="copy-grid">
+        <article class="copy-card">
+          <p class="copy-label">Option A: Bold Names</p>
+          <p class="copy-text">FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools like <span class="strong-platform">Figma</span>, <span class="strong-platform">Framer</span>, <span class="strong-platform">Antigravity</span>, and <span class="strong-platform">Stitch</span>. Simply input your source below.</p>
+        </article>
+
+        <article class="copy-card">
+          <p class="copy-label">Option B: Subtle Chips</p>
+          <p class="copy-text">FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including <span class="chip-platform">Figma</span> <span class="chip-platform">Framer</span> <span class="chip-platform">Antigravity</span> <span class="chip-platform">Stitch</span>. Simply input your source below.</p>
+        </article>
+
+        <article class="copy-card">
+          <p class="copy-label">Option C: Underlined Emphasis</p>
+          <p class="copy-text">FROM WEB TO WIREFRAME. The extraction engine converts website structure into clean prompt-ready outputs for LLM workflows and modern design/build tools including <span class="lined-platform">Figma</span>, <span class="lined-platform">Framer</span>, <span class="lined-platform">Antigravity</span>, and <span class="lined-platform">Stitch</span>. Simply input your source below.</p>
+        </article>
+      </div>
+    </section>
+    <footer class="notes">Mockup only. No live changes applied.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 154" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Right Rail Mockup C</title>
+  <desc id="desc">Editorial compatibility stamp with logo constellation.</desc>
+
+  <defs>
+    <symbol id="ico-figma" viewBox="0 0 24 24"><path fill="currentColor" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></symbol>
+    <symbol id="ico-framer" viewBox="0 0 24 24"><path fill="currentColor" d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></symbol>
+    <symbol id="ico-webflow" viewBox="0 0 24 24"><path fill="currentColor" d="m24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z"/></symbol>
+    <symbol id="ico-sketch" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.25l6.75 6.637V2L12 1.25zm0 0l-6.05 7h12.1l-6.05-7zm0 0L5.25 2v5.887L12 1.25zM5.25 2L0 9l4.416-.68L5.25 2zM0 9l11.959 13.703.008-.014L4.443 9H0zm18.75-7l.834 6.32L24 9l-5.25-7zM24 9h-4.506l-7.523 13.69.029.06L24 9zM12 22.75l-.031-.057-.008.012.039.045zM5.436 9l6.533 13.686L18.564 9H5.436Z"/></symbol>
+    <symbol id="ico-miro" viewBox="0 0 24 24"><path fill="currentColor" d="M17.392 0H13.9L17 4.808 10.444 0H6.949l3.102 6.3L3.494 0H0l3.05 8.131L0 24h3.494L10.05 6.985 6.949 24h3.494L17 5.494 13.899 24h3.493L24 3.672 17.392 0z"/></symbol>
+  </defs>
+
+  <rect x="1" y="1" width="258" height="152" fill="#f4f1ea" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="130" y="17" text-anchor="middle" font-family="'Space Mono', monospace" font-size="9" letter-spacing="1.3" fill="#1a1a1a">COMPATIBILITY STAMP</text>
+  <line x1="14" y1="22" x2="246" y2="22" stroke="#1a1a1a" stroke-width="1.2"/>
+
+  <circle cx="130" cy="72" r="40" stroke="#1a1a1a" stroke-width="1.6"/>
+  <circle cx="130" cy="72" r="31" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="2.5 3"/>
+
+  <g color="#1a1a1a">
+    <circle cx="130" cy="40" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <use href="#ico-figma" transform="translate(124 34) scale(0.5)"/>
+
+    <circle cx="160" cy="54" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <use href="#ico-framer" transform="translate(154 48) scale(0.5)"/>
+
+    <circle cx="160" cy="90" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <use href="#ico-webflow" transform="translate(154 84) scale(0.5)"/>
+
+    <circle cx="130" cy="104" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <use href="#ico-sketch" transform="translate(124 98) scale(0.5)"/>
+
+    <circle cx="100" cy="90" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <use href="#ico-miro" transform="translate(94 84) scale(0.5)"/>
+
+    <circle cx="100" cy="54" r="10" fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2"/>
+    <text x="100" y="57" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7" font-weight="700" fill="#1a1a1a">B</text>
+  </g>
+
+  <rect x="106" y="64" width="48" height="16" fill="#1a1a1a"/>
+  <text x="130" y="75" text-anchor="middle" font-family="'Space Mono', monospace" font-size="8.2" letter-spacing="1" fill="#f4f1ea">READY</text>
+
+  <g fill="#f8f6f0" stroke="#1a1a1a" stroke-width="1.2">
+    <rect x="14" y="119" width="72" height="22"/>
+    <rect x="94" y="119" width="72" height="22"/>
+    <rect x="174" y="119" width="72" height="22"/>
+  </g>
+  <g fill="#1a1a1a" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.2">
+    <text x="22" y="133">Stitch</text>
+    <text x="102" y="133">Antigravity</text>
+    <text x="186" y="133">Builder.io</text>
+  </g>
+</svg>

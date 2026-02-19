@@ -13,6 +13,18 @@ It uses:
 - Upstash Redis (rate limiting)
 - Playwright capture pipeline
 
+## Documentation map
+
+Detailed project docs live in `docs/`:
+
+- `docs/README.md` (index + maintenance rules)
+- `docs/architecture.md` (system flow and module boundaries)
+- `docs/api-reference.md` (all API routes, auth, entitlement behavior)
+- `docs/data-model.md` (Supabase schema + RLS model)
+- `docs/configuration.md` (env variable matrix and defaults)
+- `docs/operations.md` (worker/cleanup/runbook commands)
+- `docs/repository-map.md` (folder ownership and organization)
+
 ## MVP capabilities
 
 - Email/password auth + Google OAuth
@@ -20,11 +32,11 @@ It uses:
 - Compliance checks: protocol allowlist, SSRF guard, robots policy
 - DOM/CSS extraction + screenshot color analysis
 - Pricing/entitlements:
-  - Free: 3 analyses/month (preview only)
-  - Pro: 60 analyses/month (JSON export + history)
-  - Top-up: +40 analyses
-- Server-side usage metering with monthly reset
-- Pro-only JSON export endpoint and limited/free history handling
+  - Guest (not logged in): 1 lifetime analysis (browser cookie) + prompt copy
+  - Free (logged in): 10 analyses/month + prompt copy + history
+  - Paid: 100 analyses/month + JSON export + history
+- Server-side usage metering with monthly reset (logged-in users)
+- Paid-only JSON export endpoint
 
 ## Quick start
 
@@ -52,6 +64,7 @@ cp .env.example .env.local
     - `https://www.getdesigndna.com/auth/callback` (if using `www`)
 - Run migration in `supabase/migrations/20260216233000_init_designdna.sql`
 - Run migration in `supabase/migrations/20260217195000_pricing_entitlements.sql`
+- Run migration in `supabase/migrations/20260219120000_update_pricing_model.sql`
 - Create storage bucket `captures` (private)
 
 4. Configure env vars (`.env.local`):
@@ -90,9 +103,9 @@ If you want instant signup without email confirmation:
 - `POST /api/analyze` body `{ "url": "https://example.com" }`
 - `GET /api/me/entitlements`
 - `GET /api/history?q=<optional-url-query>`
-- `POST /api/export/json` body `{ "analysis_id": "<uuid>" }` (Pro-only)
-- `POST /api/topup` (+40 analyses after plan limit)
-- `POST /api/upgrade/pro` (test-mode Pro activation)
+- `POST /api/export/json` body `{ "analysis_id": "<uuid>" }` (Paid-only)
+- `POST /api/topup` (+40 analyses after plan limit, optional endpoint)
+- `POST /api/upgrade/pro` (test-mode paid activation)
 - `POST /api/cron/cleanup` header `x-cron-secret: <CRON_CLEANUP_SECRET>`
 
 ## Cleanup

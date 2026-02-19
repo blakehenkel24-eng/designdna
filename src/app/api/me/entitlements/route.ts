@@ -1,24 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getOrCreateEntitlementForUser } from "@/lib/pricing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-const FREE_LIMIT = 3;
+const GUEST_LIMIT = 1;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
+    const anonymousUsesRaw = Number(request.cookies.get("designdna_anon_uses")?.value ?? "0");
+    const used = Number.isFinite(anonymousUsesRaw)
+      ? Math.max(0, Math.min(GUEST_LIMIT, Math.trunc(anonymousUsesRaw)))
+      : 0;
     return NextResponse.json({
       logged_in: false,
       entitlement: {
-        plan: "LOGIN_REQUIRED",
-        used: 0,
-        limit: FREE_LIMIT,
-        remaining: FREE_LIMIT,
+        plan: "ANONYMOUS",
+        used,
+        limit: GUEST_LIMIT,
+        remaining: Math.max(0, GUEST_LIMIT - used),
         can_export_json: false,
         can_view_history: false,
       },

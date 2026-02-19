@@ -1,14 +1,26 @@
-# Regression Harness (Scaffold)
+# Regression Harness
 
-This folder is reserved for golden-run snapshots:
+This folder stores golden snapshots for repeatability checks.
 
-- `styleSpec.json`
+## Snapshot Files Per Target
+
 - `stitchPrompt.txt`
 - `tokens.json`
+- `score.json`
 
-Use `test/fixtures/urls.json` as the stable input set.
+## Folder Convention
 
-Suggested workflow:
+- Use `test/regression/<slug>/` where `<slug>` is URL-derived lowercase kebab case.
+- Keep one folder per target URL.
+- Avoid spaces/trailing spaces in folder names.
+- `test/regression/root-snapshot/` is reserved for legacy baseline files moved from project root.
+
+## Inputs
+
+- Stable source list: `test/fixtures/urls.json`
+
+## Suggested Workflow
+
 1. Run analysis for each URL.
-2. Save outputs per URL slug in this directory.
+2. Save outputs under the URL slug folder in this directory.
 3. Diff snapshots when extractor/prompt logic changes.
