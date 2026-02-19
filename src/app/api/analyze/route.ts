@@ -25,7 +25,14 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const anonymousUses = Number(request.cookies.get("designdna_anon_uses")?.value ?? "0");
+    const anonymousUsesRaw = Number(request.cookies.get("designdna_anon_uses")?.value ?? "0");
+    const anonymousUses = Number.isFinite(anonymousUsesRaw)
+      ? Math.max(0, Math.min(1, Math.trunc(anonymousUsesRaw)))
+      : 0;
+
+    const includeTiming =
+      request.headers.get("x-ddna-debug-timing") === "1" ||
+      request.headers.get("x-ddna-debug-timing")?.toLowerCase() === "true";
 
     const result = await runAnalysis({
       rawUrl: body.url,
@@ -35,16 +42,37 @@ export async function POST(request: NextRequest) {
     });
 
     if (!result.ok) {
+      const entitlement = result.entitlement
+        ? {
+            plan: result.entitlement.plan,
+            used: result.entitlement.used,
+            limit: result.entitlement.limit,
+            remaining: result.entitlement.remaining,
+            can_export_json: result.entitlement.canExportJson,
+            can_view_history: result.entitlement.canViewHistory,
+          }
+        : undefined;
+
       return NextResponse.json(
         {
           status: "failed",
           code: result.code,
           error: result.message,
-          entitlement: result.entitlement,
+          entitlement,
+          ...(includeTiming && result.timing ? { timing: result.timing } : {}),
         },
         { status: result.status },
       );
     }
+
+    const entitlement = {
+      plan: result.entitlement.plan,
+      used: result.entitlement.used,
+      limit: result.entitlement.limit,
+      remaining: result.entitlement.remaining,
+      can_export_json: result.entitlement.canExportJson,
+      can_view_history: result.entitlement.canViewHistory,
+    };
 
     const response = NextResponse.json({
       status: "completed",
@@ -58,11 +86,12 @@ export async function POST(request: NextRequest) {
       export_json: result.entitlement.canExportJson ? result.exportJson : null,
       pack: null,
       history_id: result.historyId,
-      entitlement: result.entitlement,
+      entitlement,
       capabilities: {
         json_download_enabled: result.entitlement.canExportJson,
-        history_enabled: result.entitlement.canExportJson,
+        history_enabled: result.entitlement.canViewHistory,
       },
+      ...(includeTiming ? { timing: result.timing } : {}),
     });
 
     if (!user) {
@@ -70,7 +99,7 @@ export async function POST(request: NextRequest) {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        maxAge: 60 * 60 * 24 * 30,
+        maxAge: 60 * 60 * 24 * 365 * 10,
       });
     }
 

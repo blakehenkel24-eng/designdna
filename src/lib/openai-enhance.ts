@@ -21,6 +21,24 @@ type PrototypeResult = {
   };
   tokensJson: SemanticTokensJson;
   starterHtmlCss?: string;
+  llmTiming?: LlmTiming;
+};
+
+export type LlmTiming = {
+  timeout_ms: number;
+  max_attempts: number;
+  attempt_count: number;
+  total_ms: number;
+  reduced_payload: boolean;
+  final_path: "no_api_key" | "strict_success" | "repair_success" | "deterministic_fallback";
+  attempts: Array<{
+    name: "strict" | "repair";
+    strict_schema: boolean;
+    duration_ms: number;
+    outcome: "success" | "request_error" | "parse_error" | "validation_error";
+    error?: string;
+  }>;
+  final_error?: string;
 };
 
 type LlmMessage = {
@@ -138,13 +156,50 @@ function buildDeterministicResult(pack: DesignDnaPack): PrototypeResult {
   };
 }
 
+function compactStyleSpecForLlm(pack: DesignDnaPack) {
+  if (!pack.style_spec) return null;
+
+  return {
+    url: pack.style_spec.url,
+    viewport: pack.style_spec.viewport,
+    palette: {
+      colors: pack.style_spec.palette.colors.slice(0, 16),
+      roles: pack.style_spec.palette.roles,
+    },
+    typography: {
+      primaryFamily: pack.style_spec.typography.primaryFamily,
+      secondaryFamily: pack.style_spec.typography.secondaryFamily,
+      scale: pack.style_spec.typography.scale.slice(0, 16),
+      weights: pack.style_spec.typography.weights.slice(0, 12),
+      lineHeights: pack.style_spec.typography.lineHeights.slice(0, 12),
+    },
+    tokens: {
+      spacingPx: pack.style_spec.tokens.spacingPx.slice(0, 20),
+      radiusPx: pack.style_spec.tokens.radiusPx.slice(0, 20),
+      shadows: pack.style_spec.tokens.shadows.slice(0, 12),
+      effects: pack.style_spec.tokens.effects.slice(0, 12),
+    },
+    layout: pack.style_spec.layout,
+    components: pack.style_spec.components,
+    sections: pack.style_spec.sections.slice(0, 18),
+    vision: pack.style_spec.vision,
+  };
+}
+
 function buildUserPayload(pack: DesignDnaPack, deterministic: PrototypeResult) {
   return {
     source_url: pack.meta.url,
-    style_spec: pack.style_spec,
+    style_spec: compactStyleSpecForLlm(pack),
     deterministic_prompt: deterministic.prompt,
     deterministic_summary: deterministic.summary,
-    deterministic_tokens_json: deterministic.tokensJson,
+    deterministic_design_blueprint: deterministic.designBlueprint,
+    deterministic_token_preview: {
+      colors: deterministic.tokensJson.tokens.color.palette.slice(0, 12),
+      typography: deterministic.tokensJson.tokens.typography.families.slice(0, 8),
+      spacing: deterministic.tokensJson.tokens.spacing.slice(0, 12),
+      radius: deterministic.tokensJson.tokens.radius.slice(0, 12),
+      sections: deterministic.tokensJson.sections.slice(0, 12),
+    },
     request: {
       objective:
         "Refine semantic labels and compile final Stitch prompt without changing core numeric tokens.",
@@ -276,11 +331,33 @@ function normalizeValidatedOutput(
   };
 }
 
+function getEnvPositiveInt(key: string, fallback: number) {
+  const raw = process.env[key];
+  if (!raw) return fallback;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return parsed;
+}
+
 export async function enhanceWithOpenAi(pack: DesignDnaPack): Promise<PrototypeResult> {
+  const startedAt = Date.now();
+  const timeoutMs = getEnvPositiveInt("ANALYZE_LLM_TIMEOUT_MS", 40_000);
+  const maxAttempts = Math.max(1, Math.min(2, getEnvPositiveInt("ANALYZE_LLM_MAX_ATTEMPTS", 2)));
   const deterministic = buildDeterministicResult(pack);
   const apiKey = process.env.LLM_API_KEY ?? process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    return deterministic;
+    return {
+      ...deterministic,
+      llmTiming: {
+        timeout_ms: timeoutMs,
+        max_attempts: maxAttempts,
+        attempt_count: 0,
+        total_ms: Date.now() - startedAt,
+        reduced_payload: true,
+        final_path: "no_api_key",
+        attempts: [],
+      },
+    };
   }
 
   const baseUrl = (process.env.LLM_API_BASE_URL ?? "https://api.openai.com/v1").replace(
@@ -303,116 +380,194 @@ export async function enhanceWithOpenAi(pack: DesignDnaPack): Promise<PrototypeR
     },
   ];
 
-  const attempts: Array<{ strictSchema: boolean; messages: LlmMessage[] }> = [
-    { strictSchema: true, messages: baseMessages },
-    { strictSchema: false, messages: baseMessages },
-  ];
-
+  const attemptMetrics: LlmTiming["attempts"] = [];
   let lastFailure: string | null = null;
+  let firstRawResponse = "";
+  let firstParsedValue: unknown = null;
+  let firstFailure = "";
 
-  for (const attempt of attempts) {
-    let rawResponse: string;
+  const strictAttemptStarted = Date.now();
+  try {
+    firstRawResponse = await requestCompletion({
+      apiKey,
+      baseUrl,
+      model,
+      maxTokens,
+      messages: baseMessages,
+      strictSchema: true,
+      timeoutMs,
+    });
+  } catch (error) {
+    const failure = error instanceof Error ? error.message : "Unknown LLM error";
+    attemptMetrics.push({
+      name: "strict",
+      strict_schema: true,
+      duration_ms: Date.now() - strictAttemptStarted,
+      outcome: "request_error",
+      error: failure,
+    });
+    lastFailure = failure;
+    firstFailure = failure;
+  }
 
+  if (firstRawResponse) {
+    let parsed: unknown;
     try {
-      rawResponse = await requestCompletion({
+      parsed = parseStrictJson(firstRawResponse);
+      firstParsedValue = parsed;
+    } catch {
+      const failure = "Model returned non-JSON output";
+      attemptMetrics.push({
+        name: "strict",
+        strict_schema: true,
+        duration_ms: Date.now() - strictAttemptStarted,
+        outcome: "parse_error",
+        error: failure,
+      });
+      lastFailure = failure;
+      firstFailure = failure;
+      parsed = null;
+    }
+
+    if (parsed) {
+      const validated = parseAndValidate(parsed);
+      if (validated.ok) {
+        const result = normalizeValidatedOutput(validated.value);
+        attemptMetrics.push({
+          name: "strict",
+          strict_schema: true,
+          duration_ms: Date.now() - strictAttemptStarted,
+          outcome: "success",
+        });
+        return {
+          ...result,
+          llmTiming: {
+            timeout_ms: timeoutMs,
+            max_attempts: maxAttempts,
+            attempt_count: 1,
+            total_ms: Date.now() - startedAt,
+            reduced_payload: true,
+            final_path: "strict_success",
+            attempts: attemptMetrics,
+          },
+        };
+      }
+
+      attemptMetrics.push({
+        name: "strict",
+        strict_schema: true,
+        duration_ms: Date.now() - strictAttemptStarted,
+        outcome: "validation_error",
+        error: validated.error,
+      });
+      lastFailure = validated.error;
+      firstFailure = validated.error;
+    }
+  }
+
+  if (maxAttempts > 1) {
+    const repairPrompt = firstParsedValue
+      ? `Your previous output failed schema validation (${firstFailure}). Return corrected JSON only.`
+      : "Your previous output was not valid JSON. Return one valid JSON object matching the required schema, no markdown.";
+
+    const repairAttemptStarted = Date.now();
+    try {
+      const repairRaw = await requestCompletion({
         apiKey,
         baseUrl,
         model,
         maxTokens,
-        messages: attempt.messages,
-        strictSchema: attempt.strictSchema,
-        timeoutMs: 40_000,
+        strictSchema: false,
+        timeoutMs,
+        messages: [
+          ...baseMessages,
+          {
+            role: "assistant",
+            content: firstParsedValue ? JSON.stringify(firstParsedValue) : firstRawResponse,
+          },
+          {
+            role: "user",
+            content: repairPrompt,
+          },
+        ],
       });
-    } catch (error) {
-      lastFailure = error instanceof Error ? error.message : "Unknown LLM error";
-      continue;
-    }
 
-    let parsed: unknown;
-    try {
-      parsed = parseStrictJson(rawResponse);
-    } catch {
-      lastFailure = "Model returned non-JSON output";
-
+      let repairedParsed: unknown;
       try {
-        const repairedRaw = await requestCompletion({
-          apiKey,
-          baseUrl,
-          model,
-          maxTokens,
-          strictSchema: false,
-          timeoutMs: 40_000,
-          messages: [
-            ...baseMessages,
-            {
-              role: "assistant",
-              content: rawResponse,
-            },
-            {
-              role: "user",
-              content:
-                "Your previous output was not valid JSON. Return one valid JSON object matching the required schema, no markdown.",
-            },
-          ],
+        repairedParsed = parseStrictJson(repairRaw);
+      } catch {
+        const failure = "Repair output was not valid JSON";
+        attemptMetrics.push({
+          name: "repair",
+          strict_schema: false,
+          duration_ms: Date.now() - repairAttemptStarted,
+          outcome: "parse_error",
+          error: failure,
         });
-
-        parsed = parseStrictJson(repairedRaw);
-      } catch (repairError) {
-        lastFailure =
-          repairError instanceof Error ? repairError.message : "Repair attempt failed";
-        continue;
+        lastFailure = failure;
+        repairedParsed = null;
       }
-    }
 
-    const validated = parseAndValidate(parsed);
-    if (!validated.ok) {
-      lastFailure = validated.error;
-
-      try {
-        const repairedRaw = await requestCompletion({
-          apiKey,
-          baseUrl,
-          model,
-          maxTokens,
-          strictSchema: false,
-          timeoutMs: 40_000,
-          messages: [
-            ...baseMessages,
-            {
-              role: "assistant",
-              content: JSON.stringify(parsed),
-            },
-            {
-              role: "user",
-              content: `Your previous output failed schema validation (${validated.error}). Return corrected JSON only.`,
-            },
-          ],
-        });
-
-        const repairedParsed = parseStrictJson(repairedRaw);
+      if (repairedParsed) {
         const repairedValidated = parseAndValidate(repairedParsed);
         if (repairedValidated.ok) {
-          return normalizeValidatedOutput(repairedValidated.value);
+          const result = normalizeValidatedOutput(repairedValidated.value);
+          attemptMetrics.push({
+            name: "repair",
+            strict_schema: false,
+            duration_ms: Date.now() - repairAttemptStarted,
+            outcome: "success",
+          });
+          return {
+            ...result,
+            llmTiming: {
+              timeout_ms: timeoutMs,
+              max_attempts: maxAttempts,
+              attempt_count: 2,
+              total_ms: Date.now() - startedAt,
+              reduced_payload: true,
+              final_path: "repair_success",
+              attempts: attemptMetrics,
+            },
+          };
         }
 
+        attemptMetrics.push({
+          name: "repair",
+          strict_schema: false,
+          duration_ms: Date.now() - repairAttemptStarted,
+          outcome: "validation_error",
+          error: repairedValidated.error,
+        });
         lastFailure = repairedValidated.error;
-      } catch (repairError) {
-        lastFailure =
-          repairError instanceof Error ? repairError.message : "Repair request failed";
       }
-
-      continue;
+    } catch (error) {
+      const failure = error instanceof Error ? error.message : "Repair request failed";
+      attemptMetrics.push({
+        name: "repair",
+        strict_schema: false,
+        duration_ms: Date.now() - repairAttemptStarted,
+        outcome: "request_error",
+        error: failure,
+      });
+      lastFailure = failure;
     }
-
-    return normalizeValidatedOutput(validated.value);
   }
 
-  if (lastFailure) {
-    return {
-      ...deterministic,
-      summary: `${deterministic.summary} LLM refinement skipped (${lastFailure}).`,
-    };
-  }
-
-  return deterministic;
+  return {
+    ...deterministic,
+    summary: lastFailure
+      ? `${deterministic.summary} LLM refinement skipped (${lastFailure}).`
+      : deterministic.summary,
+    llmTiming: {
+      timeout_ms: timeoutMs,
+      max_attempts: maxAttempts,
+      attempt_count: attemptMetrics.length,
+      total_ms: Date.now() - startedAt,
+      reduced_payload: true,
+      final_path: "deterministic_fallback",
+      attempts: attemptMetrics,
+      ...(lastFailure ? { final_error: lastFailure } : {}),
+    },
+  };
 }

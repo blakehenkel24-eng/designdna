@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+import { chromium, type Page } from "playwright";
 
 import { ExtractionError } from "@/lib/errors";
 import { detectLoginWall } from "@/lib/extractor/login-wall";
@@ -25,6 +25,96 @@ const NETWORK_IDLE_WAIT_MS = 8_000;
 const CAPTURE_SETTLE_MS = 1_200;
 const SCREENSHOT_TIMEOUT_MS = 20_000;
 const SCREENSHOT_FALLBACK_TIMEOUT_MS = 10_000;
+
+const FAST_NAVIGATION_TIMEOUT_MS = 20_000;
+const FAST_NAVIGATION_FALLBACK_TIMEOUT_MS = 8_000;
+const FAST_NETWORK_IDLE_WAIT_MS = 2_500;
+const FAST_CAPTURE_SETTLE_MS = 500;
+const FAST_SCREENSHOT_TIMEOUT_MS = 8_000;
+const FAST_SCREENSHOT_FALLBACK_TIMEOUT_MS = 4_000;
+
+type CaptureTimeoutConfig = {
+  navTimeoutMs: number;
+  navFallbackTimeoutMs: number;
+  networkIdleWaitMs: number;
+  captureSettleMs: number;
+  screenshotTimeoutMs: number;
+  screenshotFallbackTimeoutMs: number;
+};
+
+export type CaptureTiming = {
+  mode: "legacy" | "fast";
+  backstop_used: boolean;
+  backstop_reason: "low_completeness" | "attempt_failed" | null;
+  used_config: {
+    nav_timeout_ms: number;
+    nav_fallback_timeout_ms: number;
+    network_idle_wait_ms: number;
+    capture_settle_ms: number;
+    screenshot_timeout_ms: number;
+    screenshot_fallback_timeout_ms: number;
+  };
+  phase_ms: {
+    navigation_ms: number;
+    network_idle_ms: number;
+    settle_ms: number;
+    snapshot_ms: number;
+    screenshot_ms: number;
+    total_ms: number;
+  };
+  snapshot_counts: {
+    nodes: number;
+    prominent_nodes: number;
+    sections: number;
+  };
+};
+
+function getEnvMs(key: string, fallback: number) {
+  const raw = process.env[key];
+  if (!raw) return fallback;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return parsed;
+}
+
+export function isFastCaptureModeEnabled() {
+  return (process.env.ANALYZE_FAST_MODE_ENABLED ?? "false").toLowerCase() === "true";
+}
+
+export function getCaptureTimeoutConfig(mode: "legacy" | "fast"): CaptureTimeoutConfig {
+  if (mode === "fast") {
+    return {
+      navTimeoutMs: getEnvMs("ANALYZE_NAV_TIMEOUT_MS", FAST_NAVIGATION_TIMEOUT_MS),
+      navFallbackTimeoutMs: getEnvMs(
+        "ANALYZE_NAV_FALLBACK_TIMEOUT_MS",
+        FAST_NAVIGATION_FALLBACK_TIMEOUT_MS,
+      ),
+      networkIdleWaitMs: getEnvMs("ANALYZE_NETWORK_IDLE_WAIT_MS", FAST_NETWORK_IDLE_WAIT_MS),
+      captureSettleMs: getEnvMs("ANALYZE_CAPTURE_SETTLE_MS", FAST_CAPTURE_SETTLE_MS),
+      screenshotTimeoutMs: getEnvMs("ANALYZE_SCREENSHOT_TIMEOUT_MS", FAST_SCREENSHOT_TIMEOUT_MS),
+      screenshotFallbackTimeoutMs: getEnvMs(
+        "ANALYZE_SCREENSHOT_FALLBACK_TIMEOUT_MS",
+        FAST_SCREENSHOT_FALLBACK_TIMEOUT_MS,
+      ),
+    };
+  }
+
+  return {
+    navTimeoutMs: NAVIGATION_TIMEOUT_MS,
+    navFallbackTimeoutMs: NAVIGATION_FALLBACK_TIMEOUT_MS,
+    networkIdleWaitMs: NETWORK_IDLE_WAIT_MS,
+    captureSettleMs: CAPTURE_SETTLE_MS,
+    screenshotTimeoutMs: SCREENSHOT_TIMEOUT_MS,
+    screenshotFallbackTimeoutMs: SCREENSHOT_FALLBACK_TIMEOUT_MS,
+  };
+}
+
+function shouldRetryForCompleteness(snapshot: ExtractionSnapshot) {
+  const tooFewProminentNodes = snapshot.prominentNodes.length < 8;
+  const tooFewSections = snapshot.sections.length < 3;
+  const tooFewNodes = snapshot.nodes.length < 160;
+  return tooFewProminentNodes || tooFewSections || tooFewNodes;
+}
 
 function clampConfidence(value: number) {
   return Math.max(0, Math.min(1, value));
@@ -601,6 +691,140 @@ function captureSnapshotInPage() {
   };
 }
 
+async function captureAttempt(input: {
+  page: Page;
+  url: string;
+  mode: "legacy" | "fast";
+  config: CaptureTimeoutConfig;
+  backstopUsed: boolean;
+  backstopReason: "low_completeness" | "attempt_failed" | null;
+}) {
+  const { page, url, mode, config } = input;
+  const totalStarted = Date.now();
+  let navigationMs = 0;
+  let networkIdleMs = 0;
+  let settleMs = 0;
+  let snapshotMs = 0;
+  let screenshotMs = 0;
+
+  page.setDefaultNavigationTimeout(config.navTimeoutMs);
+  page.setDefaultTimeout(config.navTimeoutMs);
+
+  const navigationStarted = Date.now();
+  try {
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: config.navTimeoutMs,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (!message.includes("Timeout")) {
+      throw error;
+    }
+
+    await page.goto(url, {
+      waitUntil: "commit",
+      timeout: config.navFallbackTimeoutMs,
+    });
+  }
+  navigationMs = Date.now() - navigationStarted;
+
+  const networkIdleStarted = Date.now();
+  try {
+    await page.waitForLoadState("networkidle", { timeout: config.networkIdleWaitMs });
+  } catch {
+    // Some pages never become network-idle because of live polling.
+  }
+  networkIdleMs = Date.now() - networkIdleStarted;
+
+  const settleStarted = Date.now();
+  await page.waitForTimeout(config.captureSettleMs);
+  settleMs = Date.now() - settleStarted;
+
+  const snapshotStarted = Date.now();
+  const snapshot = (await page.evaluate(captureSnapshotInPage)) as ExtractionSnapshot;
+  snapshotMs = Date.now() - snapshotStarted;
+
+  const loginWall = detectLoginWall({
+    url,
+    title: snapshot.title,
+    html: snapshot.htmlSnippet,
+    bodyText: snapshot.bodyText,
+  });
+
+  if (loginWall) {
+    throw new ExtractionError(
+      "AUTH_REQUIRED_UNSUPPORTED",
+      "Page appears to require login and is not supported in MVP",
+      400,
+    );
+  }
+
+  const screenshotStarted = Date.now();
+  let screenshotBuffer: Buffer;
+  try {
+    screenshotBuffer = (await page.screenshot({
+      fullPage: true,
+      type: "png",
+      timeout: config.screenshotTimeoutMs,
+    })) as Buffer;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (!message.includes("Timeout")) {
+      throw error;
+    }
+
+    screenshotBuffer = (await page.screenshot({
+      fullPage: false,
+      type: "png",
+      timeout: config.screenshotFallbackTimeoutMs,
+    })) as Buffer;
+  }
+  screenshotMs = Date.now() - screenshotStarted;
+
+  const dominantColors = extractDominantColorsFromPng(Buffer.from(screenshotBuffer));
+  const pack = buildPack({
+    url,
+    snapshot,
+    dominantColors,
+  });
+
+  const timing: CaptureTiming = {
+    mode,
+    backstop_used: input.backstopUsed,
+    backstop_reason: input.backstopReason,
+    used_config: {
+      nav_timeout_ms: config.navTimeoutMs,
+      nav_fallback_timeout_ms: config.navFallbackTimeoutMs,
+      network_idle_wait_ms: config.networkIdleWaitMs,
+      capture_settle_ms: config.captureSettleMs,
+      screenshot_timeout_ms: config.screenshotTimeoutMs,
+      screenshot_fallback_timeout_ms: config.screenshotFallbackTimeoutMs,
+    },
+    phase_ms: {
+      navigation_ms: navigationMs,
+      network_idle_ms: networkIdleMs,
+      settle_ms: settleMs,
+      snapshot_ms: snapshotMs,
+      screenshot_ms: screenshotMs,
+      total_ms: Date.now() - totalStarted,
+    },
+    snapshot_counts: {
+      nodes: snapshot.nodes.length,
+      prominent_nodes: snapshot.prominentNodes.length,
+      sections: snapshot.sections.length,
+    },
+  };
+
+  return {
+    pack,
+    screenshotBuffer: Buffer.from(screenshotBuffer),
+    traceBuffer: Buffer.from(snapshot.htmlSnippet, "utf8"),
+    snapshot,
+    timing,
+  };
+}
+
 export async function captureDesignDna(url: string) {
   const browser = await chromium.launch({ headless: true });
 
@@ -612,84 +836,53 @@ export async function captureDesignDna(url: string) {
     });
 
     const page = await context.newPage();
-    page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT_MS);
-    page.setDefaultTimeout(NAVIGATION_TIMEOUT_MS);
+    const useFastMode = isFastCaptureModeEnabled();
+    const legacyConfig = getCaptureTimeoutConfig("legacy");
+    const fastConfig = getCaptureTimeoutConfig("fast");
+    const primaryMode: "legacy" | "fast" = useFastMode ? "fast" : "legacy";
+    const primaryConfig = useFastMode ? fastConfig : legacyConfig;
 
     try {
-      await page.goto(url, {
-        waitUntil: "domcontentloaded",
-        timeout: NAVIGATION_TIMEOUT_MS,
+      const primary = await captureAttempt({
+        page,
+        url,
+        mode: primaryMode,
+        config: primaryConfig,
+        backstopUsed: false,
+        backstopReason: null,
       });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "";
-      if (!message.includes("Timeout")) {
-        throw error;
+
+      if (useFastMode && shouldRetryForCompleteness(primary.snapshot)) {
+        try {
+          return await captureAttempt({
+            page,
+            url,
+            mode: "legacy",
+            config: legacyConfig,
+            backstopUsed: true,
+            backstopReason: "low_completeness",
+          });
+        } catch {
+          // Keep fast result if legacy retry fails.
+          return primary;
+        }
       }
 
-      await page.goto(url, {
-        waitUntil: "commit",
-        timeout: NAVIGATION_FALLBACK_TIMEOUT_MS,
-      });
-    }
-
-    try {
-      await page.waitForLoadState("networkidle", { timeout: NETWORK_IDLE_WAIT_MS });
-    } catch {
-      // Some pages never become network-idle because of live polling.
-    }
-
-    await page.waitForTimeout(CAPTURE_SETTLE_MS);
-
-    const snapshot = (await page.evaluate(captureSnapshotInPage)) as ExtractionSnapshot;
-
-    const loginWall = detectLoginWall({
-      url,
-      title: snapshot.title,
-      html: snapshot.htmlSnippet,
-      bodyText: snapshot.bodyText,
-    });
-
-    if (loginWall) {
-      throw new ExtractionError(
-        "AUTH_REQUIRED_UNSUPPORTED",
-        "Page appears to require login and is not supported in MVP",
-        400,
-      );
-    }
-
-    let screenshotBuffer: Buffer;
-    try {
-      screenshotBuffer = (await page.screenshot({
-        fullPage: true,
-        type: "png",
-        timeout: SCREENSHOT_TIMEOUT_MS,
-      })) as Buffer;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "";
-      if (!message.includes("Timeout")) {
-        throw error;
+      return primary;
+    } catch (primaryError) {
+      if (!useFastMode) {
+        throw primaryError;
       }
 
-      screenshotBuffer = (await page.screenshot({
-        fullPage: false,
-        type: "png",
-        timeout: SCREENSHOT_FALLBACK_TIMEOUT_MS,
-      })) as Buffer;
+      return await captureAttempt({
+        page,
+        url,
+        mode: "legacy",
+        config: legacyConfig,
+        backstopUsed: true,
+        backstopReason: "attempt_failed",
+      });
     }
-
-    const dominantColors = extractDominantColorsFromPng(Buffer.from(screenshotBuffer));
-
-    const pack = buildPack({
-      url,
-      snapshot,
-      dominantColors,
-    });
-
-    return {
-      pack,
-      screenshotBuffer: Buffer.from(screenshotBuffer),
-      traceBuffer: Buffer.from(snapshot.htmlSnippet, "utf8"),
-    };
   } catch (error) {
     if (error instanceof ExtractionError) {
       throw error;
