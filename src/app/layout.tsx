@@ -21,8 +21,12 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DesignDNA",
+  title: "DESIGN.DNA",
   description: "Extract website design DNA into LLM-ready artifacts.",
+  icons: {
+    icon: "/branding/favicon.svg",
+    shortcut: "/branding/favicon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -2,6 +2,14 @@
 
 import { FormEvent, useState } from "react";
 
+const URL_SCHEME_PATTERN = /^[a-z][a-z0-9+.-]*:/i;
+
+function normalizeUrlInput(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  return URL_SCHEME_PATTERN.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 type ApiResponse = {
   status: "completed" | "failed";
   url?: string;
@@ -27,6 +35,9 @@ export function PrototypeClient() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const normalizedUrl = normalizeUrlInput(url);
+    if (!normalizedUrl) return;
+
     setLoading(true);
     setResult(null);
 
@@ -34,7 +45,7 @@ export function PrototypeClient() {
       const response = await fetch("/api/prototype/extract", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url: normalizedUrl }),
       });
 
       const payload = (await response.json()) as ApiResponse;
@@ -115,9 +126,10 @@ export function PrototypeClient() {
           <input
             value={url}
             onChange={(event) => setUrl(event.target.value)}
-            type="url"
+            type="text"
+            inputMode="url"
             required
-            placeholder="https://example.com"
+            placeholder="example.com or https://example.com"
           />
           <button type="submit" disabled={loading}>
             {loading ? "Analyzing..." : "Analyze with AI"}

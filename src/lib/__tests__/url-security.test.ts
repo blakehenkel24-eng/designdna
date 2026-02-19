@@ -19,6 +19,11 @@ describe("normalizeUrl", () => {
     expect(normalized.toString()).toBe("https://example.com/path");
   });
 
+  it("adds https when protocol is omitted", () => {
+    const normalized = normalizeUrl("example.com/path");
+    expect(normalized.toString()).toBe("https://example.com/path");
+  });
+
   it("rejects non-http protocols", () => {
     expect(() => normalizeUrl("ftp://example.com")).toThrow(ExtractionError);
   });

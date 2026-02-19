@@ -1,0 +1,66 @@
+Goal:
+Create a single-page web interface based on the source site's theme from https://www.apple.com/, with semantic HTML and clean CSS output suitable for Stitch generation.
+
+Vibe:
+grounded, airy, modern
+
+Page structure (preserve order and hierarchy):
+1. Header / Nav (nav#globalnav.globalnav.js) 1440x44
+2. Hero (main.main) 1440x4889
+3. Section (section.homepage-section.collection-module) 1440x2112
+4. Pricing (section.homepage-section.collection-module) 1416x1776
+5. Section (section.homepage-section.standalone-module) 1440x957
+6. Footer (footer#ac-globalfooter.ac-globalfooter-light.js) 1440x922
+7. Section (section.ac-gf-sosumi) 980x336
+8. Header / Nav (nav.ac-gf-directory.with-5-columns) 980x460
+9. Section (section.ac-gf-footer) 980x126
+
+Layout rules:
+- Container width: 1440px
+- Section vertical spacing scale: n/a
+- Grid and alignment patterns: flex:row, flex:column, grid:930px, grid:1440px, grid:417px, grid:702px 702px
+- Preserve relative whitespace and major block proportions from top to bottom.
+
+Design constraints:
+- Palette roles: primary #2997ff, secondary #0066cc, background #ffffff, surface #f5f5f7, text-primary #00000000, text-secondary #000738, border #9fc6f4, accent #0071e3.
+- Palette shortlist: #1d1d1f, #2997ff, #00000000, #f5f5f7, #ffffff, #0066cc, #0071e3, #1a0e07, #272e45, #9fc6f4, #000738, #3397d4
+- Typography families: primary sf pro text, secondary sf pro display
+- Typography scale: h1:56px, h2:44px, h3:40px, body-large:34px, body:28px, caption:21px, caption:17px, caption:14px, caption:12px
+- Typography weights: 400, 600, 700
+- Spacing scale: -8px, 0px, 3px, 5px, 6px, 8px, 10px, 12px
+- Radius scale: 0px, 8px, 980px, 999px
+- Shadows/effects: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px
+
+Component recipes (follow these values where available):
+- Primary button: selector div.cta-links
+  - colors: bg #00000000, text #f5f5f7, border #f5f5f7
+  - shape: radius 0px, border 0px none
+  - spacing: padding-y 0px, padding-x 0px
+  - type: SF Pro Text 17px / weight 400
+  - shadow: none
+- Secondary button: not confidently detected.
+- Card: selector picture.media-gallery-bg.media-gallery-bg-music
+  - colors: bg #00000000, text #2997ff, border #2997ff
+  - shape: radius 8px, border 0px none
+  - spacing: padding-y 0px, padding-x 0px
+  - type: SF Pro Text 17px / weight 400
+  - shadow: 3px 5px 30px 0px #000000
+- Input: not confidently detected.
+- Link: selector a#media-gallery-item-1-link.media-gallery-wrapper-link.fam-media-gallery-wrapper-link
+  - colors: bg #000000, text #2997ff, border #2997ff
+  - shape: radius 0px, border 0px none
+  - spacing: padding-y 0px, padding-x 0px
+  - type: SF Pro Text 17px / weight 400
+  - shadow: none
+
+Responsive rules:
+- At mobile widths, stack multi-column groups into single-column flow while preserving spacing hierarchy.
+- Keep tap targets >= 40px height and maintain button/input visual style.
+- Keep nav readable on small screens (stack or collapse layout, but keep hierarchy).
+
+Output requirements:
+- Return one HTML file with semantic structure and one CSS block.
+- Keep behavior static (no JavaScript interactions required).
+
+Compliance:
+Based on the source site's theme; do not copy proprietary branding verbatim.

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">DESIGN.DNA Editorial C</title>
+  <desc id="desc">Shield crest monogram with mirrored D forms.</desc>
+
+  <path d="M20 12H108V94L64 116L20 94V12Z" stroke="#151515" stroke-width="3.2" />
+
+  <g stroke="#151515" stroke-width="5.3" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M38 24V96" />
+    <path d="M38 24H57Q75 24 75 45V75Q75 96 57 96H38" />
+
+    <path d="M90 24V96" />
+    <path d="M90 24H71Q53 24 53 45V75Q53 96 71 96H90" />
+  </g>
+
+  <g stroke="#151515" stroke-width="2.6" stroke-linecap="square">
+    <line x1="64" y1="24" x2="64" y2="96" />
+    <line x1="46" y1="18" x2="82" y2="18" />
+    <line x1="52" y1="104" x2="76" y2="104" />
+  </g>
+
+  <path d="M64 56L72 64L64 72L56 64Z" fill="#151515" />
+</svg>

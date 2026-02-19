@@ -4,6 +4,7 @@ import net from "node:net";
 import { ExtractionError } from "@/lib/errors";
 
 const BLOCKED_HOSTNAMES = new Set(["localhost", "127.0.0.1", "::1"]);
+const URL_SCHEME_PATTERN = /^[a-z][a-z0-9+.-]*:/i;
 
 function isPrivateIpv4(ip: string) {
   const [a, b] = ip.split(".").map(Number);
@@ -51,10 +52,19 @@ function assertPublicIp(ip: string) {
 }
 
 export function normalizeUrl(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    throw new ExtractionError("INVALID_URL", "URL is invalid", 400);
+  }
+
+  const candidate = URL_SCHEME_PATTERN.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`;
+
   let parsed: URL;
 
   try {
-    parsed = new URL(raw.trim());
+    parsed = new URL(candidate);
   } catch {
     throw new ExtractionError("INVALID_URL", "URL is invalid", 400);
   }

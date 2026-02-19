@@ -1,21 +1,54 @@
 import { NextResponse } from "next/server";
 
+import { appendAuthSuccessFlag, sanitizeNextPath } from "@/lib/auth-resume";
+import { trackEvent } from "@/lib/pricing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+  const nextPath = sanitizeNextPath(requestUrl.searchParams.get("next"));
+  const failurePath = `/login?error=auth_callback_failed&next=${encodeURIComponent(nextPath)}`;
 
   if (!code) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    await trackEvent("auth_callback_failed", {
+      payload: {
+        reason: "missing_code",
+        next_path: nextPath,
+      },
+    });
+    return NextResponse.redirect(
+      new URL(failurePath, request.url),
+    );
   }
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    await trackEvent("auth_callback_failed", {
+      payload: {
+        reason: "exchange_failed",
+        next_path: nextPath,
+      },
+    });
+    return NextResponse.redirect(
+      new URL(failurePath, request.url),
+    );
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  await trackEvent("auth_callback_succeeded", {
+    userId: user?.id,
+    payload: {
+      next_path: nextPath,
+    },
+  });
+
+  return NextResponse.redirect(
+    new URL(appendAuthSuccessFlag(nextPath), request.url),
+  );
 }

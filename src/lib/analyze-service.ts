@@ -16,7 +16,7 @@ import { checkAnalysisRateLimit } from "@/lib/rate-limit";
 import { assertRobotsAllowed } from "@/lib/robots";
 import { assertPublicTarget, normalizeUrl } from "@/lib/url-security";
 
-const ANON_LIMIT = 3;
+const FREE_LIMIT = 3;
 
 export type AnalyzeSuccess = {
   ok: true;
@@ -145,34 +145,30 @@ export async function runAnalysis(input: {
     }
   }
 
-  if (!input.user && input.anonymousUses >= ANON_LIMIT) {
-    await trackEvent("limit_hit", {
-      payload: { scope: "anonymous", limit: ANON_LIMIT },
-    });
+  if (!input.user) {
     await trackEvent("paywall_viewed", {
-      payload: { location: "analyze_limit_hit", scope: "anonymous" },
+      payload: { location: "analyze_login_required" },
     });
-
     return {
       ok: false,
       status: 401,
-      code: "AUTH_REQUIRED_LIMIT",
-      message: "Free trial used. Log in to continue with monthly analyses.",
+      code: "AUTH_REQUIRED_LOGIN",
+      message: "Log in or sign up to run analyses. Free accounts get 3 analyses per month.",
       entitlement: {
-        plan: "FREE_TRIAL",
-        used: ANON_LIMIT,
-        limit: ANON_LIMIT,
-        remaining: 0,
+        plan: "LOGIN_REQUIRED",
+        used: 0,
+        limit: FREE_LIMIT,
+        remaining: FREE_LIMIT,
         canExportJson: false,
       },
     } satisfies AnalyzeFailure;
   }
 
   let entitlement = {
-    plan: "FREE_TRIAL",
-    used: input.anonymousUses,
-    limit: ANON_LIMIT,
-    remaining: Math.max(0, ANON_LIMIT - input.anonymousUses),
+    plan: "FREE",
+    used: 0,
+    limit: FREE_LIMIT,
+    remaining: FREE_LIMIT,
     canExportJson: false,
   };
 
@@ -296,7 +292,7 @@ export async function runAnalysis(input: {
       preview: previewPayload,
       exportJson,
       historyId,
-      anonymousUsesConsumed: input.user ? input.anonymousUses : input.anonymousUses + 1,
+      anonymousUsesConsumed: input.anonymousUses,
       entitlement,
     } satisfies AnalyzeSuccess;
   } catch (error) {

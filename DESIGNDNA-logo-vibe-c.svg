@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">DESIGN.DNA Vibe C</title>
+  <desc id="desc">Retro-futurist data seal with radial type energy.</desc>
+
+  <circle cx="64" cy="64" r="54" stroke="#151515" stroke-width="3.2" />
+  <circle cx="64" cy="64" r="46" stroke="#151515" stroke-width="1.8" />
+
+  <g stroke="#151515" stroke-width="2.2" stroke-linecap="square">
+    <line x1="64" y1="10" x2="64" y2="24" />
+    <line x1="64" y1="104" x2="64" y2="118" />
+    <line x1="10" y1="64" x2="24" y2="64" />
+    <line x1="104" y1="64" x2="118" y2="64" />
+  </g>
+
+  <g stroke="#151515" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M41 30V98" />
+    <path d="M41 30H58Q74 30 74 47V81Q74 98 58 98H41" />
+    <path d="M87 30V98" />
+    <path d="M87 30H70Q54 30 54 47V81Q54 98 70 98H87" />
+  </g>
+
+  <line x1="64" y1="30" x2="64" y2="98" stroke="#151515" stroke-width="2.6" />
+  <path d="M64 56L72 64L64 72L56 64Z" fill="#151515" />
+</svg>

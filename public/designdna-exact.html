@@ -3,7 +3,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>DESIGN.DNA - Specification Generator</title>
-<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/branding/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -66,38 +66,102 @@
         .syntax-attr { color: #1a1a1a; font-style: italic; }
         .syntax-string { color: #1a1a1a; text-decoration: underline; }
         .syntax-comment { color: #555555; }
+        .analysis-steps {
+            border: 1px solid #1a1a1a;
+            background: rgba(255, 255, 255, 0.45);
+        }
+        .analysis-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.42;
+            transition: opacity 180ms ease;
+        }
+        .analysis-step-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border: 1px solid #1a1a1a;
+            border-radius: 999px;
+            background: transparent;
+            flex-shrink: 0;
+        }
+        .analysis-step.is-active {
+            opacity: 1;
+            font-weight: 700;
+        }
+        .analysis-step.is-done {
+            opacity: 0.85;
+        }
+        .analysis-step.is-done .analysis-step-dot,
+        .analysis-step.is-active .analysis-step-dot {
+            background: #1a1a1a;
+        }
+        #analyze-button {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        #analyze-button.is-loading::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(244, 241, 234, 0.22) 0 10px,
+                rgba(244, 241, 234, 0) 10px 20px
+            );
+            animation: analyze-stripe-shift 1s linear infinite;
+        }
+        @keyframes analyze-stripe-shift {
+            from {
+                transform: translateX(-24px);
+            }
+            to {
+                transform: translateX(24px);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #analyze-button.is-loading::before {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-background-light text-ink font-mono min-h-screen flex flex-col items-center p-4 sm:p-8">
 <div class="w-full max-w-[1200px] border-2 border-ink bg-background-light relative z-10 shadow-2xl">
 <header class="border-b-2 border-ink">
-<div class="flex justify-between items-center px-4 py-2 border-b border-ink text-xs uppercase tracking-widest">
-<div class="flex items-center gap-2">
+<div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 py-2 border-b border-ink text-xs uppercase tracking-widest">
+<div class="flex items-center gap-2 justify-self-start">
 <span class="material-icons text-sm">qr_code_2</span>
 <span>System V.2.0</span>
 </div>
-<div class="font-bold" id="system-date">Tuesday, October 24, 2023</div>
-<div class="text-right">
+<div class="font-bold text-center justify-self-center" id="system-date">Tuesday, October 24, 2023</div>
+<div class="text-right flex items-center gap-3 justify-self-end">
+<div>
 <div>Specification Data</div>
 <div>AI Ready</div>
+</div>
+<button class="px-3 py-2 border border-ink text-[10px] font-bold uppercase hover:text-[#365dff] transition-colors tracking-wider" id="header-auth-button" type="button">Log In / Sign Up</button>
 </div>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center px-6 py-8 md:py-12 gap-6 md:gap-10">
 <div class="w-24 h-24 flex items-center justify-center">
-<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
+<img alt="Design DNA logo" class="h-20 w-20 object-contain" src="/branding/logo-vibe-c.svg"/>
 </div>
 <div class="text-center">
 <h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none"><a class="hover:opacity-80 transition-opacity duration-200" href="/">Design.DNA</a></h1>
-<p class="font-mono text-sm uppercase tracking-[0.3em] mt-2">The Digital Architect's Daily</p>
 </div>
 <div class="w-24 h-24 flex items-center justify-center">
-<img alt="Design DNA logo" class="h-20 w-20 object-contain transition-transform duration-[1600ms] ease-linear hover:rotate-[360deg]" src="/branding/logo-transparent.png"/>
+<img alt="Design DNA logo" class="h-20 w-20 object-contain" src="/branding/logo-vibe-c.svg"/>
 </div>
 </div>
 <nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="/about.html" id="about-link">About</a>
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#" id="history-link">How It Works</a>
-<a class="py-3 hover:bg-ink hover:text-ink-light transition-colors duration-200" href="#" id="pricing-link">Pricing</a>
+<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/about.html" id="about-link">About</a>
+<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/documentation.html">How It Works</a>
+<a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/pricing.html">Pricing</a>
 </nav>
 </header>
 <main class="grid grid-cols-1">
@@ -120,12 +184,21 @@
 <form class="flex flex-col md:flex-row gap-4 items-stretch mb-4" id="analyze-form">
 <div class="flex-grow relative">
 <label class="absolute -top-3 left-4 bg-background-light px-2 text-xs font-bold uppercase tracking-wider border border-ink">Target URL</label>
-<input class="w-full h-14 bg-transparent border-2 border-ink p-4 font-mono focus:ring-0 focus:border-ink focus:bg-[#e8e4db] transition-all placeholder:text-gray-500 text-ink" id="target-url-input" placeholder="https://example.com" type="url"/>
+<input class="w-full h-14 bg-transparent border-2 border-ink p-4 font-mono focus:ring-0 focus:border-ink focus:bg-[#e8e4db] transition-all placeholder:text-gray-500 text-ink" id="target-url-input" placeholder="example.com or https://example.com" type="text" inputmode="url"/>
 </div>
-<button class="h-14 bg-primary text-white px-8 font-bold uppercase tracking-widest hover:bg-gray-800 shadow-brutal active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all whitespace-nowrap" id="analyze-button" type="submit">
+<button class="h-14 bg-primary text-white px-8 font-bold uppercase tracking-widest hover:bg-[#365dff] hover:text-white shadow-brutal active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all whitespace-nowrap" id="analyze-button" type="submit">
                         Analyze
-                    </button>
+</button>
 </form>
+<div class="analysis-steps p-3 mb-4" aria-live="polite" id="analysis-steps">
+<ol class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+<li class="analysis-step is-active" data-analysis-step="queued"><span class="analysis-step-dot"></span><span>Queued</span></li>
+<li class="analysis-step" data-analysis-step="fetching"><span class="analysis-step-dot"></span><span>Fetching Page</span></li>
+<li class="analysis-step" data-analysis-step="extracting"><span class="analysis-step-dot"></span><span>Extracting Styles</span></li>
+<li class="analysis-step" data-analysis-step="building"><span class="analysis-step-dot"></span><span>Building Prompt</span></li>
+<li class="analysis-step" data-analysis-step="complete"><span class="analysis-step-dot"></span><span>Complete</span></li>
+</ol>
+</div>
 <div class="flex justify-between text-xs font-mono uppercase opacity-70 border-t border-ink pt-2 mt-4">
 <span id="status-label">Status: Awaiting Input</span>
 <span id="usage-label">Usage: --</span>
@@ -139,13 +212,13 @@
 <section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-ink divide-y-2 md:divide-y-0 md:divide-x-2 divide-ink">
 <div class="bg-background-light relative">
 <div class="p-6 h-full flex flex-col">
-<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
+<div class="flex justify-between items-center mb-3 border-b border-ink pb-2">
 <h3 class="font-display font-bold text-2xl uppercase">LLM Prompt</h3>
 <span class="material-icons text-xl">psychology</span>
 </div>
-<div class="flex-grow relative bg-white border border-ink p-4 shadow-sm mb-4">
+<div class="flex-grow relative bg-white border border-ink p-4 shadow-sm mb-4 min-h-[320px] flex">
 <div class="absolute -top-2 -right-2 w-4 h-4 bg-ink"></div>
-<textarea class="w-full h-64 bg-transparent border-0 p-0 font-typewriter text-xs leading-relaxed text-ink focus:ring-0 resize-none" id="llm-prompt-box" spellcheck="false"># INSTRUCTION SET 001
+<textarea class="w-full h-full min-h-0 bg-transparent border-0 p-0 font-typewriter text-xs leading-relaxed text-ink focus:ring-0 resize-none" id="llm-prompt-box" spellcheck="false"># INSTRUCTION SET 001
 
 You are an expert UI designer. Use the following JSON data to reconstruct the component library. Analyze the spacing tokens, color variables, and font weights meticulously.
 
@@ -157,18 +230,18 @@ The target site uses a 12-column grid system with 24px gutters. Primary typograp
 
 Generate a Tailwind CSS configuration file that matches this aesthetic exactly.</textarea>
 </div>
-<button class="w-full py-3 border-2 border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]" id="copy-prompt-button" type="button">
+<button class="w-full py-2.5 border-2 border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]" id="copy-prompt-button" type="button">
 <span class="material-icons text-sm">content_copy</span> Copy Prompt
                     </button>
 </div>
 </div>
 <div class="bg-background-light">
 <div class="p-6 h-full flex flex-col">
-<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
+<div class="flex justify-between items-center mb-3 border-b border-ink pb-2">
 <h3 class="font-display font-bold text-2xl uppercase">Typography</h3>
 <span class="material-icons text-xl">text_fields</span>
 </div>
-<div class="space-y-6 flex-grow">
+<div class="space-y-4 flex-grow">
 <div class="group border-b border-dashed border-ink pb-4">
 <div class="flex justify-between items-end mb-1">
 <span class="font-mono text-xs uppercase text-gray-600">Display</span>
@@ -198,44 +271,30 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 <div class="bg-background-light">
 <div class="p-6 h-full flex flex-col">
-<div class="flex justify-between items-center mb-4 border-b border-ink pb-2">
-<h3 class="font-display font-bold text-2xl uppercase">Effects</h3>
-<span class="material-icons text-xl">auto_fix_high</span>
+<div class="flex justify-between items-center mb-3 border-b border-ink pb-2">
+<h3 class="font-display font-bold text-2xl uppercase">Vibe</h3>
+<span class="material-icons text-xl">auto_awesome</span>
 </div>
-<div class="space-y-6 flex-grow">
-<div>
-<h4 class="font-bold text-xs uppercase mb-3 font-mono tracking-wider">Shadow Depth</h4>
-<div class="grid grid-cols-2 gap-4">
-<div class="h-16 border border-ink bg-white flex items-center justify-center shadow-sm">
-<span class="text-[10px] font-mono">sm</span>
+<div class="space-y-1.5 flex-grow">
+<div class="border border-ink bg-white p-2.5 min-h-[88px] max-h-[108px] overflow-hidden flex flex-col">
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Tone</p>
+<p class="text-xs font-typewriter leading-relaxed overflow-y-auto break-words pr-1 min-h-0" id="vibe-tone">Structured editorial with a clean technical edge.</p>
 </div>
-<div class="h-16 border border-ink bg-white flex items-center justify-center shadow-brutal">
-<span class="text-[10px] font-mono" id="effect-shadow-main">brutal</span>
+<div class="border border-ink bg-white p-2.5 min-h-[88px] max-h-[108px] overflow-hidden flex flex-col">
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Typography Feel</p>
+<p class="text-xs font-typewriter leading-relaxed overflow-y-auto break-words pr-1 min-h-0" id="vibe-typography">High-contrast display headline paired with monospaced utility text.</p>
 </div>
+<div class="border border-ink bg-white p-2.5 min-h-[88px] max-h-[108px] overflow-hidden flex flex-col">
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Color Energy</p>
+<p class="text-xs font-typewriter leading-relaxed overflow-y-auto break-words pr-1 min-h-0" id="vibe-color">Monochrome newspaper palette with strong inked borders and high legibility.</p>
 </div>
+<div class="border border-ink bg-white p-2.5 min-h-[88px] max-h-[108px] overflow-hidden flex flex-col">
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Interaction Mood</p>
+<p class="text-xs font-typewriter leading-relaxed overflow-y-auto break-words pr-1 min-h-0" id="vibe-interaction">Tactile and intentional; actions feel mechanical, direct, and confident.</p>
 </div>
-<div>
-<h4 class="font-bold text-xs uppercase mb-3 font-mono tracking-wider">Border Styles</h4>
-<div class="space-y-2">
-<div class="h-8 border-2 border-ink bg-transparent"></div>
-<div class="h-8 border-2 border-dashed border-ink bg-transparent"></div>
-<div class="h-8 border-b-4 border-ink bg-transparent"></div>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div>
-<h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Radius</h4>
-<div class="h-12 border border-ink rounded-full flex items-center justify-center">
-<span class="text-[10px] font-mono" id="effect-radius-main">full</span>
-</div>
-</div>
-<div>
-<h4 class="font-bold text-xs uppercase mb-2 font-mono tracking-wider">Blur</h4>
-<div class="h-12 border border-ink backdrop-blur-sm bg-white/50 flex items-center justify-center">
-<span class="text-[10px] font-mono" id="effect-blur-main">sm</span>
-</div>
-</div>
-</div>
+<p class="text-[10px] font-mono uppercase opacity-70 pt-1 border-t border-dashed border-ink" id="vibe-note">
+                        Vibe summary updates after each extraction.
+                    </p>
 </div>
 </div>
 </div>
@@ -249,45 +308,35 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 </div>
 <div class="border border-ink p-1 bg-white shadow-brutal">
-<div class="border border-dashed border-gray-400 p-6 font-mono text-xs md:text-sm leading-relaxed overflow-x-auto text-ink">
-<textarea class="w-full h-[360px] bg-transparent border-0 p-0 font-mono text-xs md:text-sm leading-relaxed text-ink focus:ring-0 resize-none" id="structure-json-box" spellcheck="false">{
-  "layout_map": {
-    "sections": [
-      {
-        "id": "header",
-        "selector": "header",
-        "role": "site-header",
-        "children": ["logo", "navigation"]
-      },
-      {
-        "id": "hero",
-        "selector": "section.hero-grid",
-        "role": "hero",
-        "children": ["headline", "cta", "media"]
-      },
-      {
-        "id": "features",
-        "selector": "section.features-list",
-        "role": "feature-grid",
-        "children": ["feature-cards"]
-      }
-    ]
-  },
-  "tokens": {
+<div class="relative border border-dashed border-gray-400 p-6 font-mono text-xs md:text-sm leading-relaxed overflow-x-hidden text-ink min-h-[360px]">
+<pre class="h-[300px] overflow-y-auto whitespace-pre-wrap break-all text-[11px] md:text-xs select-none pointer-events-none blur-[2px] opacity-75 pr-2" id="structure-json-preview">{
+  "schema_version": "1.0",
+  "source_url": "https://example.com",
+  "sections_preview": ["header", "hero", "features"],
+  "tokens_preview": {
     "colors": ["#1a1a1a", "#f4f1ea"],
-    "typography": ["Playfair Display", "Space Mono", "Courier Prime"],
-    "effects": ["shadow-brutal", "border-dashed"]
-  }
-}</textarea>
+    "typography": ["Playfair Display", "Space Mono"]
+  },
+  "upgrade_required": true
+}</pre>
+<div class="absolute inset-0 flex items-center justify-center p-4" id="structure-lock-overlay">
+<div class="w-full max-w-md border-2 border-ink bg-background-light p-5 text-center shadow-brutal">
+<p class="text-[10px] font-mono uppercase tracking-wider opacity-75 mb-2">Premium Export</p>
+<h4 class="font-display text-3xl leading-none uppercase mb-2">Unlock Full JSON</h4>
+<p class="text-xs font-typewriter leading-relaxed mb-4">
+                            Upgrade to export complete structure, selectors, and token maps.
+                        </p>
+<button class="w-full py-2 border-2 border-ink bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="unlock-json-button" type="button">Upgrade To Unlock Full JSON</button>
+</div>
 </div>
 </div>
 <div class="mt-4 flex justify-between items-center">
-<div class="text-xs font-mono uppercase opacity-70">
-                    Line count: 342 | Depth: 12 Nodes
+<div class="text-xs font-mono uppercase opacity-70" id="structure-access-note">
+                    Preview is obfuscated. Upgrade to export full JSON.
                 </div>
 <div class="flex gap-2">
-<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors">Expand All</button>
-<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="download-json-button" type="button">Download JSON</button>
+<button class="px-3 py-1 border-2 border-ink bg-primary text-white text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="download-json-button" type="button">Upgrade To Download Full JSON</button>
+<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="save-benchmark-button" type="button">Save Benchmark Snapshot</button>
 </div>
 </div>
 </section>
@@ -313,12 +362,10 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <div class="border border-ink p-3 text-xs font-mono uppercase space-y-1 mb-4">
 <div>Free: 3 analyses/month. Preview only.</div>
 <div>Pro $9/mo: 60 analyses/month. JSON downloads + history.</div>
-<div>Top-up $5: +40 analyses.</div>
 </div>
 <div class="flex flex-wrap gap-2 justify-end">
-<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="close-paywall-button" type="button">Close</button>
-<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="topup-paywall-button" type="button">Top-up +40</button>
-<a class="px-3 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider" href="/login" id="upgrade-paywall-button">Log In / Upgrade</a>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-paywall-button" type="button">Close</button>
+<a class="px-3 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" href="/login?next=/designdna-exact.html" id="upgrade-paywall-button">Download JSON</a>
 </div>
 </div>
 </div>
@@ -326,14 +373,42 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <div class="w-full max-w-[900px] border-2 border-ink bg-background-light p-6 shadow-brutal max-h-[85vh] overflow-auto">
 <div class="flex justify-between items-center gap-3 mb-3">
 <h3 class="font-display font-bold text-3xl uppercase">Analysis History</h3>
-<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="close-history-button" type="button">Close</button>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-history-button" type="button">Close</button>
 </div>
 <div class="flex gap-2 mb-3">
 <input class="w-full border-2 border-ink p-2 font-mono text-sm" id="history-search-input" placeholder="Search URL (Pro)" type="text"/>
-<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:bg-ink hover:text-white transition-colors" id="history-search-button" type="button">Search</button>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="history-search-button" type="button">Search</button>
 </div>
 <p class="text-xs font-mono uppercase mb-3 opacity-70" id="history-meta">History unavailable for current plan.</p>
 <ul class="border border-ink divide-y divide-ink" id="history-list"></ul>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="auth-modal">
+<div class="w-full max-w-[520px] border-2 border-ink bg-background-light p-6 shadow-brutal">
+<div class="flex justify-between items-center mb-3">
+<h3 class="font-display font-bold text-3xl uppercase" id="auth-modal-title">Log In</h3>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-auth-button" type="button">Close</button>
+</div>
+<p class="font-typewriter text-sm leading-relaxed mb-4">Use email + password, or continue with Google.</p>
+<div class="flex gap-2 mb-4">
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase bg-ink text-white" id="auth-mode-login" type="button">Log In</button>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="auth-mode-signup" type="button">Sign Up</button>
+</div>
+<button class="w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors mb-3" id="auth-google-button" type="button">Continue With Google</button>
+<form class="space-y-3" id="auth-form">
+<label class="block text-xs font-mono uppercase tracking-wider">Email
+<input class="mt-1 w-full border-2 border-ink p-3 bg-white text-sm font-mono" id="auth-email-input" required type="email" placeholder="you@company.com"/>
+</label>
+<label class="block text-xs font-mono uppercase tracking-wider">Password
+<input class="mt-1 w-full border-2 border-ink p-3 bg-white text-sm font-mono" id="auth-password-input" required type="password" minlength="8" placeholder="At least 8 characters"/>
+</label>
+<label class="block text-xs font-mono uppercase tracking-wider hidden" id="auth-confirm-wrap">Confirm Password
+<input class="mt-1 w-full border-2 border-ink p-3 bg-white text-sm font-mono" id="auth-confirm-input" type="password" minlength="8" placeholder="Re-enter password"/>
+</label>
+<button class="w-full py-3 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="auth-submit-button" type="submit">Log In</button>
+</form>
+<p class="mt-3 text-xs font-mono uppercase hidden" id="auth-status-message"></p>
+<button class="mt-3 w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors hidden" id="auth-resend-button" type="button">Resend Verification Email</button>
 </div>
 </div>
 
@@ -348,33 +423,140 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
         const promptBox = document.getElementById("llm-prompt-box");
         const copyPromptButton = document.getElementById("copy-prompt-button");
-        const structureJsonBox = document.getElementById("structure-json-box");
+        const structureJsonPreview = document.getElementById("structure-json-preview");
+        const structureLockOverlay = document.getElementById("structure-lock-overlay");
+        const structureAccessNote = document.getElementById("structure-access-note");
+        const unlockJsonButton = document.getElementById("unlock-json-button");
         const downloadJsonButton = document.getElementById("download-json-button");
+        const saveBenchmarkButton = document.getElementById("save-benchmark-button");
         const systemDate = document.getElementById("system-date");
+        const headerAuthButton = document.getElementById("header-auth-button");
 
         const typeDisplayFamily = document.getElementById("type-display-family");
         const typeBodyFamily = document.getElementById("type-body-family");
         const typeCodeFamily = document.getElementById("type-code-family");
-        const effectShadowMain = document.getElementById("effect-shadow-main");
-        const effectRadiusMain = document.getElementById("effect-radius-main");
-        const effectBlurMain = document.getElementById("effect-blur-main");
+        const vibeTone = document.getElementById("vibe-tone");
+        const vibeTypography = document.getElementById("vibe-typography");
+        const vibeColor = document.getElementById("vibe-color");
+        const vibeInteraction = document.getElementById("vibe-interaction");
+        const vibeNote = document.getElementById("vibe-note");
 
         const paywallModal = document.getElementById("paywall-modal");
         const paywallMessage = document.getElementById("paywall-message");
         const closePaywallButton = document.getElementById("close-paywall-button");
-        const topupPaywallButton = document.getElementById("topup-paywall-button");
         const upgradePaywallButton = document.getElementById("upgrade-paywall-button");
         const historyModal = document.getElementById("history-modal");
-        const historyLink = document.getElementById("history-link");
-        const pricingLink = document.getElementById("pricing-link");
         const closeHistoryButton = document.getElementById("close-history-button");
         const historySearchInput = document.getElementById("history-search-input");
         const historySearchButton = document.getElementById("history-search-button");
         const historyMeta = document.getElementById("history-meta");
         const historyList = document.getElementById("history-list");
+        const authModal = document.getElementById("auth-modal");
+        const closeAuthButton = document.getElementById("close-auth-button");
+        const authModalTitle = document.getElementById("auth-modal-title");
+        const authModeLogin = document.getElementById("auth-mode-login");
+        const authModeSignup = document.getElementById("auth-mode-signup");
+        const authGoogleButton = document.getElementById("auth-google-button");
+        const authForm = document.getElementById("auth-form");
+        const authEmailInput = document.getElementById("auth-email-input");
+        const authPasswordInput = document.getElementById("auth-password-input");
+        const authConfirmWrap = document.getElementById("auth-confirm-wrap");
+        const authConfirmInput = document.getElementById("auth-confirm-input");
+        const authSubmitButton = document.getElementById("auth-submit-button");
+        const authStatusMessage = document.getElementById("auth-status-message");
+        const authResendButton = document.getElementById("auth-resend-button");
+        const analysisStepNodes = Array.from(document.querySelectorAll("[data-analysis-step]"));
+
+        const analysisStepOrder = ["queued", "fetching", "extracting", "building", "complete"];
+        const analysisStatusText = {
+            queued: "Status: Queued",
+            fetching: "Status: Fetching Page",
+            extracting: "Status: Extracting Styles",
+            building: "Status: Building Prompt",
+            complete: "Status: Completed",
+        };
+        const analysisPhaseFlowLimitIndex = 3;
+        const analysisPhaseIntervalMs = 1400;
+        const analysisCompletionStepMs = 420;
+        let analysisPhaseIntervalId = null;
+        let activeAnalysisPhaseIndex = 0;
+        let activeAnalysisRunId = 0;
 
         let latestResult = null;
         let latestEntitlement = null;
+        let isLoggedIn = false;
+        const urlSchemePattern = /^[a-z][a-z0-9+.-]*:/i;
+        const pendingAuthActionKey = "designdna_pending_auth_action";
+        const pendingActionMaxAgeMs = 30 * 60 * 1000;
+        let authMode = "login";
+        let authResendLoading = false;
+
+        function trackClientEvent(eventName, payload = {}) {
+            return fetch("/api/auth/events", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    event_name: eventName,
+                    payload,
+                }),
+            }).catch(() => undefined);
+        }
+
+        function normalizeUrlInput(raw) {
+            const trimmed = raw.trim();
+            if (!trimmed) return "";
+            return urlSchemePattern.test(trimmed) ? trimmed : `https://${trimmed}`;
+        }
+
+        function setPendingAuthAction(action) {
+            try {
+                window.sessionStorage.setItem(pendingAuthActionKey, JSON.stringify({
+                    ...action,
+                    created_at: new Date().toISOString(),
+                }));
+            } catch {}
+        }
+
+        function clearPendingAuthAction() {
+            try {
+                window.sessionStorage.removeItem(pendingAuthActionKey);
+            } catch {}
+        }
+
+        function getPendingAuthAction() {
+            try {
+                const raw = window.sessionStorage.getItem(pendingAuthActionKey);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed !== "object") return null;
+                if (parsed.type !== "analyze" && parsed.type !== "export_json") return null;
+                if (typeof parsed.created_at !== "string") return null;
+                const createdAt = Date.parse(parsed.created_at);
+                if (!Number.isFinite(createdAt)) return null;
+                if (Date.now() - createdAt > pendingActionMaxAgeMs) return null;
+
+                if (parsed.type === "analyze") {
+                    if (typeof parsed.url !== "string" || !parsed.url.trim()) return null;
+                    return {
+                        type: "analyze",
+                        url: parsed.url,
+                        created_at: parsed.created_at,
+                    };
+                }
+
+                if (typeof parsed.analysis_id !== "string" || !parsed.analysis_id.trim()) {
+                    return null;
+                }
+
+                return {
+                    type: "export_json",
+                    analysis_id: parsed.analysis_id,
+                    created_at: parsed.created_at,
+                };
+            } catch {
+                return null;
+            }
+        }
 
         function updateSystemDate() {
             if (!systemDate) return;
@@ -400,6 +582,66 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             paywallModal.classList.remove("flex");
         }
 
+        function setAuthStatusMessage(message, variant) {
+            if (!authStatusMessage) return;
+            authStatusMessage.textContent = message || "";
+            authStatusMessage.classList.remove("hidden", "text-red-700", "text-green-700", "text-ink");
+            if (!message) {
+                authStatusMessage.classList.add("hidden");
+                return;
+            }
+            if (variant === "error") {
+                authStatusMessage.classList.add("text-red-700");
+            } else if (variant === "success") {
+                authStatusMessage.classList.add("text-green-700");
+            } else {
+                authStatusMessage.classList.add("text-ink");
+            }
+        }
+
+        function setAuthResendVisible(show) {
+            if (!authResendButton) return;
+            authResendButton.classList.toggle("hidden", !show);
+        }
+
+        function setAuthMode(nextMode) {
+            authMode = nextMode === "signup" ? "signup" : "login";
+            const signup = authMode === "signup";
+            if (authModalTitle) authModalTitle.textContent = signup ? "Sign Up" : "Log In";
+            if (authSubmitButton) authSubmitButton.textContent = signup ? "Create Account" : "Log In";
+            if (authConfirmWrap) authConfirmWrap.classList.toggle("hidden", !signup);
+            if (authConfirmInput) {
+                authConfirmInput.required = signup;
+                if (!signup) authConfirmInput.value = "";
+            }
+            if (authModeLogin) {
+                authModeLogin.classList.toggle("bg-ink", !signup);
+                authModeLogin.classList.toggle("text-white", !signup);
+            }
+            if (authModeSignup) {
+                authModeSignup.classList.toggle("bg-ink", signup);
+                authModeSignup.classList.toggle("text-white", signup);
+            }
+            setAuthStatusMessage("", "info");
+            setAuthResendVisible(false);
+        }
+
+        function showAuthModal(mode = "login") {
+            if (!authModal) return;
+            setAuthMode(mode);
+            authModal.classList.remove("hidden");
+            authModal.classList.add("flex");
+            if (authEmailInput) authEmailInput.focus();
+        }
+
+        function hideAuthModal() {
+            if (!authModal) return;
+            authModal.classList.add("hidden");
+            authModal.classList.remove("flex");
+            setAuthStatusMessage("", "info");
+            setAuthResendVisible(false);
+        }
+
         function showHistory() {
             if (!historyModal) return;
             historyModal.classList.remove("hidden");
@@ -413,14 +655,206 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             historyModal.classList.remove("flex");
         }
 
+        function setAnalysisPhase(phase) {
+            if (!analysisStepNodes.length) return;
+            const currentIndex = analysisStepOrder.indexOf(phase);
+            if (currentIndex >= 0) {
+                activeAnalysisPhaseIndex = currentIndex;
+            }
+            analysisStepNodes.forEach((node) => {
+                const nodePhase = node.getAttribute("data-analysis-step");
+                const nodeIndex = analysisStepOrder.indexOf(nodePhase);
+                node.classList.remove("is-active", "is-done");
+                if (nodeIndex < currentIndex) {
+                    node.classList.add("is-done");
+                } else if (nodeIndex === currentIndex) {
+                    node.classList.add("is-active");
+                }
+            });
+            if (statusLabel && analysisStatusText[phase]) {
+                statusLabel.textContent = analysisStatusText[phase];
+            }
+        }
+
+        function stopAnalysisPhaseFlow() {
+            if (analysisPhaseIntervalId !== null) {
+                window.clearInterval(analysisPhaseIntervalId);
+                analysisPhaseIntervalId = null;
+            }
+        }
+
+        function startAnalysisPhaseFlow(runId) {
+            stopAnalysisPhaseFlow();
+            setAnalysisPhase("queued");
+            analysisPhaseIntervalId = window.setInterval(() => {
+                if (runId !== activeAnalysisRunId) {
+                    stopAnalysisPhaseFlow();
+                    return;
+                }
+                if (activeAnalysisPhaseIndex >= analysisPhaseFlowLimitIndex) {
+                    return;
+                }
+                const nextPhase = analysisStepOrder[activeAnalysisPhaseIndex + 1];
+                if (!nextPhase) return;
+                setAnalysisPhase(nextPhase);
+            }, analysisPhaseIntervalMs);
+        }
+
+        function resetAnalysisPhaseFlow() {
+            stopAnalysisPhaseFlow();
+            setAnalysisPhase("queued");
+        }
+
+        async function advanceToCompletePhase(runId) {
+            if (runId !== activeAnalysisRunId) return;
+            stopAnalysisPhaseFlow();
+            const completeIndex = analysisStepOrder.indexOf("complete");
+            while (activeAnalysisPhaseIndex < completeIndex) {
+                const nextPhase = analysisStepOrder[activeAnalysisPhaseIndex + 1];
+                if (!nextPhase) break;
+                setAnalysisPhase(nextPhase);
+                if (nextPhase !== "complete") {
+                    await new Promise((resolve) => window.setTimeout(resolve, analysisCompletionStepMs));
+                }
+            }
+        }
+
         function updateUsage(entitlement) {
             latestEntitlement = entitlement || null;
-            if (!usageLabel || !entitlement) return;
-            usageLabel.textContent = `Usage: ${entitlement.used}/${entitlement.limit}`;
-            if (downloadJsonButton) {
+            if (usageLabel && entitlement) {
+                usageLabel.textContent = `Usage: ${entitlement.used}/${entitlement.limit}`;
+            }
+            if (downloadJsonButton && entitlement) {
                 downloadJsonButton.textContent = entitlement.can_export_json
-                    ? "Download JSON"
-                    : "Download JSON (Pro)";
+                    ? "Download Full JSON"
+                    : "Upgrade To Download Full JSON";
+            }
+            updateStructureAccess(Boolean(entitlement.can_export_json));
+        }
+
+        function normalizePreviewSections(items) {
+            if (!Array.isArray(items)) return [];
+            return items.slice(0, 5).map((entry) => {
+                if (typeof entry === "string") return entry;
+                if (!entry || typeof entry !== "object") return "section";
+                const label = entry.label || entry.id || entry.role || entry.selector || "section";
+                const selector = entry.selector ? ` (${entry.selector})` : "";
+                return `${String(label)}${selector}`;
+            });
+        }
+
+        function renderStructurePreview(source) {
+            if (!structureJsonPreview) return;
+            const payload = source || {};
+            const preview = payload.preview || {};
+            const exportJson = payload.export_json || {};
+            const blueprint = payload.design_blueprint || {};
+
+            const colors =
+                exportJson.tokens?.color?.palette ||
+                exportJson.tokens?.colors ||
+                blueprint.colors ||
+                preview.colors ||
+                [];
+            const typography =
+                exportJson.tokens?.typography?.families ||
+                blueprint.typography ||
+                preview.typography ||
+                [];
+            const effects =
+                exportJson.tokens?.effects ||
+                blueprint.effects ||
+                preview.effects ||
+                [];
+            const rawSections =
+                exportJson.structure?.sections ||
+                exportJson.sections ||
+                blueprint.htmlStructure ||
+                preview.html_structure ||
+                [];
+
+            const teaser = {
+                schema_version: exportJson.schema_version || "1.0",
+                source_url: payload.source_url || exportJson.source_url || payload.url || "--",
+                sections_preview: normalizePreviewSections(rawSections),
+                tokens_preview: {
+                    colors: Array.isArray(colors) ? colors.slice(0, 4) : [],
+                    typography: Array.isArray(typography) ? typography.slice(0, 3) : [],
+                    effects: Array.isArray(effects) ? effects.slice(0, 3) : [],
+                },
+                upgrade_required: true,
+            };
+
+            structureJsonPreview.textContent = JSON.stringify(teaser, null, 2);
+        }
+
+        function updateStructureAccess(canExport) {
+            if (structureLockOverlay) {
+                structureLockOverlay.classList.toggle("hidden", canExport);
+            }
+            if (structureJsonPreview) {
+                structureJsonPreview.classList.toggle("blur-[2px]", !canExport);
+                structureJsonPreview.classList.toggle("opacity-75", !canExport);
+                structureJsonPreview.classList.toggle("opacity-100", canExport);
+            }
+            if (structureAccessNote) {
+                structureAccessNote.textContent = canExport
+                    ? "Pro active. Download full JSON export below."
+                    : "Preview is obfuscated. Upgrade to export full JSON.";
+            }
+        }
+
+        function updateHeaderAuthButton(loggedIn) {
+            if (!headerAuthButton) return;
+            headerAuthButton.textContent = loggedIn ? "Logged In" : "Log In / Sign Up";
+        }
+
+        function updateVibeSummary(blueprint, preview, exportJson) {
+            const typography = Array.isArray(blueprint?.typography) && blueprint.typography.length
+                ? blueprint.typography
+                : Array.isArray(preview?.typography)
+                    ? preview.typography
+                    : Array.isArray(exportJson?.tokens?.typography?.families)
+                        ? exportJson.tokens.typography.families
+                        : [];
+            const colors = Array.isArray(blueprint?.colors) && blueprint.colors.length
+                ? blueprint.colors
+                : Array.isArray(preview?.colors)
+                    ? preview.colors
+                    : Array.isArray(exportJson?.tokens?.color?.palette)
+                        ? exportJson.tokens.color.palette
+                        : Array.isArray(exportJson?.tokens?.colors)
+                            ? exportJson.tokens.colors
+                            : [];
+            const effects = Array.isArray(blueprint?.effects) && blueprint.effects.length
+                ? blueprint.effects
+                : Array.isArray(preview?.effects)
+                    ? preview.effects
+                    : Array.isArray(exportJson?.tokens?.effects)
+                        ? exportJson.tokens.effects
+                        : [];
+
+            const display = typography[0] || "Display serif";
+            const mono = typography[1] || typography[2] || "monospace utility text";
+            const colorA = colors[0] || "ink black";
+            const colorB = colors[1] || "off-white paper";
+            const effectA = effects[0] || "hard borders";
+            const effectB = effects[1] || "crisp shadow depth";
+
+            if (vibeTone) {
+                vibeTone.textContent = "Editorial, technical, and intentional with a printed-system feel.";
+            }
+            if (vibeTypography) {
+                vibeTypography.textContent = `${display} drives hierarchy while ${mono} keeps metadata precise.`;
+            }
+            if (vibeColor) {
+                vibeColor.textContent = `Core palette leans on ${colorA} and ${colorB} for high-contrast readability.`;
+            }
+            if (vibeInteraction) {
+                vibeInteraction.textContent = `Interactions feel tactile via ${effectA} and ${effectB}.`;
+            }
+            if (vibeNote) {
+                vibeNote.textContent = "Vibe computed from extracted typography, color tokens, and effect signatures.";
             }
         }
 
@@ -428,15 +862,62 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             try {
                 const response = await fetch("/api/me/entitlements");
                 const payload = await response.json();
-                if (payload.entitlement) updateUsage(payload.entitlement);
-            } catch {}
+                isLoggedIn = Boolean(payload.logged_in);
+                updateHeaderAuthButton(isLoggedIn);
+                if (payload.entitlement) {
+                    updateUsage(payload.entitlement);
+                } else {
+                    updateStructureAccess(false);
+                }
+                return payload;
+            } catch {
+                isLoggedIn = false;
+                updateHeaderAuthButton(false);
+                updateStructureAccess(false);
+                return null;
+            }
+        }
+
+        function removeAuthSuccessFromUrl() {
+            const currentUrl = new URL(window.location.href);
+            if (!currentUrl.searchParams.has("auth")) return;
+            currentUrl.searchParams.delete("auth");
+            const clean = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+            window.history.replaceState({}, "", clean);
+        }
+
+        async function downloadExportJsonByAnalysisId(analysisId) {
+            const response = await fetch("/api/export/json", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ analysis_id: analysisId }),
+            });
+            const payload = await response.json();
+            if (!response.ok) {
+                throw new Error(payload.error || "Export failed");
+            }
+
+            const blob = new Blob([JSON.stringify(payload.export_json, null, 2)], {
+                type: "application/json",
+            });
+            const downloadUrl = URL.createObjectURL(blob);
+            const anchor = document.createElement("a");
+            anchor.href = downloadUrl;
+            anchor.download = "design-dna-structure.json";
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+            URL.revokeObjectURL(downloadUrl);
+            return payload;
         }
 
         async function runExtraction(url) {
+            const runId = ++activeAnalysisRunId;
             const startedAt = performance.now();
-            statusLabel.textContent = "Status: Processing";
+            startAnalysisPhaseFlow(runId);
             latencyLabel.textContent = "Latency: Running";
             analyzeButton.disabled = true;
+            analyzeButton.classList.add("is-loading");
             analyzeButton.textContent = "Analyzing...";
             if (upsellBanner) upsellBanner.classList.add("hidden");
 
@@ -450,10 +931,24 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 const payload = await response.json();
                 if (payload.entitlement) updateUsage(payload.entitlement);
 
-                if (
-                    (response.status === 401 && payload.code === "AUTH_REQUIRED_LIMIT") ||
-                    (response.status === 402 && payload.code === "LIMIT_HIT")
-                ) {
+                if (response.status === 401 && payload.code === "AUTH_REQUIRED_LOGIN") {
+                    setPendingAuthAction({
+                        type: "analyze",
+                        url,
+                    });
+                    resetAnalysisPhaseFlow();
+                    statusLabel.textContent = "Status: Login Required";
+                    hidePaywall();
+                    showAuthModal("login");
+                    return;
+                }
+
+                if (response.status === 402 && payload.code === "LIMIT_HIT") {
+                    setPendingAuthAction({
+                        type: "analyze",
+                        url,
+                    });
+                    resetAnalysisPhaseFlow();
                     statusLabel.textContent = "Status: Limit Hit";
                     showPaywall(payload.error || "Limit reached. Upgrade to Pro or buy a top-up.");
                     return;
@@ -465,7 +960,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
                 latestResult = payload;
                 const elapsed = Math.round(performance.now() - startedAt);
-                statusLabel.textContent = "Status: Completed";
+                await advanceToCompletePhase(runId);
                 latencyLabel.textContent = `Latency: ${elapsed}ms`;
 
                 if (promptBox) {
@@ -474,29 +969,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
                 const blueprint = payload.design_blueprint || {};
                 const exportJson = payload.export_json || {};
-
-                if (structureJsonBox) {
-                    structureJsonBox.value = JSON.stringify({
-                        schema_version: exportJson.schema_version || "1.0",
-                        source_url: payload.source_url || exportJson.source_url || url,
-                        themeReference:
-                            blueprint.themeReference ||
-                            payload.preview?.theme_reference ||
-                            "Based on source theme",
-                        colors: blueprint.colors || exportJson.tokens?.colors || payload.preview?.colors || [],
-                        typography:
-                            blueprint.typography ||
-                            exportJson.tokens?.typography?.families ||
-                            payload.preview?.typography ||
-                            [],
-                        effects: blueprint.effects || exportJson.tokens?.effects || payload.preview?.effects || [],
-                        structure:
-                            blueprint.htmlStructure ||
-                            payload.preview?.html_structure ||
-                            exportJson.structure?.sections ||
-                            [],
-                    }, null, 2);
-                }
+                renderStructurePreview(payload);
 
                 const typography = Array.isArray(blueprint.typography)
                     ? blueprint.typography
@@ -504,25 +977,220 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 if (typeDisplayFamily && typography[0]) typeDisplayFamily.textContent = typography[0];
                 if (typeBodyFamily && typography[1]) typeBodyFamily.textContent = typography[1];
                 if (typeCodeFamily && typography[2]) typeCodeFamily.textContent = typography[2];
-
-                const effects = Array.isArray(blueprint.effects)
-                    ? blueprint.effects
-                    : payload.preview?.effects || [];
-                if (effectShadowMain && effects[0]) effectShadowMain.textContent = effects[0];
-                if (effectRadiusMain && effects[1]) effectRadiusMain.textContent = effects[1];
-                if (effectBlurMain && effects[2]) effectBlurMain.textContent = effects[2];
+                updateVibeSummary(blueprint, payload.preview || {}, exportJson);
 
                 if (upsellBanner && payload.entitlement && !payload.entitlement.can_export_json) {
                     upsellBanner.classList.remove("hidden");
                 }
             } catch (error) {
+                resetAnalysisPhaseFlow();
                 statusLabel.textContent = "Status: Failed";
                 latencyLabel.textContent = "Latency: --";
                 const message = error instanceof Error ? error.message : "Extraction failed";
                 if (promptBox) promptBox.value = `Error: ${message}`;
             } finally {
+                stopAnalysisPhaseFlow();
                 analyzeButton.disabled = false;
+                analyzeButton.classList.remove("is-loading");
                 analyzeButton.textContent = "Analyze";
+            }
+        }
+
+        function parseLatencySeconds() {
+            const raw = latencyLabel?.textContent || "";
+            const match = raw.match(/Latency:\\s*(\\d+)ms/i);
+            if (!match) return 0;
+            const ms = Number.parseInt(match[1], 10);
+            if (!Number.isFinite(ms)) return 0;
+            return Number((ms / 1000).toFixed(2));
+        }
+
+        async function resumePendingAuthAction(forceRun = false) {
+            const currentUrl = new URL(window.location.href);
+            const authStatus = currentUrl.searchParams.get("auth");
+            if (!forceRun && authStatus !== "success") {
+                return;
+            }
+
+            const pending = getPendingAuthAction();
+            if (!pending) {
+                clearPendingAuthAction();
+                removeAuthSuccessFromUrl();
+                return;
+            }
+
+            const entitlementPayload = await refreshEntitlements();
+            if (!entitlementPayload?.logged_in) {
+                statusLabel.textContent = "Status: Resume Failed";
+                await trackClientEvent("auth_resume_failed", {
+                    action_type: pending.type,
+                    source_url: pending.url,
+                    analysis_id: pending.analysis_id,
+                    reason: "not_logged_in_after_callback",
+                });
+                clearPendingAuthAction();
+                removeAuthSuccessFromUrl();
+                return;
+            }
+
+            await trackClientEvent("auth_resume_started", {
+                action_type: pending.type,
+                source_url: pending.url,
+                analysis_id: pending.analysis_id,
+            });
+
+            try {
+                if (pending.type === "analyze" && pending.url) {
+                    if (targetUrlInput) {
+                        targetUrlInput.value = pending.url;
+                    }
+                await runExtraction(pending.url);
+                } else if (pending.type === "export_json" && pending.analysis_id) {
+                    await downloadExportJsonByAnalysisId(pending.analysis_id);
+                    statusLabel.textContent = "Status: Resume Completed";
+                } else {
+                    throw new Error("Invalid pending action payload");
+                }
+
+                clearPendingAuthAction();
+                removeAuthSuccessFromUrl();
+                await trackClientEvent("auth_resume_succeeded", {
+                    action_type: pending.type,
+                    source_url: pending.url,
+                    analysis_id: pending.analysis_id,
+                });
+            } catch (error) {
+                statusLabel.textContent = "Status: Resume Failed";
+                await trackClientEvent("auth_resume_failed", {
+                    action_type: pending.type,
+                    source_url: pending.url,
+                    analysis_id: pending.analysis_id,
+                    reason: error instanceof Error ? error.message : "unknown_error",
+                });
+                clearPendingAuthAction();
+                removeAuthSuccessFromUrl();
+            }
+        }
+
+        async function submitPasswordAuth() {
+            const email = typeof authEmailInput?.value === "string" ? authEmailInput.value.trim() : "";
+            const password = typeof authPasswordInput?.value === "string" ? authPasswordInput.value : "";
+            const confirm = typeof authConfirmInput?.value === "string" ? authConfirmInput.value : "";
+
+            if (!email || !password) {
+                setAuthStatusMessage("Email and password are required.", "error");
+                return;
+            }
+
+            if (authMode === "signup" && password !== confirm) {
+                setAuthStatusMessage("Passwords do not match.", "error");
+                return;
+            }
+
+            setAuthResendVisible(false);
+
+            if (authSubmitButton) {
+                authSubmitButton.disabled = true;
+                authSubmitButton.textContent = authMode === "signup" ? "Creating..." : "Logging In...";
+            }
+
+            try {
+                const response = await fetch("/api/auth/password", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        mode: authMode,
+                        email,
+                        password,
+                        next_path: "/designdna-exact.html",
+                    }),
+                });
+
+                const payload = await response.json();
+                if (!response.ok) {
+                    if (payload.can_resend_verification) {
+                        setAuthResendVisible(true);
+                    }
+                    throw new Error(payload.error || "Authentication failed.");
+                }
+
+                if (payload.requires_email_confirmation || payload.pending_verification) {
+                    setAuthStatusMessage(
+                        payload.message || "Account created. Check your email to confirm before logging in.",
+                        "success",
+                    );
+                    setAuthMode("login");
+                    setAuthResendVisible(true);
+                    return;
+                }
+
+                isLoggedIn = true;
+                updateHeaderAuthButton(true);
+                await refreshEntitlements();
+                hideAuthModal();
+                statusLabel.textContent = "Status: Logged In";
+                await resumePendingAuthAction(true);
+            } catch (error) {
+                setAuthStatusMessage(
+                    error instanceof Error ? error.message : "Authentication failed.",
+                    "error",
+                );
+            } finally {
+                if (authSubmitButton) {
+                    authSubmitButton.disabled = false;
+                    authSubmitButton.textContent = authMode === "signup" ? "Create Account" : "Log In";
+                }
+            }
+        }
+
+        async function resendVerificationEmail() {
+            if (authResendLoading) return;
+            const email = typeof authEmailInput?.value === "string" ? authEmailInput.value.trim() : "";
+            if (!email) {
+                setAuthStatusMessage("Enter your email to resend verification.", "error");
+                return;
+            }
+
+            authResendLoading = true;
+            if (authResendButton) {
+                authResendButton.disabled = true;
+                authResendButton.textContent = "Resending...";
+            }
+
+            try {
+                const response = await fetch("/api/auth/password/resend", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email,
+                        next_path: "/designdna-exact.html",
+                    }),
+                });
+
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.error || "Could not resend verification email.");
+                }
+
+                setAuthStatusMessage(
+                    payload.message || "Verification email resent. Check inbox and spam.",
+                    "success",
+                );
+            } catch (error) {
+                setAuthStatusMessage(
+                    error instanceof Error ? error.message : "Resend failed.",
+                    "error",
+                );
+            } finally {
+                authResendLoading = false;
+                if (authResendButton) {
+                    authResendButton.disabled = false;
+                    authResendButton.textContent = "Resend Verification Email";
+                }
             }
         }
 
@@ -566,18 +1234,21 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
                     const openButton = document.createElement("button");
                     openButton.type = "button";
-                    openButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:bg-ink hover:text-white transition-colors";
+                    openButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:text-[#365dff] transition-colors";
                     openButton.textContent = "Open";
                     openButton.addEventListener("click", () => {
                         const preview = item.preview_payload || {};
                         if (promptBox) promptBox.value = preview.prompt || "";
-                        if (structureJsonBox) structureJsonBox.value = JSON.stringify(preview, null, 2);
+                        renderStructurePreview({
+                            source_url: item.source_url,
+                            preview,
+                        });
                         hideHistory();
                     });
 
                     const rerunButton = document.createElement("button");
                     rerunButton.type = "button";
-                    rerunButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:bg-ink hover:text-white transition-colors";
+                    rerunButton.className = "px-2 py-1 border border-ink text-[10px] font-bold uppercase hover:text-[#365dff] transition-colors";
                     rerunButton.textContent = "Re-run";
                     rerunButton.addEventListener("click", () => {
                         if (targetUrlInput) targetUrlInput.value = item.source_url;
@@ -599,8 +1270,9 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         if (analyzeForm && targetUrlInput) {
             analyzeForm.addEventListener("submit", (event) => {
                 event.preventDefault();
-                const url = targetUrlInput.value.trim();
+                const url = normalizeUrlInput(targetUrlInput.value);
                 if (!url) return;
+                targetUrlInput.value = url;
                 void runExtraction(url);
             });
         }
@@ -623,87 +1295,160 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         if (downloadJsonButton) {
             downloadJsonButton.addEventListener("click", async () => {
                 if (!latestResult?.history_id || !latestEntitlement?.can_export_json) {
-                    showPaywall("JSON export is Pro. Upgrade to download structured files.");
+                    if (latestResult?.history_id) {
+                        setPendingAuthAction({
+                            type: "export_json",
+                            analysis_id: latestResult.history_id,
+                        });
+                    } else if (latestResult?.source_url || latestResult?.url) {
+                        setPendingAuthAction({
+                            type: "analyze",
+                            url: latestResult.source_url || latestResult.url,
+                        });
+                    }
+                    showPaywall("Upgrade to Pro to unlock full JSON export, selectors, and complete token maps.");
                     return;
                 }
 
                 try {
-                    const response = await fetch("/api/export/json", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ analysis_id: latestResult.history_id }),
-                    });
-                    const payload = await response.json();
-                    if (!response.ok) {
-                        throw new Error(payload.error || "Export failed");
-                    }
-                    const blob = new Blob([JSON.stringify(payload.export_json, null, 2)], { type: "application/json" });
-                    const downloadUrl = URL.createObjectURL(blob);
-                    const anchor = document.createElement("a");
-                    anchor.href = downloadUrl;
-                    anchor.download = "design-dna-structure.json";
-                    document.body.appendChild(anchor);
-                    anchor.click();
-                    anchor.remove();
-                    URL.revokeObjectURL(downloadUrl);
+                    await downloadExportJsonByAnalysisId(latestResult.history_id);
                 } catch (error) {
                     showPaywall(error instanceof Error ? error.message : "JSON export is Pro.");
                 }
             });
         }
 
-        if (closePaywallButton) closePaywallButton.addEventListener("click", hidePaywall);
-        if (topupPaywallButton) {
-            topupPaywallButton.addEventListener("click", async () => {
+        if (unlockJsonButton) {
+            unlockJsonButton.addEventListener("click", () => {
+                if (latestResult?.history_id) {
+                    setPendingAuthAction({
+                        type: "export_json",
+                        analysis_id: latestResult.history_id,
+                    });
+                } else if (latestResult?.source_url || latestResult?.url) {
+                    setPendingAuthAction({
+                        type: "analyze",
+                        url: latestResult.source_url || latestResult.url,
+                    });
+                }
+                showPaywall("Upgrade to Pro to unlock full JSON export, selectors, and complete token maps.");
+            });
+        }
+
+        if (saveBenchmarkButton) {
+            saveBenchmarkButton.addEventListener("click", async () => {
+                if (!latestResult) {
+                    statusLabel.textContent = "Status: No Result To Save";
+                    return;
+                }
+
+                const tokensJson = latestResult.export_json || {
+                    preview_payload: latestResult.preview || {},
+                };
+
+                const payload = {
+                    analysis_id: latestResult.history_id || undefined,
+                    url: latestResult.source_url || latestResult.url || targetUrlInput?.value?.trim(),
+                    prompt: promptBox?.value || latestResult.prompt || "",
+                    tokens_json: tokensJson || {},
+                    score: {
+                        runtime_seconds: parseLatencySeconds(),
+                        visual_fidelity_1_to_5: 0,
+                        component_fidelity_1_to_5: 0,
+                        token_quality_1_to_5: 0,
+                        notes: "",
+                    },
+                };
+
                 try {
-                    const response = await fetch("/api/topup", { method: "POST" });
-                    const payload = await response.json();
-                    if (response.status === 401) {
-                        window.location.href = "/login";
-                        return;
-                    }
+                    saveBenchmarkButton.disabled = true;
+                    saveBenchmarkButton.textContent = "Saving...";
+
+                    const response = await fetch("/api/benchmark/snapshot", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const data = await response.json();
                     if (!response.ok) {
-                        throw new Error(payload.error || "Top-up unavailable right now.");
+                        throw new Error(data.error || "Snapshot save failed");
                     }
-                    updateUsage(payload.entitlement);
-                    hidePaywall();
-                    statusLabel.textContent = "Status: Top-up Applied";
+
+                    statusLabel.textContent = `Status: Snapshot Saved (${data.slug})`;
                 } catch (error) {
-                    showPaywall(error instanceof Error ? error.message : "Top-up unavailable.");
+                    statusLabel.textContent = "Status: Snapshot Save Failed";
+                    if (promptBox) {
+                        const message = error instanceof Error ? error.message : "Snapshot save failed";
+                        promptBox.value = `${promptBox.value}\n\n[Snapshot Save Error] ${message}`;
+                    }
+                } finally {
+                    saveBenchmarkButton.disabled = false;
+                    saveBenchmarkButton.textContent = "Save Benchmark Snapshot";
                 }
             });
         }
+
+        if (headerAuthButton) {
+            headerAuthButton.addEventListener("click", () => {
+                if (isLoggedIn) {
+                    showHistory();
+                    return;
+                }
+                showAuthModal("login");
+            });
+        }
+
+        if (closeAuthButton) {
+            closeAuthButton.addEventListener("click", () => {
+                hideAuthModal();
+            });
+        }
+
+        if (authModeLogin) {
+            authModeLogin.addEventListener("click", () => {
+                setAuthMode("login");
+            });
+        }
+
+        if (authModeSignup) {
+            authModeSignup.addEventListener("click", () => {
+                setAuthMode("signup");
+            });
+        }
+
+        if (authGoogleButton) {
+            authGoogleButton.addEventListener("click", () => {
+                window.location.href = "/api/auth/oauth/google?next=/designdna-exact.html";
+            });
+        }
+
+        if (authForm) {
+            authForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                await submitPasswordAuth();
+            });
+        }
+
+        if (authResendButton) {
+            authResendButton.addEventListener("click", () => {
+                void resendVerificationEmail();
+            });
+        }
+
+        if (closePaywallButton) closePaywallButton.addEventListener("click", hidePaywall);
         if (upgradePaywallButton) {
-            upgradePaywallButton.addEventListener("click", async (event) => {
+            upgradePaywallButton.addEventListener("click", (event) => {
                 event.preventDefault();
-                try {
-                    const response = await fetch("/api/upgrade/pro", { method: "POST" });
-                    if (response.status === 401) {
-                        window.location.href = "/login";
-                        return;
-                    }
-                    const payload = await response.json();
-                    if (!response.ok) {
-                        throw new Error(payload.error || "Upgrade failed");
-                    }
-                    hidePaywall();
-                    updateUsage(payload.entitlement);
-                    statusLabel.textContent = "Status: Pro Active";
-                } catch {
-                    window.location.href = "/pricing.html";
-                }
-            });
-        }
-        if (historyLink) {
-            historyLink.addEventListener("click", (event) => {
-                event.preventDefault();
-                showHistory();
-            });
-        }
-        if (pricingLink) {
-            pricingLink.addEventListener("click", (event) => {
-                event.preventDefault();
-                showPaywall("Free: 3 analyses/month. Pro $9/mo unlocks JSON export + history. Top-up $5 adds +40 analyses.");
+                const pending = getPendingAuthAction();
+                trackClientEvent("paywall_login_clicked", {
+                    action_type: pending?.type ?? "unknown",
+                    source_url: pending?.url,
+                    analysis_id: pending?.analysis_id,
+                    next_path: "/designdna-exact.html",
+                });
+                hidePaywall();
+                showAuthModal("login");
             });
         }
         if (closeHistoryButton) closeHistoryButton.addEventListener("click", hideHistory);
@@ -715,7 +1460,11 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         }
 
         updateSystemDate();
+        updateStructureAccess(false);
         setInterval(updateSystemDate, 60000);
-        void refreshEntitlements();
+        void (async () => {
+            await refreshEntitlements();
+            await resumePendingAuthAction();
+        })();
     </script>
 </body></html>
