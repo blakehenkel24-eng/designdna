@@ -608,7 +608,7 @@ export async function captureDesignDna(url: string) {
     const context = await browser.newContext({
       viewport: { width: 1440, height: 2400 },
       userAgent:
-        "Mozilla/5.0 (compatible; DesignDNA/0.1; +https://designdna.app)",
+        "Mozilla/5.0 (compatible; DesignDNA/0.1; +https://getdesigndna.com)",
     });
 
     const page = await context.newPage();

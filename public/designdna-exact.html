@@ -383,18 +383,42 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 <ul class="border border-ink divide-y divide-ink" id="history-list"></ul>
 </div>
 </div>
+<div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="profile-modal">
+<div class="w-full max-w-[560px] border-2 border-ink bg-background-light p-6 shadow-brutal">
+<div class="flex justify-between items-center mb-3">
+<h3 class="font-display font-bold text-3xl uppercase">Profile</h3>
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-profile-button" type="button">Close</button>
+</div>
+<div class="border border-ink bg-white p-4 space-y-3">
+<div>
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Name</p>
+<p class="text-sm font-typewriter leading-relaxed" id="profile-name">--</p>
+</div>
+<div>
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Contact</p>
+<p class="text-sm font-typewriter leading-relaxed break-all" id="profile-contact">--</p>
+</div>
+<div>
+<p class="text-[10px] font-mono uppercase opacity-70 mb-1">Membership Status</p>
+<p class="text-sm font-typewriter leading-relaxed" id="profile-membership">--</p>
+</div>
+</div>
+<div class="mt-4 flex justify-end gap-2">
+<button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="profile-history-button" type="button">View History</button>
+</div>
+</div>
+</div>
 <div class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50" id="auth-modal">
 <div class="w-full max-w-[520px] border-2 border-ink bg-background-light p-6 shadow-brutal">
 <div class="flex justify-between items-center mb-3">
 <h3 class="font-display font-bold text-3xl uppercase" id="auth-modal-title">Log In</h3>
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="close-auth-button" type="button">Close</button>
 </div>
-<p class="font-typewriter text-sm leading-relaxed mb-4">Use email + password, or continue with Google.</p>
+<p class="font-typewriter text-sm leading-relaxed mb-4">Continue with email and password.</p>
 <div class="flex gap-2 mb-4">
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase bg-ink text-white" id="auth-mode-login" type="button">Log In</button>
 <button class="px-3 py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="auth-mode-signup" type="button">Sign Up</button>
 </div>
-<button class="w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors mb-3" id="auth-google-button" type="button">Continue With Google</button>
 <form class="space-y-3" id="auth-form">
 <label class="block text-xs font-mono uppercase tracking-wider">Email
 <input class="mt-1 w-full border-2 border-ink p-3 bg-white text-sm font-mono" id="auth-email-input" required type="email" placeholder="you@company.com"/>
@@ -407,6 +431,12 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </label>
 <button class="w-full py-3 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="auth-submit-button" type="submit">Log In</button>
 </form>
+<div class="my-3 flex items-center gap-2 text-[10px] font-mono uppercase opacity-70">
+<span class="h-px flex-1 border-t border-ink"></span>
+<span>Or</span>
+<span class="h-px flex-1 border-t border-ink"></span>
+</div>
+<button class="w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="auth-google-button" type="button">Continue With Google (Optional)</button>
 <p class="mt-3 text-xs font-mono uppercase hidden" id="auth-status-message"></p>
 <button class="mt-3 w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors hidden" id="auth-resend-button" type="button">Resend Verification Email</button>
 </div>
@@ -451,6 +481,12 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const historySearchButton = document.getElementById("history-search-button");
         const historyMeta = document.getElementById("history-meta");
         const historyList = document.getElementById("history-list");
+        const profileModal = document.getElementById("profile-modal");
+        const closeProfileButton = document.getElementById("close-profile-button");
+        const profileName = document.getElementById("profile-name");
+        const profileContact = document.getElementById("profile-contact");
+        const profileMembership = document.getElementById("profile-membership");
+        const profileHistoryButton = document.getElementById("profile-history-button");
         const authModal = document.getElementById("auth-modal");
         const closeAuthButton = document.getElementById("close-auth-button");
         const authModalTitle = document.getElementById("auth-modal-title");
@@ -485,6 +521,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         let latestResult = null;
         let latestEntitlement = null;
         let isLoggedIn = false;
+        let currentUserProfile = null;
         const urlSchemePattern = /^[a-z][a-z0-9+.-]*:/i;
         const pendingAuthActionKey = "designdna_pending_auth_action";
         const pendingActionMaxAgeMs = 30 * 60 * 1000;
@@ -644,6 +681,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
         function showHistory() {
             if (!historyModal) return;
+            hideProfile();
             historyModal.classList.remove("hidden");
             historyModal.classList.add("flex");
             void loadHistory();
@@ -653,6 +691,19 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             if (!historyModal) return;
             historyModal.classList.add("hidden");
             historyModal.classList.remove("flex");
+        }
+
+        function showProfile() {
+            if (!profileModal) return;
+            updateProfileSummary();
+            profileModal.classList.remove("hidden");
+            profileModal.classList.add("flex");
+        }
+
+        function hideProfile() {
+            if (!profileModal) return;
+            profileModal.classList.add("hidden");
+            profileModal.classList.remove("flex");
         }
 
         function setAnalysisPhase(phase) {
@@ -730,6 +781,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                     : "Upgrade To Download Full JSON";
             }
             updateStructureAccess(Boolean(entitlement.can_export_json));
+            updateProfileSummary();
         }
 
         function normalizePreviewSections(items) {
@@ -806,7 +858,34 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 
         function updateHeaderAuthButton(loggedIn) {
             if (!headerAuthButton) return;
-            headerAuthButton.textContent = loggedIn ? "Logged In" : "Log In / Sign Up";
+            headerAuthButton.textContent = loggedIn ? "See Profile" : "Log In / Sign Up";
+        }
+
+        function formatMembershipStatus(plan) {
+            switch (plan) {
+                case "PRO_ACTIVE":
+                    return "Pro Active";
+                case "PRO_CANCELED_GRACE":
+                    return "Pro Grace";
+                case "FREE":
+                    return "Free";
+                default:
+                    return "Free";
+            }
+        }
+
+        function updateProfileSummary() {
+            if (profileName) {
+                profileName.textContent = currentUserProfile?.name || "Member";
+            }
+            if (profileContact) {
+                profileContact.textContent = currentUserProfile?.contact || "No contact available";
+            }
+            if (profileMembership) {
+                const planLabel = formatMembershipStatus(latestEntitlement?.plan);
+                const usage = latestEntitlement ? ` (${latestEntitlement.used}/${latestEntitlement.limit})` : "";
+                profileMembership.textContent = `${planLabel}${usage}`;
+            }
         }
 
         function updateVibeSummary(blueprint, preview, exportJson) {
@@ -863,17 +942,21 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 const response = await fetch("/api/me/entitlements");
                 const payload = await response.json();
                 isLoggedIn = Boolean(payload.logged_in);
+                currentUserProfile = payload.logged_in ? payload.user || null : null;
                 updateHeaderAuthButton(isLoggedIn);
                 if (payload.entitlement) {
                     updateUsage(payload.entitlement);
                 } else {
                     updateStructureAccess(false);
+                    updateProfileSummary();
                 }
                 return payload;
             } catch {
                 isLoggedIn = false;
+                currentUserProfile = null;
                 updateHeaderAuthButton(false);
                 updateStructureAccess(false);
+                updateProfileSummary();
                 return null;
             }
         }
@@ -1392,10 +1475,23 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         if (headerAuthButton) {
             headerAuthButton.addEventListener("click", () => {
                 if (isLoggedIn) {
-                    showHistory();
+                    showProfile();
                     return;
                 }
                 showAuthModal("login");
+            });
+        }
+
+        if (closeProfileButton) {
+            closeProfileButton.addEventListener("click", () => {
+                hideProfile();
+            });
+        }
+
+        if (profileHistoryButton) {
+            profileHistoryButton.addEventListener("click", () => {
+                hideProfile();
+                showHistory();
             });
         }
 

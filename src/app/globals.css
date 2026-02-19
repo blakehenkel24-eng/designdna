@@ -183,6 +183,22 @@ button,
   color: var(--danger);
 }
 
+.auth-separator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
 .extractions-list {
   list-style: none;
   padding: 0;

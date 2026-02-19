@@ -27,8 +27,19 @@ export async function GET() {
 
   try {
     const entitlement = await getOrCreateEntitlementForUser(user);
+    const displayName =
+      (typeof user.user_metadata?.full_name === "string" && user.user_metadata.full_name.trim()) ||
+      (typeof user.user_metadata?.name === "string" && user.user_metadata.name.trim()) ||
+      user.email?.split("@")[0] ||
+      "Member";
+
     return NextResponse.json({
       logged_in: true,
+      user: {
+        id: user.id,
+        name: displayName,
+        contact: user.email ?? "",
+      },
       entitlement: {
         plan: entitlement.plan,
         used: entitlement.analyses_used_this_period,

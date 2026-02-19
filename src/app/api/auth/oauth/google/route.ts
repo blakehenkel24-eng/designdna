@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { DEFAULT_NEXT_PATH, sanitizeNextPath } from "@/lib/auth-resume";
+import { resolveAppOrigin } from "@/lib/app-origin";
 import { trackEvent } from "@/lib/pricing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
+  const appOrigin = resolveAppOrigin(request);
   const nextPath = sanitizeNextPath(
     request.nextUrl.searchParams.get("next") ?? DEFAULT_NEXT_PATH,
   );
 
-  const redirectTo = `${request.nextUrl.origin}/auth/callback?next=${encodeURIComponent(
+  const redirectTo = `${appOrigin}/auth/callback?next=${encodeURIComponent(
     nextPath,
   )}`;
 
@@ -19,7 +21,7 @@ export async function GET(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (user) {
-    return NextResponse.redirect(new URL(nextPath, request.url));
+    return NextResponse.redirect(new URL(nextPath, appOrigin));
   }
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -40,7 +42,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(
       new URL(
         `/login?error=google_oauth_failed&next=${encodeURIComponent(nextPath)}`,
-        request.url,
+        appOrigin,
       ),
     );
   }

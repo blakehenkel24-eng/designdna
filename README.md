@@ -15,7 +15,7 @@ It uses:
 
 ## MVP capabilities
 
-- Email magic-link sign-in
+- Email/password auth + Google OAuth
 - Single-page URL extraction
 - Compliance checks: protocol allowlist, SSRF guard, robots policy
 - DOM/CSS extraction + screenshot color analysis
@@ -42,20 +42,48 @@ cp .env.example .env.local
 
 3. Create a Supabase project and configure:
 
-- Auth email provider enabled
+- Auth email/password enabled
+- Google provider enabled (optional)
+- Auth URL config:
+  - Site URL: `https://getdesigndna.com`
+  - Redirect URLs:
+    - `http://localhost:3000/auth/callback`
+    - `https://getdesigndna.com/auth/callback`
+    - `https://www.getdesigndna.com/auth/callback` (if using `www`)
 - Run migration in `supabase/migrations/20260216233000_init_designdna.sql`
 - Run migration in `supabase/migrations/20260217195000_pricing_entitlements.sql`
 - Create storage bucket `captures` (private)
 
-4. Configure Upstash Redis and set env vars.
+4. Configure env vars (`.env.local`):
 
-5. Start app:
+- Set `APP_ORIGIN=https://getdesigndna.com` in production.
+- Keep local as `APP_ORIGIN=http://localhost:3000` (or omit locally).
+
+5. Configure Upstash Redis and set env vars.
+
+6. Start app:
 
 ```bash
 npm run dev
 ```
 
-6. Open `http://localhost:3000`.
+7. Open `http://localhost:3000`.
+
+## Supabase email not sending
+
+If signup verification emails do not arrive:
+
+1. Supabase Dashboard -> Auth -> Providers -> Email: enable email provider.
+2. Supabase Dashboard -> Auth -> URL Configuration:
+   - Site URL must be `https://getdesigndna.com` for production.
+   - Add callback URLs listed above.
+3. Supabase Dashboard -> Auth -> SMTP Settings:
+   - Configure a real SMTP sender (Resend/Postmark/SendGrid recommended for production).
+4. Check Auth -> Logs for delivery errors.
+
+If you want instant signup without email confirmation:
+
+- Auth -> Providers -> Email -> disable "Confirm email" (MVP/dev only).
 
 ## API
 

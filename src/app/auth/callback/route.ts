@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
 import { appendAuthSuccessFlag, sanitizeNextPath } from "@/lib/auth-resume";
+import { resolveAppOrigin } from "@/lib/app-origin";
 import { trackEvent } from "@/lib/pricing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
+  const appOrigin = resolveAppOrigin(request);
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const nextPath = sanitizeNextPath(requestUrl.searchParams.get("next"));
@@ -18,7 +20,7 @@ export async function GET(request: Request) {
       },
     });
     return NextResponse.redirect(
-      new URL(failurePath, request.url),
+      new URL(failurePath, appOrigin),
     );
   }
 
@@ -33,7 +35,7 @@ export async function GET(request: Request) {
       },
     });
     return NextResponse.redirect(
-      new URL(failurePath, request.url),
+      new URL(failurePath, appOrigin),
     );
   }
 
@@ -49,6 +51,6 @@ export async function GET(request: Request) {
   });
 
   return NextResponse.redirect(
-    new URL(appendAuthSuccessFlag(nextPath), request.url),
+    new URL(appendAuthSuccessFlag(nextPath), appOrigin),
   );
 }

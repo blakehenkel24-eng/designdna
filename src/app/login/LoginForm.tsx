@@ -128,22 +128,13 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
   return (
     <form className="card login-card" onSubmit={onSubmit}>
       <h1>{mode === "login" ? "Log in to DesignDNA" : "Create your DesignDNA account"}</h1>
-      <p className="muted">
-        Use email + password, or continue with Google.
-      </p>
+      <p className="muted">Continue with email and password.</p>
       {authErrorMessage ? <p className="error">{authErrorMessage}</p> : null}
-
-      <a
-        className="secondary-button"
-        href={`/api/auth/oauth/google?next=${encodeURIComponent(nextPath)}`}
-      >
-        Continue with Google
-      </a>
 
       <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
         <button
           type="button"
-          className="secondary-button"
+          className={mode === "login" ? "primary-button" : "secondary-button"}
           onClick={() => {
             setMode("login");
             setMessage(null);
@@ -155,7 +146,7 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
         </button>
         <button
           type="button"
-          className="secondary-button"
+          className={mode === "signup" ? "primary-button" : "secondary-button"}
           onClick={() => {
             setMode("signup");
             setMessage(null);
@@ -216,6 +207,17 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
       <p className="muted" style={{ fontSize: "0.85rem" }}>
         After authentication you will return to your current workflow.
       </p>
+
+      <div className="auth-separator" aria-hidden="true">
+        <span>or</span>
+      </div>
+      <a
+        className="secondary-button"
+        href={`/api/auth/oauth/google?next=${encodeURIComponent(nextPath)}`}
+      >
+        Continue with Google (optional)
+      </a>
+
       {canResendVerification ? (
         <button
           type="button"

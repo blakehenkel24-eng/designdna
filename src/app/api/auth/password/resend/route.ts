@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { DEFAULT_NEXT_PATH, sanitizeNextPath } from "@/lib/auth-resume";
+import { resolveAppOrigin } from "@/lib/app-origin";
 import { trackEvent } from "@/lib/pricing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -12,9 +13,10 @@ const payloadSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const appOrigin = resolveAppOrigin(request);
     const body = payloadSchema.parse(await request.json());
     const nextPath = sanitizeNextPath(body.next_path ?? DEFAULT_NEXT_PATH);
-    const callbackUrl = `${request.nextUrl.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+    const callbackUrl = `${appOrigin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
 
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase.auth.resend({
