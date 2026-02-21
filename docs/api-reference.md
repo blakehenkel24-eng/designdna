@@ -27,6 +27,8 @@ All endpoints are implemented with Next.js route handlers under `src/app/api/**/
 | `/api/extractions/[id]/prompt` | `GET` | Required | Fetch extracted prompt text | Reads `extraction_artifacts.prompt_text`. |
 | `/api/extractions/[id]/pack` | `GET` | Required | Fetch extracted pack JSON | Reads `extraction_artifacts.pack_json`. |
 | `/api/auth/password` | `POST` | Optional | Email/password login or signup | `mode` is `login` or `signup`; signup may require email verification. |
+| `/api/auth/password/forgot` | `POST` | Optional | Send password reset email | Sends Supabase recovery email to `/auth/callback` then `/login/reset-password`. |
+| `/api/auth/password/update` | `POST` | Required session | Update current user password | Requires authenticated reset/login session; validates min length. |
 | `/api/auth/password/resend` | `POST` | Optional | Resend signup verification email | Uses app origin callback + sanitized next path. |
 | `/api/auth/oauth/google` | `GET` | Optional | Start Google OAuth flow | Redirects to Supabase OAuth URL; logs auth events. |
 | `/api/auth/signout` | `POST` | Required session | Sign out current session | Calls Supabase signOut. |

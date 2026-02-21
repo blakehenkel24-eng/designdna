@@ -16,6 +16,7 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [canResendVerification, setCanResendVerification] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +60,41 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
       setError(resendError instanceof Error ? resendError.message : "Resend failed.");
     } finally {
       setResendLoading(false);
+    }
+  }
+
+  async function requestPasswordReset() {
+    if (!email.trim()) {
+      setError("Enter your email first.");
+      return;
+    }
+
+    setResetLoading(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/auth/password/forgot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          next_path: nextPath,
+        }),
+      });
+
+      const payload = (await response.json()) as { error?: string; message?: string };
+      if (!response.ok) {
+        throw new Error(payload.error || "Could not send password reset email.");
+      }
+
+      setMessage(payload.message || "Password reset email sent.");
+    } catch (resetError) {
+      setError(resetError instanceof Error ? resetError.message : "Reset request failed.");
+    } finally {
+      setResetLoading(false);
     }
   }
 
@@ -178,6 +214,17 @@ export function LoginForm({ nextPath, callbackError }: LoginFormProps) {
         onChange={(event) => setPassword(event.target.value)}
         placeholder="At least 8 characters"
       />
+
+      {mode === "login" ? (
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => void requestPasswordReset()}
+          disabled={resetLoading || resendLoading || loading}
+        >
+          {resetLoading ? "Sending reset link..." : "Forgot password? Send reset link"}
+        </button>
+      ) : null}
 
       {mode === "signup" ? (
         <>

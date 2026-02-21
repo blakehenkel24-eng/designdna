@@ -441,6 +441,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 <button class="w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="auth-google-button" type="button">Continue With Google (Optional)</button>
 <p class="mt-3 text-xs font-mono uppercase hidden" id="auth-status-message"></p>
+<button class="mt-3 w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="auth-forgot-button" type="button">Forgot Password? Send Reset Link</button>
 <button class="mt-3 w-full py-2 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors hidden" id="auth-resend-button" type="button">Resend Verification Email</button>
 </div>
 </div>
@@ -503,6 +504,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const authConfirmInput = document.getElementById("auth-confirm-input");
         const authSubmitButton = document.getElementById("auth-submit-button");
         const authStatusMessage = document.getElementById("auth-status-message");
+        const authForgotButton = document.getElementById("auth-forgot-button");
         const authResendButton = document.getElementById("auth-resend-button");
         const analysisStepNodes = Array.from(document.querySelectorAll("[data-analysis-step]"));
 
@@ -534,6 +536,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         const sessionActivityThrottleMs = 15 * 1000;
         const sessionCheckIntervalMs = 60 * 1000;
         let authMode = "login";
+        let authForgotLoading = false;
         let authResendLoading = false;
         let isSigningOut = false;
         let lastSessionActivityWriteAt = 0;
@@ -727,6 +730,11 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             authResendButton.classList.toggle("hidden", !show);
         }
 
+        function setAuthForgotVisible(show) {
+            if (!authForgotButton) return;
+            authForgotButton.classList.toggle("hidden", !show);
+        }
+
         function setAuthMode(nextMode) {
             authMode = nextMode === "signup" ? "signup" : "login";
             const signup = authMode === "signup";
@@ -747,6 +755,7 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             }
             setAuthStatusMessage("", "info");
             setAuthResendVisible(false);
+            setAuthForgotVisible(!signup);
         }
 
         function showAuthModal(mode = "login") {
@@ -1432,6 +1441,55 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
             }
         }
 
+        async function requestPasswordReset() {
+            if (authForgotLoading) return;
+            const email = typeof authEmailInput?.value === "string" ? authEmailInput.value.trim() : "";
+            if (!email) {
+                setAuthStatusMessage("Enter your email to send a reset link.", "error");
+                return;
+            }
+
+            authForgotLoading = true;
+            if (authForgotButton) {
+                authForgotButton.disabled = true;
+                authForgotButton.textContent = "Sending Reset Link...";
+            }
+
+            try {
+                const response = await fetch("/api/auth/password/forgot", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email,
+                        next_path: "/designdna-exact.html",
+                    }),
+                });
+
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.error || "Could not send reset email.");
+                }
+
+                setAuthStatusMessage(
+                    payload.message || "Password reset email sent. Check inbox and spam.",
+                    "success",
+                );
+            } catch (error) {
+                setAuthStatusMessage(
+                    error instanceof Error ? error.message : "Reset request failed.",
+                    "error",
+                );
+            } finally {
+                authForgotLoading = false;
+                if (authForgotButton) {
+                    authForgotButton.disabled = false;
+                    authForgotButton.textContent = "Forgot Password? Send Reset Link";
+                }
+            }
+        }
+
         async function loadHistory(search = "") {
             if (!historyList || !historyMeta) return;
             historyList.innerHTML = "";
@@ -1690,6 +1748,12 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         if (authResendButton) {
             authResendButton.addEventListener("click", () => {
                 void resendVerificationEmail();
+            });
+        }
+
+        if (authForgotButton) {
+            authForgotButton.addEventListener("click", () => {
+                void requestPasswordReset();
             });
         }
 
