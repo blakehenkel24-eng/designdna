@@ -21,11 +21,20 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DESIGN.DNA",
+  title: "Design DNA",
   description: "Extract website design DNA into LLM-ready artifacts.",
   icons: {
     icon: "/branding/favicon.svg",
     shortcut: "/branding/favicon.svg",
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "Design DNA",
+    description: "Extract website design DNA into LLM-ready artifacts.",
+  },
+  twitter: {
+    title: "Design DNA",
+    description: "Extract website design DNA into LLM-ready artifacts.",
   },
 };
 

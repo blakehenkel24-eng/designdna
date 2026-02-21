@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "postinstall": "node scripts/install-playwright.mjs",
     "lint": "eslint .",
     "docs:check": "bash scripts/check-docs-sync.sh",
     "typecheck": "tsc --noEmit",
@@ -16,11 +15,13 @@
     "cleanup:expired": "dotenv -e .env.local -- tsx src/scripts/cleanup-expired.ts"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^143.0.4",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "@upstash/redis": "^1.36.2",
     "next": "16.1.6",
     "playwright": "^1.58.2",
+    "playwright-core": "^1.58.2",
     "pngjs": "^7.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",

@@ -1,4 +1,4 @@
-import type { Page } from "playwright";
+import type { BrowserType, LaunchOptions, Page } from "playwright-core";
 
 import { ExtractionError } from "@/lib/errors";
 import { detectLoginWall } from "@/lib/extractor/login-wall";
@@ -33,21 +33,50 @@ const FAST_CAPTURE_SETTLE_MS = 500;
 const FAST_SCREENSHOT_TIMEOUT_MS = 8_000;
 const FAST_SCREENSHOT_FALLBACK_TIMEOUT_MS = 4_000;
 
-type PlaywrightModule = typeof import("playwright");
-let playwrightModulePromise: Promise<PlaywrightModule> | null = null;
+type PlaywrightRuntime = {
+  chromium: BrowserType;
+  launchOptions: LaunchOptions;
+};
 
-async function getPlaywright() {
-  // Use node_modules-local browser binaries so serverless/container runtimes
-  // do not depend on per-user cache paths.
-  if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
-    process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
+let playwrightRuntimePromise: Promise<PlaywrightRuntime> | null = null;
+
+async function getPlaywrightRuntime() {
+  if (playwrightRuntimePromise) {
+    return playwrightRuntimePromise;
   }
 
-  if (!playwrightModulePromise) {
-    playwrightModulePromise = import("playwright");
-  }
+  playwrightRuntimePromise = (async () => {
+    // Vercel serverless cannot bundle full Playwright browser installs without
+    // exceeding function size limits. Use Lambda-optimized Chromium there.
+    if (process.env.VERCEL === "1") {
+      const [{ chromium }, chromiumLambda] = await Promise.all([
+        import("playwright-core"),
+        import("@sparticuz/chromium"),
+      ]);
 
-  return playwrightModulePromise;
+      return {
+        chromium,
+        launchOptions: {
+          args: chromiumLambda.default.args,
+          executablePath: await chromiumLambda.default.executablePath(),
+          headless: true,
+        },
+      } satisfies PlaywrightRuntime;
+    }
+
+    // Local/dev path: use Playwright's regular browser management.
+    if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
+      process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
+    }
+
+    const { chromium } = await import("playwright");
+    return {
+      chromium,
+      launchOptions: { headless: true },
+    } satisfies PlaywrightRuntime;
+  })();
+
+  return playwrightRuntimePromise;
 }
 
 type CaptureTimeoutConfig = {
@@ -843,8 +872,8 @@ async function captureAttempt(input: {
 }
 
 export async function captureDesignDna(url: string) {
-  const { chromium } = await getPlaywright();
-  const browser = await chromium.launch({ headless: true });
+  const runtime = await getPlaywrightRuntime();
+  const browser = await runtime.chromium.launch(runtime.launchOptions);
 
   try {
     const context = await browser.newContext({

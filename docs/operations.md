@@ -36,13 +36,8 @@ Use the worker only for queue-style extraction endpoints (`/api/extractions` flo
 
 ## Playwright Runtime Note
 
-For hosted runtimes (for example serverless/container deploys), Chromium must be installed
-and resolved from the project directory, not a user cache path.
-
-- `postinstall` already runs a pinned install command:
-  - `node scripts/install-playwright.mjs`
-- This installs Chromium with `PLAYWRIGHT_BROWSERS_PATH=0`, which is required for
-  deploy-time bundling.
+For Vercel serverless routes, this app uses `@sparticuz/chromium` with `playwright-core`
+to stay under function-size limits. Local/dev can continue to use full Playwright browsers.
 
 ## Cleanup Job
 
