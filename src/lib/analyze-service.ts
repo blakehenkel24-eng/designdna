@@ -15,6 +15,7 @@ import type { AnalysisExportV1 } from "@/lib/pricing-types";
 import { checkAnalysisRateLimit } from "@/lib/rate-limit";
 import { assertRobotsAllowed } from "@/lib/robots";
 import { assertPublicTarget, normalizeUrl } from "@/lib/url-security";
+import { toPublicErrorMessage } from "@/lib/errors";
 
 const FREE_LIMIT = 10;
 const ANONYMOUS_LIFETIME_LIMIT = 1;
@@ -409,7 +410,8 @@ export async function runAnalysis(input: {
       timing,
     } satisfies AnalyzeSuccess;
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Analysis failed";
+    const rawMessage = error instanceof Error ? error.message : "Analysis failed";
+    const message = toPublicErrorMessage(error);
     timing.total_ms =
       timing.total_ms > 0
         ? timing.total_ms
@@ -418,7 +420,8 @@ export async function runAnalysis(input: {
     trackEventSafe("analysis_failed", {
       userId: input.user?.id,
       payload: {
-        message,
+        message: rawMessage,
+        public_message: message,
         metrics: {
           total_ms: timing.total_ms,
           preflight_ms: timing.preflight_ms,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
+import { toPublicErrorMessageFromParts } from "@/lib/errors";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import type { DesignDnaPack, DesignTokenFrequency, ExtractionRow } from "@/lib/types";
 
@@ -273,7 +274,11 @@ export function DashboardClient({ initialExtractions, userEmail }: Props) {
           <p>Progress: {selectedExtraction.progress_pct}%</p>
           {selectedExtraction.error_message ? (
             <p className="error">
-              {selectedExtraction.error_code}: {selectedExtraction.error_message}
+              {selectedExtraction.error_code}:{" "}
+              {toPublicErrorMessageFromParts(
+                selectedExtraction.error_code ?? "INTERNAL_ERROR",
+                selectedExtraction.error_message,
+              )}
             </p>
           ) : null}
         </div>

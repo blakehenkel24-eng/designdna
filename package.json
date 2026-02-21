@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "node scripts/install-playwright.mjs",
     "lint": "eslint .",
     "docs:check": "bash scripts/check-docs-sync.sh",
     "typecheck": "tsc --noEmit",

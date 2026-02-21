@@ -1,4 +1,4 @@
-import { chromium, type Page } from "playwright";
+import type { Page } from "playwright";
 
 import { ExtractionError } from "@/lib/errors";
 import { detectLoginWall } from "@/lib/extractor/login-wall";
@@ -32,6 +32,23 @@ const FAST_NETWORK_IDLE_WAIT_MS = 2_500;
 const FAST_CAPTURE_SETTLE_MS = 500;
 const FAST_SCREENSHOT_TIMEOUT_MS = 8_000;
 const FAST_SCREENSHOT_FALLBACK_TIMEOUT_MS = 4_000;
+
+type PlaywrightModule = typeof import("playwright");
+let playwrightModulePromise: Promise<PlaywrightModule> | null = null;
+
+async function getPlaywright() {
+  // Use node_modules-local browser binaries so serverless/container runtimes
+  // do not depend on per-user cache paths.
+  if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
+    process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
+  }
+
+  if (!playwrightModulePromise) {
+    playwrightModulePromise = import("playwright");
+  }
+
+  return playwrightModulePromise;
+}
 
 type CaptureTimeoutConfig = {
   navTimeoutMs: number;
@@ -826,6 +843,7 @@ async function captureAttempt(input: {
 }
 
 export async function captureDesignDna(url: string) {
+  const { chromium } = await getPlaywright();
   const browser = await chromium.launch({ headless: true });
 
   try {

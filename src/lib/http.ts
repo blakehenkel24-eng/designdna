@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 
-import { ExtractionError, toExtractionError } from "@/lib/errors";
+import { ExtractionError, toExtractionError, toPublicErrorMessage } from "@/lib/errors";
 
 export function errorResponse(error: unknown) {
   const extractionError = toExtractionError(error);
+  const publicMessage = toPublicErrorMessage(extractionError);
 
   return NextResponse.json(
     {
       error: extractionError.code,
-      message: extractionError.message,
+      message: publicMessage,
     },
     { status: extractionError.status },
   );

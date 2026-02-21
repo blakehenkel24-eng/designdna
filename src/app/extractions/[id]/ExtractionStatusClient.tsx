@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { toPublicErrorMessageFromParts } from "@/lib/errors";
 import type { DesignDnaPack, ExtractionRow } from "@/lib/types";
 
 type Props = {
@@ -111,7 +112,11 @@ export function ExtractionStatusClient({ extractionId, initialExtraction }: Prop
 
         {extraction.status === "failed" ? (
           <p className="error">
-            {extraction.error_code}: {extraction.error_message}
+            {extraction.error_code}:{" "}
+            {toPublicErrorMessageFromParts(
+              extraction.error_code ?? "INTERNAL_ERROR",
+              extraction.error_message ?? "",
+            )}
           </p>
         ) : null}
 

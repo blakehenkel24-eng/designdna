@@ -3,7 +3,7 @@ import { assertRobotsAllowed } from "@/lib/robots";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { ExtractionJobPayload } from "@/lib/types";
 import { failExtraction, setExtractionProgress, setExtractionRunning, completeExtraction } from "@/lib/db";
-import { toExtractionError } from "@/lib/errors";
+import { toExtractionError, toPublicErrorMessage } from "@/lib/errors";
 import { captureDesignDna } from "@/lib/extractor/playwright-extractor";
 import { assertPublicTarget, normalizeUrl } from "@/lib/url-security";
 
@@ -87,12 +87,18 @@ export async function processExtractionJob(job: ExtractionJobPayload) {
     });
   } catch (error) {
     const extractedError = toExtractionError(error);
+    const publicMessage = toPublicErrorMessage(extractedError);
+    console.error("Extraction job failed", {
+      extractionId: job.extractionId,
+      code: extractedError.code,
+      message: extractedError.message,
+    });
 
     await failExtraction(
       job.extractionId,
       extractedError.code,
-      extractedError.message,
-      extractedError.code === "TARGET_BLOCKED" ? extractedError.message : null,
+      publicMessage,
+      extractedError.code === "TARGET_BLOCKED" ? publicMessage : null,
     );
   }
 }

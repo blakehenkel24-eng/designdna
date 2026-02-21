@@ -34,6 +34,16 @@ Use the worker only for queue-style extraction endpoints (`/api/extractions` flo
    - `npm run worker`
 3. Submit extraction jobs via `POST /api/extractions`.
 
+## Playwright Runtime Note
+
+For hosted runtimes (for example serverless/container deploys), Chromium must be installed
+and resolved from the project directory, not a user cache path.
+
+- `postinstall` already runs a pinned install command:
+  - `node scripts/install-playwright.mjs`
+- This installs Chromium with `PLAYWRIGHT_BROWSERS_PATH=0`, which is required for
+  deploy-time bundling.
+
 ## Cleanup Job
 
 Cleanup removes expired artifact files and artifact rows.

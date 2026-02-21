@@ -138,18 +138,18 @@
 <body class="bg-background-light text-ink font-mono min-h-screen flex flex-col items-center p-4 sm:p-8">
 <div class="w-full max-w-[1200px] border-2 border-ink bg-background-light relative z-10 shadow-2xl">
 <header class="border-b-2 border-ink">
-<div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 py-2 border-b border-ink text-xs uppercase tracking-widest">
-<div class="flex items-center gap-2 justify-self-start">
+<div class="grid grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-y-2 gap-x-3 px-4 py-2 border-b border-ink text-[11px] sm:text-xs uppercase tracking-widest">
+<div class="hidden lg:flex items-center gap-2 justify-self-start w-full lg:w-auto order-2 lg:order-none">
 <span class="material-icons text-sm">qr_code_2</span>
 <span>System V.2.0</span>
 </div>
-<div class="font-bold text-center justify-self-center" id="system-date">Tuesday, October 24, 2023</div>
-<div class="text-right flex items-center gap-3 justify-self-end">
-<div>
+<div class="font-bold text-left lg:text-center justify-self-start lg:justify-self-center leading-tight order-1 lg:order-none" id="system-date">Tuesday, October 24, 2023</div>
+<div class="text-right flex items-center justify-end gap-2 lg:gap-3 justify-self-end w-auto order-3 lg:order-none">
+<div class="hidden lg:block leading-tight">
 <div>Specification Data</div>
 <div>AI Ready</div>
 </div>
-<button class="px-3 py-2 border border-ink text-[10px] font-bold uppercase hover:text-[#365dff] transition-colors tracking-wider" id="header-auth-button" type="button">Log In / Sign Up</button>
+<button class="px-2.5 sm:px-3 py-2 border border-ink text-[10px] font-bold uppercase hover:text-[#365dff] transition-colors tracking-[0.08em] whitespace-nowrap" id="header-auth-button" type="button">Log In / Sign Up</button>
 </div>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center px-6 py-8 md:py-12 gap-6 md:gap-10">
@@ -163,7 +163,7 @@
 <img alt="Design DNA logo" class="h-20 w-20 object-contain" src="/branding/logo-vibe-c.svg"/>
 </div>
 </div>
-<nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-sm md:text-base tracking-widest">
+<nav class="grid grid-cols-3 border-t-2 border-ink divide-x-2 divide-ink font-bold text-center uppercase text-xs sm:text-sm md:text-base tracking-widest">
 <a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/about.html" id="about-link">About</a>
 <a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/documentation.html" id="history-link">How It Works</a>
 <a class="py-3 hover:text-[#365dff] transition-colors duration-200" href="/pricing.html" id="pricing-link">Pricing</a>
@@ -172,8 +172,8 @@
 <main class="grid grid-cols-1">
 <section class="border-b-2 border-ink">
 <div class="p-6 md:p-10">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
-<h2 class="font-display font-bold text-5xl md:text-6xl leading-[0.9]">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-3">
+<h2 class="font-display font-bold text-4xl sm:text-5xl md:text-6xl leading-[0.9]">
                         TRANSFORM WEBSITE URL<br/>
 <span class="italic font-normal">INTO LLM-READY PROMPT</span>
 </h2>
@@ -204,10 +204,10 @@
 <li class="analysis-step" data-analysis-step="complete"><span class="analysis-step-dot"></span><span>Complete</span></li>
 </ol>
 </div>
-<div class="flex justify-between text-xs font-mono uppercase opacity-70 border-t border-ink pt-2 mt-4">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-3 text-xs font-mono uppercase opacity-70 border-t border-ink pt-2 mt-4">
 <span id="status-label">Status: Awaiting Input</span>
-<span id="usage-label">Usage: --</span>
-<span id="latency-label">Latency: --</span>
+<span class="sm:text-center" id="usage-label">Usage: --</span>
+<span class="sm:text-right" id="latency-label">Latency: --</span>
 </div>
 <p class="mt-2 text-xs font-mono uppercase opacity-70 hidden" id="upsell-banner">
                     Great result. Upgrade to Paid for JSON export + higher limits.
@@ -305,16 +305,16 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
 </div>
 </section>
 <section class="bg-background-light p-6 md:p-10">
-<div class="flex justify-between items-baseline mb-6 border-b-2 border-ink pb-2">
-<h3 class="font-display font-bold text-4xl uppercase">&lt;&gt; Structure</h3>
-<div class="flex gap-4 text-xs font-mono uppercase">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 mb-6 border-b-2 border-ink pb-2">
+<h3 class="font-display font-bold text-3xl sm:text-4xl uppercase">&lt;&gt; Structure</h3>
+<div class="flex flex-wrap gap-x-4 gap-y-2 text-[10px] sm:text-xs font-mono uppercase">
 <span class="flex items-center gap-1"><div class="w-2 h-2 bg-ink rounded-full"></div> DOM Tree</span>
 <span class="flex items-center gap-1"><div class="w-2 h-2 border border-ink rounded-full"></div> Computed</span>
 </div>
 </div>
 <div class="border border-ink p-1 bg-white shadow-brutal">
-<div class="relative border border-dashed border-gray-400 p-6 font-mono text-xs md:text-sm leading-relaxed overflow-x-hidden text-ink min-h-[360px]">
-<pre class="h-[300px] overflow-y-auto whitespace-pre-wrap break-all text-[11px] md:text-xs select-none pointer-events-none blur-[2px] opacity-75 pr-2" id="structure-json-preview">{
+<div class="relative border border-dashed border-gray-400 p-3 sm:p-6 font-mono text-xs md:text-sm leading-relaxed overflow-x-hidden text-ink min-h-[320px] sm:min-h-[360px]">
+<pre class="h-[250px] sm:h-[300px] overflow-y-auto whitespace-pre-wrap break-all text-[10px] sm:text-[11px] md:text-xs select-none pointer-events-none blur-[2px] opacity-75 pr-2" id="structure-json-preview">{
   "schema_version": "1.0",
   "source_url": "https://example.com",
   "sections_preview": ["header", "hero", "features"],
@@ -324,34 +324,34 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
   },
   "upgrade_required": true
 }</pre>
-<div class="absolute inset-0 flex items-center justify-center p-4" id="structure-lock-overlay">
-<div class="w-full max-w-md border-2 border-ink bg-background-light p-5 text-center shadow-brutal">
+<div class="absolute inset-0 flex items-center justify-center p-3 sm:p-4" id="structure-lock-overlay">
+<div class="w-full max-w-md border-2 border-ink bg-background-light p-4 sm:p-5 text-center shadow-brutal">
 <p class="text-[10px] font-mono uppercase tracking-wider opacity-75 mb-2">Premium Export</p>
-<h4 class="font-display text-3xl leading-none uppercase mb-2">Unlock Full JSON</h4>
+<h4 class="font-display text-2xl sm:text-3xl leading-none uppercase mb-2">Unlock Full JSON</h4>
 <p class="text-xs font-typewriter leading-relaxed mb-4">
                             Upgrade to export complete structure, selectors, and token maps.
                         </p>
-<button class="w-full py-2 border-2 border-ink bg-primary text-white text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="unlock-json-button" type="button">Upgrade To Paid For Full JSON</button>
+<button class="w-full py-2 border-2 border-ink bg-primary text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:text-[#365dff] transition-colors" id="unlock-json-button" type="button">Upgrade To Paid For Full JSON</button>
 </div>
 </div>
 </div>
-<div class="mt-4 flex justify-between items-center">
-<div class="text-xs font-mono uppercase opacity-70" id="structure-access-note">
+<div class="mt-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+<div class="text-xs font-mono uppercase opacity-70 leading-relaxed" id="structure-access-note">
                     Preview is obfuscated. Upgrade to export full JSON.
                 </div>
-<div class="flex gap-2">
-<button class="px-3 py-1 border-2 border-ink bg-primary text-white text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="download-json-button" type="button">Upgrade To Paid For JSON</button>
-<button class="px-3 py-1 border border-ink text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="save-benchmark-button" type="button">Save Benchmark Snapshot</button>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full md:w-auto">
+<button class="w-full px-3 py-2 border-2 border-ink bg-primary text-white text-[10px] sm:text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="download-json-button" type="button">Upgrade To Paid For JSON</button>
+<button class="w-full px-3 py-2 border border-ink text-[10px] sm:text-xs font-bold uppercase hover:text-[#365dff] transition-colors" id="save-benchmark-button" type="button">Save Benchmark Snapshot</button>
 </div>
 </div>
 </section>
 </main>
-<footer class="border-t-2 border-ink p-4 md:p-6 flex flex-col md:flex-row justify-between items-center text-xs font-mono uppercase tracking-wider gap-4">
-<div class="flex items-center gap-2">
+<footer class="border-t-2 border-ink p-4 md:p-6 flex flex-col md:flex-row justify-between items-start sm:items-center text-xs font-mono uppercase tracking-wider gap-4">
+<div class="flex items-center gap-2 w-full md:w-auto">
 <span class="material-icons text-sm">copyright</span>
 <span>2024 Design.DNA Analysis Corp.</span>
 </div>
-<div class="flex gap-6">
+<div class="flex flex-wrap gap-x-6 gap-y-2 w-full md:w-auto">
 <a class="hover:underline" href="/about.html#terms">Terms of Service</a>
 <a class="hover:underline" href="/about.html#privacy">Privacy Policy</a>
 <a class="hover:underline" href="/about.html#contact">Contact Editor</a>
@@ -687,7 +687,13 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
         function updateSystemDate() {
             if (!systemDate) return;
             const now = new Date();
-            systemDate.textContent = now.toLocaleDateString(undefined, {
+            const useCompactDate = window.matchMedia("(max-width: 1023px)").matches;
+            systemDate.textContent = now.toLocaleDateString(undefined, useCompactDate ? {
+                weekday: "short",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            } : {
                 weekday: "long",
                 year: "numeric",
                 month: "long",
@@ -1232,8 +1238,10 @@ Generate a Tailwind CSS configuration file that matches this aesthetic exactly.<
                 resetAnalysisPhaseFlow();
                 statusLabel.textContent = "Status: Failed";
                 latencyLabel.textContent = "Latency: --";
-                const message = error instanceof Error ? error.message : "Extraction failed";
-                if (promptBox) promptBox.value = `Error: ${message}`;
+                if (promptBox) {
+                    promptBox.value =
+                        "Analysis failed. Please try again in a minute or use a different public URL.";
+                }
             } finally {
                 stopAnalysisPhaseFlow();
                 analyzeButton.disabled = false;
